@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_btn.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_dropdown.dart';
@@ -61,14 +62,13 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Center(
                     child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 150),
-                            child: CustomDropdown2(
+                      child: Padding(
+                        padding: const EdgeInsets.all(80.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            CustomDropdown2(
                               items: const [
                                 'Documentos',
                                 'Contrato social',
@@ -81,12 +81,59 @@ class HomePage extends StatelessWidget {
                               },
                               hintText: 'Tipo de Arquivo',
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 130),
-                            child: HomeButton(
+                            const SizedBox(height: 20),
+                            DottedBorder(
+                              radius: Radius.circular(8),
+                              borderType: BorderType.RRect,
+                              color: Colors.grey,
+                              strokeWidth: 2.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(80.0),
+                                child: Column(
+                                  children: [
+                                    Text("Arraste e solte os arquivos aqui"),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text("ou"),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors
+                                            .white, // Background color of the button
+                                        onPrimary: Colors
+                                            .grey, // Text color when pressed
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              20.0), // Rounded edges
+                                          side: BorderSide(
+                                            color: Colors.grey, // Border color
+                                            width: 1.0, // Border width
+                                          ),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.upload), // Prefix icon
+                                          SizedBox(
+                                              width:
+                                                  8.0), // Spacer between icon and text
+                                          Text(
+                                              'Selecionar Arquivos'), // Button text
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            HomeButton(
                               texto: "Enviar",
                               login: () {
                                 Navigator.push(
@@ -97,8 +144,8 @@ class HomePage extends StatelessWidget {
                                 );
                               },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
