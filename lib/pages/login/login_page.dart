@@ -71,38 +71,40 @@ class _LoginPageState extends State<LoginPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      UserField(
-                        controller: _usernameController,
-                        focusNode: _usernameFocusNode,
-                        nextFocusNode: _passwordFocusNode,
-                        labelText: "Usuário",
-                        prefixIcon: Icons.person,
-                      ),
-                      const SizedBox(height: 20),
-                      PasswordField(
-                        controller: _passwordController,
-                        focusNode: _passwordFocusNode,
-                        labelText: "Senha",
-                        prefixIcon: Icons.lock_rounded,
-                        suffixIcon: Icons.remove_red_eye_outlined,
-                      ),
-                      const SizedBox(height: 20),
-                      LoginButton(
-                        texto: "Login",
-                        login: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
-                        },
-                      ),
-                    ],
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        UserField(
+                          controller: _usernameController,
+                          focusNode: _usernameFocusNode,
+                          nextFocusNode: _passwordFocusNode,
+                          labelText: "Usuário",
+                          prefixIcon: Icons.person,
+                        ),
+                        const SizedBox(height: 20),
+                        PasswordField(
+                          controller: _passwordController,
+                          focusNode: _passwordFocusNode,
+                          labelText: "Senha",
+                          prefixIcon: Icons.lock_rounded,
+                          suffixIcon: Icons.remove_red_eye_outlined,
+                        ),
+                        const SizedBox(height: 20),
+                        LoginButton(
+                          texto: "Login",
+                          login: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
