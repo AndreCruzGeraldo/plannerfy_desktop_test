@@ -68,63 +68,71 @@ class HomePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            CustomDropdown2(
-                              items: const [
-                                'Documentos',
-                                'Contrato social',
-                                'DRE Contabil',
-                                'Balanço',
-                                'Balancete',
-                              ],
-                              onChanged: (value) {
-                                // Implemente a lógica para quando um valor for selecionado
-                              },
-                              hintText: 'Tipo de Arquivo',
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 90),
+                              child: CustomDropdown2(
+                                items: const [
+                                  'Documentos',
+                                  'Contrato social',
+                                  'DRE Contabil',
+                                  'Balanço',
+                                  'Balancete',
+                                ],
+                                onChanged: (value) {
+                                  // Implemente a lógica para quando um valor for selecionado
+                                },
+                                hintText: 'Tipo de Arquivo',
+                              ),
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 80),
                             DottedBorder(
-                              radius: Radius.circular(8),
+                              radius: const Radius.circular(8),
                               borderType: BorderType.RRect,
                               color: Colors.grey,
                               strokeWidth: 2.0,
                               child: Padding(
-                                padding: const EdgeInsets.all(80.0),
+                                padding: const EdgeInsets.all(90.0),
                                 child: Column(
                                   children: [
-                                    Text("Arraste e solte os arquivos aqui"),
-                                    SizedBox(
+                                    const Text(
+                                      "Arraste e solte os arquivos aqui",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.grey),
+                                    ),
+                                    const SizedBox(
                                       height: 20,
                                     ),
-                                    Text("ou"),
-                                    SizedBox(
+                                    const Text("ou",
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.grey)),
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     ElevatedButton(
                                       onPressed: () {},
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors
-                                            .white, // Background color of the button
-                                        onPrimary: Colors
-                                            .grey, // Text color when pressed
+                                        primary: Colors.white,
+                                        onPrimary: Colors.grey,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              20.0), // Rounded edges
-                                          side: BorderSide(
-                                            color: Colors.grey, // Border color
-                                            width: 1.0, // Border width
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                          side: const BorderSide(
+                                            color: Colors.grey,
+                                            width: 1.0,
                                           ),
                                         ),
+                                        minimumSize:
+                                            const Size(double.infinity, 60),
                                       ),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.upload), // Prefix icon
-                                          SizedBox(
-                                              width:
-                                                  8.0), // Spacer between icon and text
-                                          Text(
-                                              'Selecionar Arquivos'), // Button text
+                                        children: const [
+                                          Icon(Icons.upload),
+                                          SizedBox(width: 40.0),
+                                          Text('Selecionar Arquivos',
+                                              style: TextStyle(fontSize: 20)),
                                         ],
                                       ),
                                     ),
@@ -132,17 +140,21 @@ class HomePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 20),
-                            HomeButton(
-                              texto: "Enviar",
-                              login: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
-                              },
+                            const SizedBox(height: 80),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 90),
+                              child: HomeButton(
+                                texto: "Enviar",
+                                login: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const HomePage(),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
