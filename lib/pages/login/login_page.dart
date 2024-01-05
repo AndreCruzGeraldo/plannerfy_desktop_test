@@ -103,6 +103,27 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                         ),
+                        const SizedBox(height: 100),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'lib/assets/images/fhi.png',
+                              height: 30,
+                              width: 30,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              'Desenvolvido por FHI',
+                              style: TextStyle(
+                                color: markPrimaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
