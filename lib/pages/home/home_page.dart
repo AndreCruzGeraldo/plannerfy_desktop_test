@@ -113,13 +113,7 @@ class _HomePageState extends State<HomePage> {
                                   const EdgeInsets.symmetric(horizontal: 70),
                               child: HomeButton(
                                 texto: "Enviar",
-                                login: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
-                                  );
-                                },
+                                login: () {},
                               ),
                             ),
                           ],
