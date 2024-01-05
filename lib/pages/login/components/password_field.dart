@@ -27,7 +27,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 60,
       width: width(context) * 0.9,
       child: Card(
         shape: RoundedRectangleBorder(
