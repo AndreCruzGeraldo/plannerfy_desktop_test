@@ -20,18 +20,19 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   color: markPrimaryColor,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment:
+                        MainAxisAlignment.start, // Alinhar no topo
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      const SizedBox(
+                          height: 100), // Aumentar espaço acima da imagem
                       Image.asset(
                         'lib/assets/images/Logo2.png',
                         width: 150,
                         height: 150,
                       ),
-                      const SizedBox(height: 20),
-                      const SizedBox(height: 20),
-                      const SizedBox(height: 20),
-                      const SizedBox(height: 20),
+                      const SizedBox(
+                          height: 100), // Aumentar espaço abaixo da imagem
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 150),
                         child: CustomDropdown(
