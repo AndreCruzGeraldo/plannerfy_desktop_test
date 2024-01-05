@@ -20,31 +20,34 @@ class UserField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 60,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
         elevation: 6,
-        child: TextFormField(
-          controller: controller,
-          focusNode: focusNode,
-          style: const TextStyle(fontSize: 20, color: Colors.black),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 5),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            prefixIcon: Icon(
-              prefixIcon,
-              color: markPrimaryColor,
+        child: Center(
+          child: TextFormField(
+            controller: controller,
+            focusNode: focusNode,
+            style: const TextStyle(fontSize: 20, color: Colors.black),
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 5),
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              prefixIcon: Icon(
+                prefixIcon,
+                color: markPrimaryColor,
+              ),
+              labelText: labelText,
+              labelStyle:
+                  const TextStyle(fontSize: 18, color: markPrimaryColor),
+              alignLabelWithHint: false,
             ),
-            labelText: labelText,
-            labelStyle: const TextStyle(fontSize: 18, color: markPrimaryColor),
-            alignLabelWithHint: false,
           ),
         ),
       ),
