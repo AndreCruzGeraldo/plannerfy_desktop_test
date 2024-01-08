@@ -9,6 +9,7 @@ import 'package:plannerfy_desktop/pages/home/components/home_dropdown2.dart';
 import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/login/login_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
+import 'package:file_picker/file_picker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,6 +25,16 @@ class _HomePageState extends State<HomePage> {
   final List<XFile> _list = [];
   bool _dragging = false;
   Offset? offset;
+
+  Future<void> _openFilePicker() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      setState(() {
+        _list.addAll(result.files.map((file) => XFile(file.path!)));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +226,7 @@ class _HomePageState extends State<HomePage> {
                                     height: 10,
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: _openFilePicker,
                                     style: ElevatedButton.styleFrom(
                                       elevation: 1,
                                       primary: Colors.white,
