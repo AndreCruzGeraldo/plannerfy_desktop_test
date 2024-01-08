@@ -139,121 +139,122 @@ class _HomePageState extends State<HomePage> {
                             offset = null;
                           });
                         },
-                        child: DottedBorder(
-                          radius: const Radius.circular(8),
-                          borderType: BorderType.RRect,
-                          color: Colors.grey,
-                          strokeWidth: 2.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(120.0),
-                            child: Column(
-                              children: [
-                                if (_list.isEmpty)
-                                  const Text(
-                                    "Arraste e solte os arquivos aqui",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.grey),
-                                  ),
-                                if (_list.isEmpty)
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                if (_list.isEmpty)
-                                  const Text("ou",
+                        child: Padding(
+                          padding: const EdgeInsets.all(
+                              40.0), // Ajuste o padding conforme necessário
+                          child: DottedBorder(
+                            radius: const Radius.circular(8),
+                            borderType: BorderType.RRect,
+                            color: Colors.grey,
+                            strokeWidth: 1.5,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: [
+                                  if (_list.isEmpty)
+                                    const Text(
+                                      "Arraste e solte os arquivos aqui",
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          fontSize: 20, color: Colors.grey)),
-                                if (_list.isEmpty)
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                if (_list
-                                    .isNotEmpty) // Verifica se a lista não está vazia
-                                  SizedBox(
-                                    height: 140,
-                                    child: ListView.builder(
-                                      itemCount: _list.length,
-                                      itemBuilder: (context, index) {
-                                        return Column(
-                                          children: [
-                                            ListTile(
-                                              trailing: IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _list.removeAt(
-                                                        index); // Remove o arquivo da lista ao clicar no ícone de deletar
-                                                  });
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                              title: ListTileTheme(
-                                                dense: true,
-                                                contentPadding: EdgeInsets.zero,
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.file_copy_outlined,
-                                                      size: 16,
-                                                      color: markPrimaryColor,
-                                                    ),
-                                                    const SizedBox(width: 8),
-                                                    Text(
-                                                      _list[index].name,
-                                                      style: const TextStyle(
-                                                          fontSize: 12),
-                                                    ),
-                                                  ],
-                                                ),
+                                          fontSize: 20, color: Colors.grey),
+                                    ),
+                                  if (_list.isEmpty)
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                  if (_list.isEmpty)
+                                    const Text(
+                                      "ou",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.grey),
+                                    ),
+                                  if (_list.isEmpty)
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                  if (_list.isNotEmpty)
+                                    SizedBox(
+                                      height:
+                                          400, // Ajuste a altura do ListView conforme necessário
+                                      child: ListView.separated(
+                                        itemCount: _list.length,
+                                        separatorBuilder: (context, index) =>
+                                            const Divider(color: Colors.grey),
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            trailing: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  _list.removeAt(index);
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                                size: 20,
                                               ),
                                             ),
-                                            if (index !=
-                                                _list.length -
-                                                    1) // Adiciona um Divider se não for o último item
-                                              Divider(),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 1,
-                                    primary: Colors.white,
-                                    onPrimary: Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      side: const BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
+                                            title: ListTileTheme(
+                                              dense: true,
+                                              contentPadding: EdgeInsets.zero,
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.file_copy_outlined,
+                                                    size: 16,
+                                                    color: markPrimaryColor,
+                                                  ),
+                                                  const SizedBox(width: 8),
+                                                  Text(
+                                                    _list[index].name,
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
-                                    minimumSize:
-                                        const Size(double.infinity, 60),
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      Icon(Icons.upload),
-                                      SizedBox(width: 10.0),
-                                      Text('Selecionar Arquivo',
-                                          style: TextStyle(fontSize: 16)),
-                                    ],
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 1,
+                                      primary: Colors.white,
+                                      onPrimary: Colors.grey,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                        side: const BorderSide(
+                                          color: Colors.grey,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      minimumSize:
+                                          const Size(double.infinity, 60),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Icon(Icons.upload),
+                                        SizedBox(width: 10.0),
+                                        Text('Selecionar Arquivo',
+                                            style: TextStyle(fontSize: 16)),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 60),
+                      // const SizedBox(height: 60),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 50),
                         child: HomeButton(
