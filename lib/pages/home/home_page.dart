@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                           hintText: selectedArquivo ?? 'Tipo de Arquivo',
                         ),
                       ),
-                      const SizedBox(height: 60),
+                      const SizedBox(height: 20),
                       DropTarget(
                         onDragDone: (detail) async {
                           setState(() {
@@ -151,23 +151,6 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.all(15.0),
                               child: Column(
                                 children: [
-                                  if (_list.isEmpty)
-                                    const Text(
-                                      "Arraste e solte os arquivos aqui",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.grey),
-                                    ),
-                                  if (_list.isEmpty)
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  if (_list.isEmpty)
-                                    const Text(
-                                      "ou",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.grey),
-                                    ),
                                   if (_list.isEmpty)
                                     const SizedBox(
                                       height: 20,
@@ -217,6 +200,20 @@ class _HomePageState extends State<HomePage> {
                                         },
                                       ),
                                     ),
+                                  const Text(
+                                    "Arraste e solte os arquivos aqui",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.grey),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  const Text(
+                                    "ou",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.grey),
+                                  ),
                                   const SizedBox(
                                     height: 10,
                                   ),
