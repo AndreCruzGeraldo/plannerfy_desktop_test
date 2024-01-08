@@ -1,3 +1,4 @@
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/pages/login/login_page.dart';
 
@@ -6,6 +7,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DesktopWindow.setMinWindowSize(const Size(800, 600));
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
