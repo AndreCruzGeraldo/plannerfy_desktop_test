@@ -51,13 +51,7 @@ class _ExampleDragTargetState extends State<ExampleDragTarget> {
                 },
               ),
             )
-          : Container(
-              height: 200,
-              color: Colors.grey,
-              child: Center(
-                child: Text("Drop files here"),
-              ),
-            ),
+          : Container(),
     );
   }
 }
