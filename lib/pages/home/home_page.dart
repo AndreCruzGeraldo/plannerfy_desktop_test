@@ -206,9 +206,6 @@ class _HomePageState extends State<HomePage> {
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.grey),
                                   ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
                                   const Text(
                                     "ou",
                                     style: TextStyle(
