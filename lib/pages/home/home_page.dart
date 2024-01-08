@@ -20,15 +20,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? selectedEmpresa; // Variável para armazenar o valor selecionado
   String? selectedArquivo; // Variável para armazenar o valor selecionado
+
   final List<XFile> _list = [];
   bool _dragging = false;
   Offset? offset;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
           Expanded(
+            flex: 4, // 40% da largura total
             child: Container(
               color: markPrimaryColor,
               child: Column(
@@ -60,12 +63,10 @@ class _HomePageState extends State<HomePage> {
                             ],
                             onChanged: (value) {
                               setState(() {
-                                selectedEmpresa =
-                                    value; // Atualiza o valor selecionado
+                                selectedEmpresa = value;
                               });
                             },
-                            hintText: selectedEmpresa ??
-                                'Selecione Empresa', // Atualiza o hint text com o valor selecionado
+                            hintText: selectedEmpresa ?? 'Selecione Empresa',
                           ),
                         ),
                       ],
@@ -73,23 +74,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                   LogoutButton(
                     onPressed: () {
-                      // Lógica para o logout
                       Navigator.pop(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const LoginPage(),
                         ),
-                      ); // Volta para a tela anterior (ou tela de login)
+                      );
                     },
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
           ),
           Expanded(
+            flex: 6, // 60% da largura total
             child: Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -110,12 +109,10 @@ class _HomePageState extends State<HomePage> {
                           ],
                           onChanged: (value) {
                             setState(() {
-                              selectedArquivo =
-                                  value; // Atualiza o valor selecionado
+                              selectedArquivo = value;
                             });
                           },
-                          hintText: selectedArquivo ??
-                              'Tipo de Arquivo', // Atualiza o hint text com o valor selecionado
+                          hintText: selectedArquivo ?? 'Tipo de Arquivo',
                         ),
                       ),
                       const SizedBox(height: 60),
@@ -148,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.grey,
                           strokeWidth: 2.0,
                           child: Padding(
-                            padding: const EdgeInsets.all(30.0),
+                            padding: const EdgeInsets.all(120.0),
                             child: Column(
                               children: [
                                 if (_list.isEmpty)
@@ -170,39 +167,54 @@ class _HomePageState extends State<HomePage> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                if (_list.isNotEmpty)
+                                if (_list
+                                    .isNotEmpty) // Verifica se a lista não está vazia
                                   SizedBox(
                                     height: 140,
                                     child: ListView.builder(
                                       itemCount: _list.length,
                                       itemBuilder: (context, index) {
-                                        return ListTile(
-                                          trailing: IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
-                                                size: 20,
-                                              )),
-                                          title: ListTileTheme(
-                                            dense: true,
-                                            contentPadding: EdgeInsets.zero,
-                                            child: Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.file_copy_outlined,
-                                                  size: 16,
-                                                  color: markPrimaryColor,
+                                        return Column(
+                                          children: [
+                                            ListTile(
+                                              trailing: IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _list.removeAt(
+                                                        index); // Remove o arquivo da lista ao clicar no ícone de deletar
+                                                  });
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                  size: 20,
                                                 ),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  _list[index].name,
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
+                                              ),
+                                              title: ListTileTheme(
+                                                dense: true,
+                                                contentPadding: EdgeInsets.zero,
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.file_copy_outlined,
+                                                      size: 16,
+                                                      color: markPrimaryColor,
+                                                    ),
+                                                    const SizedBox(width: 8),
+                                                    Text(
+                                                      _list[index].name,
+                                                      style: const TextStyle(
+                                                          fontSize: 12),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                            if (index !=
+                                                _list.length -
+                                                    1) // Adiciona um Divider se não for o último item
+                                              Divider(),
+                                          ],
                                         );
                                       },
                                     ),
@@ -267,21 +279,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-        //   Positioned(
-        //     top: 20,
-        //     right: 20,
-        //     child: IconButton(
-        //       onPressed: () {
-        //         // Lógica para o logout
-        //         Navigator.pop(
-        //           context,
-        //           MaterialPageRoute(
-        //             builder: (context) => const LoginPage(),
-        //           ),
-        //         ); // Volta para a tela anterior (ou tela de login)
-        //       },
-        //       icon: const Icon(Icons.logout),
-        //       color: Colors.black, // Cor do ícone
-        //     ),
-        //   ),
-        // ],
