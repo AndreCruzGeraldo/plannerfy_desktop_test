@@ -3,11 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_btn.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_dropdown.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_dropdown2.dart';
+import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/login/login_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? selectedEmpresa; // Variável para armazenar o valor selecionado
+  String? selectedArquivo; // Variável para armazenar o valor selecionado
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +53,20 @@ class HomePage extends StatelessWidget {
                               'Quantum Innovations Ltd',
                               'Pacific Crest Enterprises',
                             ],
-                            onChanged: (value) {},
-                            hintText: 'Selecione Empresa',
+                            onChanged: (value) {
+                              setState(() {
+                                selectedEmpresa =
+                                    value; // Atualiza o valor selecionado
+                              });
+                            },
+                            hintText: selectedEmpresa ??
+                                'Selecione Empresa', // Atualiza o hint text com o valor selecionado
                           ),
                         ),
                       ],
                     ),
                   ),
-                  IconButton(
+                  LogoutButton(
                     onPressed: () {
                       // Lógica para o logout
                       Navigator.pop(
@@ -61,10 +76,8 @@ class HomePage extends StatelessWidget {
                         ),
                       ); // Volta para a tela anterior (ou tela de login)
                     },
-                    icon: const Icon(Icons.logout),
-                    color: Colors.white, // Cor do ícone
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],
@@ -75,7 +88,7 @@ class HomePage extends StatelessWidget {
             child: Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,8 +103,14 @@ class HomePage extends StatelessWidget {
                             'Balanço',
                             'Balancete',
                           ],
-                          onChanged: (value) {},
-                          hintText: 'Tipo de Arquivo',
+                          onChanged: (value) {
+                            setState(() {
+                              selectedArquivo =
+                                  value; // Atualiza o valor selecionado
+                            });
+                          },
+                          hintText: selectedArquivo ??
+                              'Tipo de Arquivo', // Atualiza o hint text com o valor selecionado
                         ),
                       ),
                       const SizedBox(height: 60),
