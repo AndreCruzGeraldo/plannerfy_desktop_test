@@ -6,6 +6,7 @@ import 'package:plannerfy_desktop/pages/home/components/drag_drop.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_btn.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_dropdown.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_dropdown2.dart';
+import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/login/login_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 
@@ -17,6 +18,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? selectedEmpresa; // Variável para armazenar o valor selecionado
+  String? selectedArquivo; // Variável para armazenar o valor selecionado
   final List<XFile> _list = [];
   bool _dragging = false;
   Offset? offset;
@@ -55,14 +58,20 @@ class _HomePageState extends State<HomePage> {
                               'Quantum Innovations Ltd',
                               'Pacific Crest Enterprises',
                             ],
-                            onChanged: (value) {},
-                            hintText: 'Selecione Empresa',
+                            onChanged: (value) {
+                              setState(() {
+                                selectedEmpresa =
+                                    value; // Atualiza o valor selecionado
+                              });
+                            },
+                            hintText: selectedEmpresa ??
+                                'Selecione Empresa', // Atualiza o hint text com o valor selecionado
                           ),
                         ),
                       ],
                     ),
                   ),
-                  IconButton(
+                  LogoutButton(
                     onPressed: () {
                       // Lógica para o logout
                       Navigator.pop(
@@ -72,10 +81,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ); // Volta para a tela anterior (ou tela de login)
                     },
-                    icon: const Icon(Icons.logout),
-                    color: Colors.white, // Cor do ícone
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],
@@ -86,7 +93,7 @@ class _HomePageState extends State<HomePage> {
             child: Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,8 +108,14 @@ class _HomePageState extends State<HomePage> {
                             'Balanço',
                             'Balancete',
                           ],
-                          onChanged: (value) {},
-                          hintText: 'Tipo de Arquivo',
+                          onChanged: (value) {
+                            setState(() {
+                              selectedArquivo =
+                                  value; // Atualiza o valor selecionado
+                            });
+                          },
+                          hintText: selectedArquivo ??
+                              'Tipo de Arquivo', // Atualiza o hint text com o valor selecionado
                         ),
                       ),
                       const SizedBox(height: 60),
@@ -139,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                               children: [
                                 if (_list.isEmpty)
-                                  Text(
+                                  const Text(
                                     "Arraste e solte os arquivos aqui",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -152,13 +165,13 @@ class _HomePageState extends State<HomePage> {
                                 if (_list.isEmpty)
                                   const Text("ou",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.grey)),
+                                          fontSize: 20, color: Colors.grey)),
                                 if (_list.isEmpty)
                                   const SizedBox(
                                     height: 20,
                                   ),
                                 if (_list.isNotEmpty)
-                                  Container(
+                                  SizedBox(
                                     height: 140,
                                     child: ListView.builder(
                                       itemCount: _list.length,
@@ -166,25 +179,26 @@ class _HomePageState extends State<HomePage> {
                                         return ListTile(
                                           trailing: IconButton(
                                               onPressed: () {},
-                                              icon: Icon(
-                                                Icons.delete_outline_rounded,
+                                              icon: const Icon(
+                                                Icons.delete,
                                                 color: Colors.red,
+                                                size: 20,
                                               )),
                                           title: ListTileTheme(
                                             dense: true,
                                             contentPadding: EdgeInsets.zero,
                                             child: Row(
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.file_copy_outlined,
                                                   size: 16,
                                                   color: markPrimaryColor,
                                                 ),
-                                                SizedBox(width: 8),
+                                                const SizedBox(width: 8),
                                                 Text(
                                                   _list[index].name,
-                                                  style:
-                                                      TextStyle(fontSize: 12),
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
                                                 ),
                                               ],
                                             ),
@@ -193,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                                       },
                                     ),
                                   ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ElevatedButton(
