@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
+import 'package:plannerfy_desktop/pages/login/components/fhi_logo_login.dart';
 import 'package:plannerfy_desktop/pages/login/components/login_btn.dart';
+import 'package:plannerfy_desktop/pages/login/components/logo_title.dart';
 import 'package:plannerfy_desktop/pages/login/components/password_field.dart';
 import 'package:plannerfy_desktop/pages/login/components/user_field.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
@@ -50,20 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'lib/assets/images/Logo2.png',
-                      width: 200,
-                      height: 200,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Plannerfy',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    LogoTitle(),
                   ],
                 ),
               ),
@@ -128,21 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              'lib/assets/images/fhi.png',
-                              height: 30,
-                              width: 30,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              'Desenvolvido por FHI',
-                              style: TextStyle(
-                                color: markPrimaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
+                            FhiLogoHome(),
                           ],
                         )
                       ],
