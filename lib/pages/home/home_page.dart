@@ -2,10 +2,9 @@ import 'package:cross_file/cross_file.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/pages/home/components/drag_drop.dart';
+import 'package:plannerfy_desktop/pages/home/components/company_selection.dart';
+import 'package:plannerfy_desktop/pages/home/components/document_selection.dart';
 import 'package:plannerfy_desktop/pages/home/components/home_btn.dart';
-import 'package:plannerfy_desktop/pages/home/components/home_dropdown.dart';
-import 'package:plannerfy_desktop/pages/home/components/home_dropdown2.dart';
 import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/login/login_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
@@ -36,6 +35,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  String _formatBytes(int bytes) {
+    const suffixes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    var i = 0;
+    double result = bytes.toDouble();
+    while (result > 1024 && i < suffixes.length - 1) {
+      result /= 1024;
+      i++;
+    }
+    return '${result.toStringAsFixed(2)} ${suffixes[i]}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,32 +63,13 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'lib/assets/images/Logo2.png',
-                          width: 150,
-                          height: 150,
-                        ),
-                        const SizedBox(height: 100),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 80),
-                          child: CustomDropdown(
-                            items: const [
-                              'Estrelar Ltda',
-                              'MegaTech Solutions Inc',
-                              'Global Foods Group',
-                              'InnovateWare Co',
-                              'Visionary Motors Corporation',
-                              'Evergreen Investments LLC',
-                              'Quantum Innovations Ltd',
-                              'Pacific Crest Enterprises',
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                selectedEmpresa = value;
-                              });
-                            },
-                            hintText: selectedEmpresa ?? 'Selecione Empresa',
-                          ),
+                        CompanySelection(
+                          selectedEmpresa: selectedEmpresa,
+                          onEmpresaChanged: (value) {
+                            setState(() {
+                              selectedEmpresa = value;
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -108,41 +99,14 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      if (selectedEmpresa != null)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 50),
-                          child: CustomDropdown2(
-                            items: const [
-                              'Documentos',
-                              'Contrato social',
-                              'DRE Contabil',
-                              'Balanço',
-                              'Balancete',
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                selectedArquivo = value;
-                              });
-                            },
-                            hintText: selectedArquivo ?? 'Tipo de Arquivo',
-                          ),
-                        ),
-                      const SizedBox(height: 20),
-                      Visibility(
-                        visible: selectedEmpresa == null,
-                        child: Column(
-                          children: const [
-                            Icon(
-                              Icons.construction,
-                              size: 50,
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              'Favor selecionar Empresa',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
+                      DocumentSelection(
+                        selectedEmpresa: selectedEmpresa,
+                        selectedArquivo: selectedArquivo,
+                        onArquivoChanged: (value) {
+                          setState(() {
+                            selectedArquivo = value;
+                          });
+                        },
                       ),
                       const SizedBox(height: 20),
                       if (selectedEmpresa != null)
@@ -194,38 +158,71 @@ class _HomePageState extends State<HomePage> {
                                           separatorBuilder: (context, index) =>
                                               const Divider(color: Colors.grey),
                                           itemBuilder: (context, index) {
-                                            return ListTile(
-                                              trailing: IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _list.removeAt(index);
-                                                  });
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                              title: ListTileTheme(
-                                                dense: true,
-                                                contentPadding: EdgeInsets.zero,
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.file_copy_outlined,
-                                                      size: 16,
-                                                      color: markPrimaryColor,
+                                            final file = _list[index];
+                                            return FutureBuilder<int>(
+                                              future: file.length(),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  final fileSize =
+                                                      snapshot.data ?? 0;
+                                                  return ListTile(
+                                                    trailing: IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _list.removeAt(index);
+                                                        });
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.delete,
+                                                        color: Colors.red,
+                                                        size: 20,
+                                                      ),
                                                     ),
-                                                    const SizedBox(width: 8),
-                                                    Text(
-                                                      _list[index].name,
-                                                      style: const TextStyle(
-                                                          fontSize: 12),
+                                                    title: ListTileTheme(
+                                                      dense: true,
+                                                      contentPadding:
+                                                          EdgeInsets.zero,
+                                                      child: Row(
+                                                        children: [
+                                                          const Icon(
+                                                            Icons
+                                                                .file_copy_outlined,
+                                                            size: 16,
+                                                            color:
+                                                                markPrimaryColor,
+                                                          ),
+                                                          const SizedBox(
+                                                              width: 8),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                file.name,
+                                                                style:
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            12),
+                                                              ),
+                                                              Text(
+                                                                _formatBytes(
+                                                                    fileSize),
+                                                                style:
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            10),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
+                                                  );
+                                                } else {
+                                                  return const CircularProgressIndicator();
+                                                }
+                                              },
                                             );
                                           },
                                         ),
@@ -285,12 +282,35 @@ class _HomePageState extends State<HomePage> {
                           child: HomeButton(
                             texto: "Enviar",
                             login: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
+                              if (selectedEmpresa == null ||
+                                  selectedArquivo == null ||
+                                  _list.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Erro'),
+                                      content: const Text(
+                                          'Por favor, selecione o tipo de arquivo e adicione arquivos.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomePage(),
+                                  ),
+                                );
+                              }
                             },
                           ),
                         ),
