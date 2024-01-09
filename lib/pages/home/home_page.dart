@@ -30,10 +30,37 @@ class _HomePageState extends State<HomePage> {
 
     if (result != null) {
       setState(() {
-        if (selectedArquivo == 'Documentos') {
+        if (_list.isNotEmpty) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Substituir arquivo?'),
+                content: const Text('Deseja substituir o arquivo existente?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _list.clear();
+                        _list.addAll(
+                            result.files.map((file) => XFile(file.path!)));
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Substituir'),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
           _list.addAll(result.files.map((file) => XFile(file.path!)));
-        } else if (_list.isEmpty) {
-          _list.add(XFile(result.files.first.path!));
         }
       });
     }
