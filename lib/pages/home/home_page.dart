@@ -115,28 +115,51 @@ class _HomePageState extends State<HomePage> {
                             selectedArquivo != 'Documentos',
                         onDateSelected: (String month, String year) {
                           // Aqui você pode armazenar os valores do mês e ano conforme necessário
-                          print('Mês: $month, Ano: $year');
                         },
                       ),
                       const SizedBox(height: 20),
                       if (selectedEmpresa != null)
                         DropTarget(
                           onDragDone: (detail) async {
-                            // Verifica se a opção selecionada não é "Documentos"
                             if (selectedArquivo != 'Documentos') {
-                              // Se não for "Documentos", adiciona apenas um arquivo
                               if (_list.isEmpty) {
                                 setState(() {
-                                  _list.addAll(detail.files.take(
-                                      1)); // Adiciona apenas o primeiro arquivo
+                                  _list.addAll(detail.files.take(1));
                                 });
                               } else {
-                                // Você pode exibir um alerta ou mensagem informando que excedeu o limite de arquivos
-                                print(
-                                    'Só é permitido um arquivo quando a opção não é "Documentos"');
+                                // Se já houver um arquivo na lista e a opção não for "Documentos"
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Substituir arquivo?'),
+                                      content: const Text(
+                                          'Deseja substituir o arquivo existente?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Cancelar'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _list
+                                                  .clear(); // Limpa a lista atual
+                                              _list.addAll(detail.files.take(
+                                                  1)); // Adiciona o novo arquivo
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Substituir'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               }
                             } else {
-                              // Se for "Documentos", adiciona todos os arquivos arrastados
                               setState(() {
                                 _list.addAll(detail.files);
                               });
