@@ -122,9 +122,25 @@ class _HomePageState extends State<HomePage> {
                       if (selectedEmpresa != null)
                         DropTarget(
                           onDragDone: (detail) async {
-                            setState(() {
-                              _list.addAll(detail.files);
-                            });
+                            // Verifica se a opção selecionada não é "Documentos"
+                            if (selectedArquivo != 'Documentos') {
+                              // Se não for "Documentos", adiciona apenas um arquivo
+                              if (_list.isEmpty) {
+                                setState(() {
+                                  _list.addAll(detail.files.take(
+                                      1)); // Adiciona apenas o primeiro arquivo
+                                });
+                              } else {
+                                // Você pode exibir um alerta ou mensagem informando que excedeu o limite de arquivos
+                                print(
+                                    'Só é permitido um arquivo quando a opção não é "Documentos"');
+                              }
+                            } else {
+                              // Se for "Documentos", adiciona todos os arquivos arrastados
+                              setState(() {
+                                _list.addAll(detail.files);
+                              });
+                            }
                           },
                           onDragUpdated: (details) {
                             setState(() {
