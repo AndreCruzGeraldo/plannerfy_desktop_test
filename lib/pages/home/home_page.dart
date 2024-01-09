@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                                                         });
                                                       },
                                                       icon: const Icon(
-                                                        Icons.delete,
+                                                        Icons.delete_forever,
                                                         color:
                                                             Color(0xFFD50000),
                                                         size: 20,
