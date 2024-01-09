@@ -30,7 +30,11 @@ class _HomePageState extends State<HomePage> {
 
     if (result != null) {
       setState(() {
-        _list.addAll(result.files.map((file) => XFile(file.path!)));
+        if (selectedArquivo == 'Documentos') {
+          _list.addAll(result.files.map((file) => XFile(file.path!)));
+        } else if (_list.isEmpty) {
+          _list.add(XFile(result.files.first.path!));
+        }
       });
     }
   }
@@ -107,6 +111,12 @@ class _HomePageState extends State<HomePage> {
                             selectedArquivo = value;
                           });
                         },
+                        showDateInput: selectedArquivo != null &&
+                            selectedArquivo != 'Documentos',
+                        onDateSelected: (String month, String year) {
+                          // Aqui você pode armazenar os valores do mês e ano conforme necessário
+                          print('Mês: $month, Ano: $year');
+                        },
                       ),
                       const SizedBox(height: 20),
                       if (selectedEmpresa != null)
@@ -152,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                                     if (_list.isNotEmpty)
                                       SizedBox(
                                         height:
-                                            400, // Ajuste a altura do ListView conforme necessário
+                                            350, // Ajuste a altura do ListView conforme necessário
                                         child: ListView.separated(
                                           itemCount: _list.length,
                                           separatorBuilder: (context, index) =>
@@ -289,9 +299,9 @@ class _HomePageState extends State<HomePage> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text('Erro'),
+                                      title: const Text('Atenção!'),
                                       content: const Text(
-                                          'Por favor, selecione o tipo de arquivo e adicione arquivos.'),
+                                          'Por favor, selecione o tipo de arquivo e adicionar arquivos.'),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
