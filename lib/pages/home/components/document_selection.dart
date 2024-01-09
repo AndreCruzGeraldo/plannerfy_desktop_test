@@ -5,16 +5,44 @@ class DocumentSelection extends StatelessWidget {
   final String? selectedEmpresa;
   final String? selectedArquivo;
   final ValueChanged<String?> onArquivoChanged;
+  final bool showDateInput;
+  final Function(String, String) onDateSelected;
 
   const DocumentSelection({
     Key? key,
     required this.selectedEmpresa,
     required this.selectedArquivo,
     required this.onArquivoChanged,
+    required this.showDateInput,
+    required this.onDateSelected,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String? selectedMonth; // Variável para armazenar o mês selecionado
+    String? selectedYear; // Variável para armazenar o ano selecionado
+
+    final List<String> monthsList = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro'
+    ];
+
+    final List<String> yearsList = [
+      '${DateTime.now().year}',
+      '${DateTime.now().year - 1}',
+      '${DateTime.now().year - 2}',
+    ];
+
     return Column(
       children: [
         if (selectedEmpresa != null)
@@ -33,6 +61,51 @@ class DocumentSelection extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 20),
+        if (showDateInput)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                constraints: const BoxConstraints(maxWidth: 200),
+                child: Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(labelText: 'Mês'),
+                    value: selectedMonth, // Defina o valor do mês selecionado
+                    onChanged: (newValue) {
+                      onDateSelected(newValue ?? '', selectedYear ?? '');
+                      selectedMonth = newValue;
+                    },
+                    items: monthsList.map((month) {
+                      return DropdownMenuItem<String>(
+                        value: month,
+                        child: Text(month),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Container(
+                constraints: const BoxConstraints(maxWidth: 150),
+                child: Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(labelText: 'Ano'),
+                    value: selectedYear, // Defina o valor do ano selecionado
+                    onChanged: (newValue) {
+                      onDateSelected(selectedMonth ?? '', newValue ?? '');
+                      selectedYear = newValue;
+                    },
+                    items: yearsList.map((year) {
+                      return DropdownMenuItem<String>(
+                        value: year,
+                        child: Text(year),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ],
+          ),
         Visibility(
           visible: selectedEmpresa == null,
           child: Column(
