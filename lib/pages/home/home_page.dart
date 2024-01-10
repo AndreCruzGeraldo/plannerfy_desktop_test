@@ -24,7 +24,6 @@ class _HomePageState extends State<HomePage> {
   String? selectedYear;
 
   final List<XFile> _list = [];
-  bool _dragging = false;
   Offset? offset;
 
   Future<void> _openFilePicker() async {
@@ -127,20 +126,18 @@ class _HomePageState extends State<HomePage> {
                           },
                           onDragEntered: (detail) {
                             setState(() {
-                              _dragging = true;
                               offset = detail.localPosition;
                             });
                           },
                           onDragExited: (detail) {
                             setState(() {
-                              _dragging = false;
                               offset = null;
                             });
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(40.0),
                             child: DottedBorder(
-                              dashPattern: [8, 6],
+                              dashPattern: const [8, 6],
                               radius: const Radius.circular(8),
                               borderType: BorderType.RRect,
                               color: Colors.grey,
