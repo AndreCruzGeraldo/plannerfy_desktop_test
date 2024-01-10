@@ -10,6 +10,7 @@ import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/login/login_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,6 +36,19 @@ class _HomePageState extends State<HomePage> {
           _list.addAll(result.files.map((file) => XFile(file.path!)));
         });
       }
+    }
+  }
+
+  void _previewFile(XFile file) async {
+    if (file.path.toLowerCase().endsWith('.pdf')) {
+      final filePath = 'file://${file.path}';
+      if (await canLaunch(filePath)) {
+        await launch(filePath);
+      } else {
+        throw 'Could not launch $filePath';
+      }
+    } else {
+      // Tratar caso não seja um arquivo PDF
     }
   }
 
@@ -159,25 +173,35 @@ class _HomePageState extends State<HomePage> {
                                               const Divider(color: Colors.grey),
                                           itemBuilder: (context, index) {
                                             final file = _list[index];
-                                            return FutureBuilder<int>(
-                                              future: file.length(),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  final fileSize =
-                                                      snapshot.data ?? 0;
-                                                  return DocumentTile(
-                                                    documentName: file.name,
-                                                    fileSize: fileSize,
-                                                    onDelete: () {
-                                                      setState(() {
-                                                        _list.removeAt(index);
-                                                      });
-                                                    },
-                                                  );
-                                                } else {
-                                                  return const CircularProgressIndicator();
-                                                }
+                                            return GestureDetector(
+                                              onTap: () {
+                                                _previewFile(file);
                                               },
+                                              child: MouseRegion(
+                                                cursor:
+                                                    SystemMouseCursors.click,
+                                                child: FutureBuilder<int>(
+                                                  future: file.length(),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      final fileSize =
+                                                          snapshot.data ?? 0;
+                                                      return DocumentTile(
+                                                        documentName: file.name,
+                                                        fileSize: fileSize,
+                                                        onDelete: () {
+                                                          setState(() {
+                                                            _list.removeAt(
+                                                                index);
+                                                          });
+                                                        },
+                                                      );
+                                                    } else {
+                                                      return const CircularProgressIndicator();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
                                             );
                                           },
                                         ),
