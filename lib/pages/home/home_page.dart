@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                                   return AlertDialog(
                                     title: const Text('Atenção!'),
                                     content: const Text(
-                                        'Por favor, selecione o tipo de arquivo, o ano e adicione arquivos.'),
+                                        'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.'),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
