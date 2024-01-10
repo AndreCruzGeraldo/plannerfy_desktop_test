@@ -27,57 +27,48 @@ class _HomePageState extends State<HomePage> {
   Offset? offset;
 
   Future<void> _openFilePicker() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (selectedArquivo != null) {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-    if (result != null) {
-      setState(() {
-        if (_list.isNotEmpty && selectedArquivo != 'Documentos') {
-          // If there is already a file in the list and selectedArquivo is not 'Documentos'
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Substituir arquivo?'),
-                content: const Text('Deseja substituir o arquivo existente?'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancelar'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _list.clear(); // Clear the current list
-                        _list.addAll(
-                            result.files.map((file) => XFile(file.path!)));
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Substituir'),
-                  ),
-                ],
-              );
-            },
-          );
-        } else {
-          // If the list is empty or selectedArquivo is 'Documentos', add the new file
-          _list.addAll(result.files.map((file) => XFile(file.path!)));
-        }
-      });
+      if (result != null) {
+        setState(() {
+          if (_list.isNotEmpty && selectedArquivo != 'Documentos') {
+            // If there is already a file in the list and selectedArquivo is not 'Documentos'
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Substituir arquivo?'),
+                  content: const Text('Deseja substituir o arquivo existente?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _list.clear(); // Clear the current list
+                          _list.addAll(
+                              result.files.map((file) => XFile(file.path!)));
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Substituir'),
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            // If the list is empty or selectedArquivo is 'Documentos', add the new file
+            _list.addAll(result.files.map((file) => XFile(file.path!)));
+          }
+        });
+      }
     }
-  }
-
-  String _formatBytes(int bytes) {
-    const suffixes = ['B', 'KB', 'MB', 'GB', 'TB'];
-    var i = 0;
-    double result = bytes.toDouble();
-    while (result > 1024 && i < suffixes.length - 1) {
-      result /= 1024;
-      i++;
-    }
-    return '${result.toStringAsFixed(2)} ${suffixes[i]}';
   }
 
   @override
@@ -151,48 +142,51 @@ class _HomePageState extends State<HomePage> {
                       if (selectedEmpresa != null)
                         DropTarget(
                           onDragDone: (detail) async {
-                            if (selectedArquivo != 'Documentos') {
-                              if (_list.isEmpty) {
-                                setState(() {
-                                  _list.addAll(detail.files.take(1));
-                                });
+                            if (selectedArquivo != null) {
+                              if (selectedArquivo != 'Documentos') {
+                                if (_list.isEmpty) {
+                                  setState(() {
+                                    _list.addAll(detail.files.take(1));
+                                  });
+                                } else {
+                                  // Se já houver um arquivo na lista e a opção não for "Documentos"
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title:
+                                            const Text('Substituir arquivo?'),
+                                        content: const Text(
+                                            'Deseja substituir o arquivo existente?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Cancelar'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _list
+                                                    .clear(); // Limpa a lista atual
+                                                _list.addAll(detail.files.take(
+                                                    1)); // Adiciona o novo arquivo
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Substituir'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               } else {
-                                // Se já houver um arquivo na lista e a opção não for "Documentos"
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Substituir arquivo?'),
-                                      content: const Text(
-                                          'Deseja substituir o arquivo existente?'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Cancelar'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _list
-                                                  .clear(); // Limpa a lista atual
-                                              _list.addAll(detail.files.take(
-                                                  1)); // Adiciona o novo arquivo
-                                            });
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Substituir'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                setState(() {
+                                  _list.addAll(detail.files);
+                                });
                               }
-                            } else {
-                              setState(() {
-                                _list.addAll(detail.files);
-                              });
                             }
                           },
                           onDragUpdated: (details) {

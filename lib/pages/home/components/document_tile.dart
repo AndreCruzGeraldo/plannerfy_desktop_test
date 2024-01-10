@@ -19,7 +19,7 @@ class DocumentTile extends StatelessWidget {
       trailing: IconButton(
         onPressed: onDelete,
         icon: const Icon(
-          Icons.delete,
+          Icons.delete_forever,
           color: Colors.red,
           size: 20,
         ),
