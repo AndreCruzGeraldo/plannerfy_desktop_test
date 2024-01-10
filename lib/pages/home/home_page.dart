@@ -31,7 +31,8 @@ class _HomePageState extends State<HomePage> {
 
     if (result != null) {
       setState(() {
-        if (_list.isNotEmpty) {
+        if (_list.isNotEmpty && selectedArquivo != 'Documentos') {
+          // If there is already a file in the list and selectedArquivo is not 'Documentos'
           showDialog(
             context: context,
             builder: (context) {
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                   TextButton(
                     onPressed: () {
                       setState(() {
-                        _list.clear();
+                        _list.clear(); // Clear the current list
                         _list.addAll(
                             result.files.map((file) => XFile(file.path!)));
                       });
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
             },
           );
         } else {
+          // If the list is empty or selectedArquivo is 'Documentos', add the new file
           _list.addAll(result.files.map((file) => XFile(file.path!)));
         }
       });
