@@ -15,6 +15,8 @@ class CustomDropdown2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50,
+      width: 350,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(color: Colors.grey),
@@ -32,9 +34,7 @@ class CustomDropdown2 extends StatelessWidget {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: ListTile(
-                        contentPadding: const EdgeInsets.all(0),
                         title: Center(child: Text(value)),
                       ),
                     ),

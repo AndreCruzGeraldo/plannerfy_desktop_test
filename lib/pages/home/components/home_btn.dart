@@ -18,10 +18,7 @@ class HomeButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),
-        minimumSize: Size(
-          MediaQuery.of(context).size.width * 0.9,
-          60,
-        ),
+        minimumSize: Size(200, 60),
         primary: markPrimaryColor,
       ),
       child: Text(
