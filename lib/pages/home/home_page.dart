@@ -32,40 +32,7 @@ class _HomePageState extends State<HomePage> {
 
       if (result != null) {
         setState(() {
-          if (_list.isNotEmpty && selectedArquivo != 'Documentos') {
-            // If there is already a file in the list and selectedArquivo is not 'Documentos'
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('Substituir arquivo?'),
-                  content: const Text('Deseja substituir o arquivo existente?'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Cancelar'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _list.clear(); // Clear the current list
-                          _list.addAll(
-                              result.files.map((file) => XFile(file.path!)));
-                        });
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Substituir'),
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            // If the list is empty or selectedArquivo is 'Documentos', add the new file
-            _list.addAll(result.files.map((file) => XFile(file.path!)));
-          }
+          _list.addAll(result.files.map((file) => XFile(file.path!)));
         });
       }
     }
@@ -77,7 +44,7 @@ class _HomePageState extends State<HomePage> {
       body: Row(
         children: [
           Expanded(
-            flex: 4, // 40% da largura total
+            flex: 4,
             child: Container(
               color: markPrimaryColor,
               child: Column(
@@ -135,59 +102,15 @@ class _HomePageState extends State<HomePage> {
                         showDateInput: selectedArquivo != null &&
                             selectedArquivo != 'Documentos',
                         onDateSelected: (String month, String year) {
-                          // Aqui você pode armazenar os valores do mês e ano conforme necessário
                         },
                       ),
                       const SizedBox(height: 20),
                       if (selectedEmpresa != null)
                         DropTarget(
                           onDragDone: (detail) async {
-                            if (selectedArquivo != null) {
-                              if (selectedArquivo != 'Documentos') {
-                                if (_list.isEmpty) {
-                                  setState(() {
-                                    _list.addAll(detail.files.take(1));
-                                  });
-                                } else {
-                                  // Se já houver um arquivo na lista e a opção não for "Documentos"
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title:
-                                            const Text('Substituir arquivo?'),
-                                        content: const Text(
-                                            'Deseja substituir o arquivo existente?'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Cancelar'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                _list
-                                                    .clear(); // Limpa a lista atual
-                                                _list.addAll(detail.files.take(
-                                                    1)); // Adiciona o novo arquivo
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Substituir'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              } else {
-                                setState(() {
-                                  _list.addAll(detail.files);
-                                });
-                              }
-                            }
+                            setState(() {
+                              _list.addAll(detail.files);
+                            });
                           },
                           onDragUpdated: (details) {
                             setState(() {
