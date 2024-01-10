@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? selectedEmpresa;
   String? selectedArquivo;
+  String? selectedYear;
 
   final List<XFile> _list = [];
   bool _dragging = false;
@@ -102,6 +103,9 @@ class _HomePageState extends State<HomePage> {
                         showDateInput: selectedArquivo != null &&
                             selectedArquivo != 'Documentos',
                         onDateSelected: (String month, String year) {
+                          setState(() {
+                            selectedYear = year;
+                          });
                         },
                       ),
                       const SizedBox(height: 20),
@@ -237,6 +241,7 @@ class _HomePageState extends State<HomePage> {
                           login: () {
                             if (selectedEmpresa == null ||
                                 selectedArquivo == null ||
+                                selectedYear == null ||
                                 _list.isEmpty) {
                               showDialog(
                                 context: context,
@@ -244,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                                   return AlertDialog(
                                     title: const Text('Atenção!'),
                                     content: const Text(
-                                        'Por favor, selecione o tipo de arquivo e adicionar arquivos.'),
+                                        'Por favor, selecione o tipo de arquivo o ano e adicionar arquivos.'),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
