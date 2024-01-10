@@ -98,6 +98,10 @@ class _HomePageState extends State<HomePage> {
                         onArquivoChanged: (value) {
                           setState(() {
                             selectedArquivo = value;
+                            // Limpar o ano selecionado se o tipo de arquivo for 'Documentos'
+                            if (value == 'Documentos') {
+                              selectedYear = null;
+                            }
                           });
                         },
                         showDateInput: selectedArquivo != null &&
@@ -241,15 +245,17 @@ class _HomePageState extends State<HomePage> {
                           login: () {
                             if (selectedEmpresa == null ||
                                 selectedArquivo == null ||
-                                selectedYear == null ||
-                                _list.isEmpty) {
+                                _list.isEmpty ||
+                                (selectedArquivo != 'Documentos' &&
+                                    selectedYear == null)) {
+                              // Verifica o ano se não for um documento
                               showDialog(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
                                     title: const Text('Atenção!'),
                                     content: const Text(
-                                        'Por favor, selecione o tipo de arquivo o ano e adicionar arquivos.'),
+                                        'Por favor, selecione o tipo de arquivo, o ano e adicione arquivos.'),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
