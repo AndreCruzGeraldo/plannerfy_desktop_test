@@ -46,7 +46,8 @@ class CustomButton extends StatelessWidget {
                 icon,
                 color: Colors.white,
               ),
-              SizedBox(width: 8), // Add some spacing between icon and text
+              const SizedBox(
+                  width: 8), // Add some spacing between icon and text
               Text(
                 text,
                 style: const TextStyle(
