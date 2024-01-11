@@ -59,7 +59,7 @@ class DocumentDropdown extends StatelessWidget {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Container(
-                              padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                               child: Center(child: Text(value)),
                             ),
                           );
@@ -67,7 +67,7 @@ class DocumentDropdown extends StatelessWidget {
                         onChanged: onArquivoChanged,
                         hint: selectedArquivo != null
                             ? null
-                            : Center(
+                            : const Center(
                                 child: Text(
                                   'Tipo de Arquivo',
                                   textAlign: TextAlign.center,

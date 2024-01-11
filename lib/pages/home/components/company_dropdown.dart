@@ -67,7 +67,7 @@ class CompanyDropdown extends StatelessWidget {
                         onChanged: onEmpresaChanged,
                         hint: selectedEmpresa != null
                             ? null
-                            : Center(
+                            : const Center(
                                 child: Text(
                                   'Selecione Empresa',
                                   textAlign: TextAlign.center,
