@@ -7,7 +7,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Tamanho da tela ao abrir
+    DesktopWindow.setWindowSize(const Size(1080, 720));
+    // Tamanho de tela mínima
     DesktopWindow.setMinWindowSize(const Size(1080, 720));
+
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,

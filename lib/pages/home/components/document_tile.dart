@@ -7,10 +7,11 @@ class DocumentTile extends StatelessWidget {
   final VoidCallback onDelete;
 
   const DocumentTile({
+    Key? key,
     required this.documentName,
     required this.fileSize,
     required this.onDelete,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

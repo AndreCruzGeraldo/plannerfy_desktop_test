@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 
-class HomeButton extends StatelessWidget {
+class SendButton extends StatelessWidget {
   final String texto;
   final Function login;
 
-  const HomeButton({Key? key, required this.texto, required this.login})
+  const SendButton({Key? key, required this.texto, required this.login})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class HomeButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),
-        minimumSize: const Size(200, 60),
+        minimumSize: const Size(350, 60),
         primary: markPrimaryColor,
       ),
       child: Text(
