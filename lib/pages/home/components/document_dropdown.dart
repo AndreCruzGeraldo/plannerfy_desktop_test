@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class DocumentDropdown extends StatelessWidget {
-  final String? selectedEmpresa;
   final String? selectedArquivo;
   final ValueChanged<String?> onArquivoChanged;
   final bool showDateInput;
@@ -16,7 +15,6 @@ class DocumentDropdown extends StatelessWidget {
 
   const DocumentDropdown({
     Key? key,
-    required this.selectedEmpresa,
     required this.selectedArquivo,
     required this.onArquivoChanged,
     required this.showDateInput,
@@ -25,61 +23,60 @@ class DocumentDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? selectedYear; // Variable to store the selected year
+    String? selectedYear; // Variável para armazenar o ano selecionado
 
     return Column(
       children: [
-        if (selectedEmpresa != null)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: Container(
-              height: 50,
-              width: 350,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.grey),
-                color: Colors.white,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        iconSize: 30.0,
-                        alignment: Alignment.centerLeft,
-                        value: selectedArquivo,
-                        items: const [
-                          'Documentos',
-                          'Contrato social',
-                          'DRE Contabil',
-                          'Balanço',
-                          'Balancete',
-                        ].map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Container(
-                              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                              child: Center(child: Text(value)),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: onArquivoChanged,
-                        hint: selectedArquivo != null
-                            ? null
-                            : const Center(
-                                child: Text(
-                                  'Tipo de Arquivo',
-                                  textAlign: TextAlign.center,
-                                ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: Container(
+            height: 50,
+            width: 350,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25.0),
+              border: Border.all(color: Colors.grey),
+              color: Colors.white,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      iconSize: 30.0,
+                      alignment: Alignment.centerLeft,
+                      value: selectedArquivo,
+                      items: const [
+                        'Documentos',
+                        'Contrato social',
+                        'DRE Contabil',
+                        'Balanço',
+                        'Balancete',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                            child: Center(child: Text(value)),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: onArquivoChanged,
+                      hint: selectedArquivo != null
+                          ? null
+                          : const Center(
+                              child: Text(
+                                'Tipo de Arquivo',
+                                textAlign: TextAlign.center,
                               ),
-                      ),
+                            ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+        ),
         const SizedBox(height: 20),
         if (showDateInput)
           Row(

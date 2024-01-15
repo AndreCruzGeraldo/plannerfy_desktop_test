@@ -9,7 +9,7 @@ class LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomButton(
       onPressed: onPressed,
-      icon: Icons.exit_to_app, // Set the logout icon
+      icon: Icons.exit_to_app,
       text: 'Sair',
     );
   }

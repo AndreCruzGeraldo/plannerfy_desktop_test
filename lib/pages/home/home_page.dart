@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       if (await canLaunchUrl(filePath)) {
         await launchUrl(filePath);
       } else {
-        throw 'Could not launch $filePath';
+        throw 'Não foi possível iniciar $filePath';
       }
     }
   }
@@ -181,7 +181,6 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DocumentDropdown(
-            selectedEmpresa: selectedEmpresa,
             selectedArquivo: selectedArquivo,
             onArquivoChanged: (value) {
               setState(() {
@@ -334,8 +333,10 @@ class _HomePageState extends State<HomePage> {
                             children: const [
                               Icon(Icons.upload),
                               SizedBox(width: 10.0),
-                              Text('Selecionar Arquivo',
-                                  style: TextStyle(fontSize: 16)),
+                              Text(
+                                'Selecionar Arquivo',
+                                style: TextStyle(fontSize: 16),
+                              ),
                             ],
                           ),
                         ),
