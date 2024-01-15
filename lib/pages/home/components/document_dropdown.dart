@@ -14,7 +14,7 @@ class DocumentDropdown extends StatelessWidget {
     '${currentYear - 2}'
   ];
 
-  DocumentDropdown({
+  const DocumentDropdown({
     Key? key,
     required this.selectedEmpresa,
     required this.selectedArquivo,
@@ -105,21 +105,6 @@ class DocumentDropdown extends StatelessWidget {
                     );
                   }).toList(),
                 ),
-              ),
-            ],
-          ),
-        // Tela visível antes de escolher empresa
-        if (selectedEmpresa == null)
-          Column(
-            children: const [
-              Icon(
-                Icons.construction,
-                size: 50,
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Favor selecionar Empresa',
-                style: TextStyle(fontSize: 18),
               ),
             ],
           ),

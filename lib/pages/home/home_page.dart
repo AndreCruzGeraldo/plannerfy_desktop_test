@@ -110,35 +110,50 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Visibility(
-                          visible: _selectedContent == null,
-                          child: CardButton(
-                            titulo: "Arquivos de Solicitações",
-                            icone: Icons.file_copy,
-                            navegacao: () {
-                              setState(() {
-                                _selectedContent = _buildSolicitacoesContent();
-                              });
-                            },
+                    selectedEmpresa == null
+                        ? Column(
+                            children: const [
+                              Icon(
+                                Icons.construction,
+                                size: 50,
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                'Favor selecionar Empresa',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Visibility(
+                                visible: _selectedContent == null,
+                                child: CardButton(
+                                  titulo: "Arquivos de Solicitações",
+                                  icone: Icons.file_copy,
+                                  navegacao: () {
+                                    setState(() {
+                                      _selectedContent =
+                                          _buildSolicitacoesContent();
+                                    });
+                                  },
+                                ),
+                              ),
+                              Visibility(
+                                visible: _selectedContent == null,
+                                child: CardButton(
+                                  titulo: "Upload de Arquivos",
+                                  icone: Icons.file_upload,
+                                  navegacao: () {
+                                    setState(() {
+                                      _selectedContent = _buildUploadContent();
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Visibility(
-                          visible: _selectedContent == null,
-                          child: CardButton(
-                            titulo: "Upload de Arquivos",
-                            icone: Icons.file_upload,
-                            navegacao: () {
-                              setState(() {
-                                _selectedContent = _buildUploadContent();
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
                     // Exibir o conteúdo selecionado
                     _selectedContent ?? Container(),
                   ],
@@ -155,7 +170,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildSolicitacoesContent() {
     return Container(
       // Conteúdo para "Arquivos de Solicitações"
-      child: Text("Conteúdo para Arquivos de Solicitações"),
+      child: const Text("Conteúdo para Arquivos de Solicitações"),
     );
   }
 
