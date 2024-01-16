@@ -220,7 +220,12 @@ class _UploadContentState extends State<UploadContent> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
-                                  Icon(Icons.upload),
+                                  Image(
+                                    image: AssetImage(
+                                        'lib/assets/images/up_log.png'),
+                                    height: 25,
+                                    width: 25,
+                                  ),
                                   SizedBox(width: 10.0),
                                   Text(
                                     'Selecionar Arquivo',
@@ -243,7 +248,7 @@ class _UploadContentState extends State<UploadContent> {
                     width: 200,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const HomePage(),
@@ -260,10 +265,8 @@ class _UploadContentState extends State<UploadContent> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          Icon(Icons.home),
-                          SizedBox(width: 10.0),
                           Text(
-                            'Home',
+                            'Voltar',
                             style: TextStyle(
                               fontSize: 25,
                               color: Colors.white,

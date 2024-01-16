@@ -83,14 +83,17 @@ class _HomePageState extends State<HomePage> {
                     selectedEmpresa == null
                         ? Column(
                             children: const [
-                              Icon(
-                                Icons.construction,
-                                size: 50,
+                              Image(
+                                image:
+                                    AssetImage('lib/assets/images/alert.png'),
+                                height: 120,
+                                width: 120,
                               ),
                               SizedBox(height: 20),
                               Text(
                                 'Favor selecionar Empresa',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             ],
                           )

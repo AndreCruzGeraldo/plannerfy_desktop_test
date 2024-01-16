@@ -3,18 +3,87 @@ import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 
 class ArquivoContent extends StatelessWidget {
-  final List<String> documentos = [
-    'Documento 1',
-    'Documento 2',
-    'Documento 3',
-    'Documento 4',
-    'Documento 5',
-    'Documento 6',
-    'Documento 7',
-    'Documento 8',
-    'Documento 9',
-    'Documento 10',
-    'Documento 11',
+  final List<Map<String, dynamic>> documentos = [
+    {
+      'id': '123',
+      'nome': 'Documento 1.pdf',
+      'data': '10/01/2022',
+      'hora': '14:30',
+      'usuario': 'João Silva',
+      'tamanho': '2.5 MB',
+    },
+    {
+      'id': '124',
+      'nome': 'Documento 2.pdf',
+      'data': '11/01/2022',
+      'hora': '16:45',
+      'usuario': 'Maria Oliveira',
+      'tamanho': '1.8 MB',
+    },
+    {
+      'id': '133',
+      'nome': 'Documento 3.pdf',
+      'data': '12/01/2022',
+      'hora': '10:15',
+      'usuario': 'Carlos Pereira',
+      'tamanho': '3.2 MB',
+    },
+    {
+      'id': '223',
+      'nome': 'Documento 4.pdf',
+      'data': '13/01/2022',
+      'hora': '09:00',
+      'usuario': 'Ana Souza',
+      'tamanho': '2.0 MB',
+    },
+    {
+      'id': '127',
+      'nome': 'Documento 5.pdf',
+      'data': '14/01/2022',
+      'hora': '18:20',
+      'usuario': 'Lucas Santos',
+      'tamanho': '4.5 MB',
+    },
+    {
+      'id': '623',
+      'nome': 'Documento 6.pdf',
+      'data': '15/01/2022',
+      'hora': '11:30',
+      'usuario': 'Isabel Lima',
+      'tamanho': '2.8 MB',
+    },
+    {
+      'id': '983',
+      'nome': 'Documento 7.pdf',
+      'data': '16/01/2022',
+      'hora': '15:10',
+      'usuario': 'Felipe Costa',
+      'tamanho': '3.7 MB',
+    },
+    {
+      'id': '059',
+      'nome': 'Documento 8.pdf',
+      'data': '17/01/2022',
+      'hora': '13:45',
+      'usuario': 'Amanda Almeida',
+      'tamanho': '2.3 MB',
+    },
+    {
+      'id': '789',
+      'nome': 'Documento 9.pdf',
+      'data': '18/01/2022',
+      'hora': '14:55',
+      'usuario': 'Ricardo Martins',
+      'tamanho': '1.5 MB',
+    },
+    {
+      'id': '521',
+      'nome': 'Documento 10.pdf',
+      'data': '19/01/2022',
+      'hora': '08:40',
+      'usuario': 'Fernanda Rocha',
+      'tamanho': '3.0 MB',
+    },
   ];
 
   @override
@@ -24,16 +93,27 @@ class ArquivoContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Lista de Documentos:',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+          Row(
+            children: const [
+              Image(
+                image: AssetImage('lib/assets/images/doc_log.png'),
+                height: 50,
+                width: 50,
+              ),
+              SizedBox(width: 10),
+              Text(
+                'Lista de Documentos:',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
           const SizedBox(height: 10.0),
           Container(
-            height: 500.0,
+            height: 550.0,
             child: ListView.builder(
               itemCount: documentos.length,
               itemBuilder: (context, index) {
+                final documento = documentos[index];
                 return Card(
                   child: ListTile(
                     dense: true,
@@ -41,21 +121,52 @@ class ArquivoContent extends StatelessWidget {
                       dense: true,
                       contentPadding: EdgeInsets.zero,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Icon(
-                            Icons.file_copy_outlined,
-                            size: 16,
-                            color: markPrimaryColor,
-                          ),
-                          const SizedBox(width: 12),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                documentos[index],
-                                style: const TextStyle(fontSize: 16),
+                              Row(
+                                children: [
+                                  const Image(
+                                    image:
+                                        AssetImage('lib/assets/images/doc.png'),
+                                    height: 40,
+                                    width: 40,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    documento['nome'],
+                                    style: const TextStyle(fontSize: 17),
+                                  ),
+                                ],
                               ),
-                              // Adapte conforme necessário para incluir tamanho do arquivo
+                              const SizedBox(height: 8),
+                              Text(
+                                'Tamanho: ${documento['tamanho']}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Solicitação: ${documento['id']}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                'Usuário: ${documento['usuario']}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                'Data: ${documento['data']}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                'Hora: ${documento['hora']}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
                             ],
                           ),
                         ],
@@ -73,7 +184,7 @@ class ArquivoContent extends StatelessWidget {
               width: 200,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const HomePage(),
@@ -90,10 +201,8 @@ class ArquivoContent extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Icon(Icons.home),
-                    SizedBox(width: 10.0),
                     Text(
-                      'Home',
+                      'Voltar',
                       style: TextStyle(
                         fontSize: 25,
                         color: Colors.white,
