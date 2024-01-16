@@ -102,7 +102,7 @@ class ArquivoContent extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Text(
-                'Lista de Documentos:',
+                'Lista de Documentos',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
             ],

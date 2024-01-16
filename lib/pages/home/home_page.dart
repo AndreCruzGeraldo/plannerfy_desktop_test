@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                                 height: 120,
                                 width: 120,
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 10),
                               Text(
                                 'Favor selecionar Empresa',
                                 style: TextStyle(
