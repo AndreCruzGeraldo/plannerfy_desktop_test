@@ -18,13 +18,16 @@ class SendButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),
-        minimumSize: const Size(350, 60),
+        minimumSize: const Size(250, 60),
         primary: markPrimaryColor,
       ),
       child: Text(
         texto,
         style: const TextStyle(
-            fontSize: 25, color: Colors.white, fontFamily: primaryFont),
+          fontSize: 25,
+          color: Colors.white,
+          fontFamily: primaryFont,
+        ),
       ),
     );
   }

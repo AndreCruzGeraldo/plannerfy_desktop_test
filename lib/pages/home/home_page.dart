@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                                   icone: Icons.file_copy,
                                   navegacao: () {
                                     _navigateToPage(
-                                      const SolicitacoesContent(),
+                                      ArquivoContent(),
                                     );
                                   },
                                 ),

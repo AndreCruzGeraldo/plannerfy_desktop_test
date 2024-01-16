@@ -6,8 +6,10 @@ import 'package:plannerfy_desktop/pages/home/components/document_tile.dart';
 import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cross_file/cross_file.dart';
+import 'package:intl/intl.dart';
 
 class UploadContent extends StatefulWidget {
   const UploadContent({Key? key}) : super(key: key);
@@ -34,7 +36,10 @@ class _UploadContentState extends State<UploadContent> {
 
       if (result != null) {
         setState(() {
-          _list.addAll(result.files.map((file) => XFile(file.path!)));
+          final formattedDate =
+              DateFormat('HH:mm - dd/MM/yyyy').format(DateTime.now());
+          _list.addAll(result.files.map((file) =>
+              XFile(file.path!, name: '${file.name}_$formattedDate')));
         });
       }
     }
@@ -231,56 +236,82 @@ class _UploadContentState extends State<UploadContent> {
                   ),
                 ),
               ),
-              SendButton(
-                texto: "Enviar",
-                login: () {
-                  if (selectedArquivo == null ||
-                      _list.isEmpty ||
-                      (selectedArquivo != 'Documentos' &&
-                          selectedYear == null)) {
-                    // Verifica o ano se não for um documento
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Atenção!'),
-                          content: const Text(
-                              'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
                         );
                       },
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        minimumSize: const Size(250, 60),
                       ),
-                    );
-                  }
-                },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.home),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Home',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontFamily: primaryFont,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SendButton(
+                    texto: "Enviar",
+                    login: () {
+                      if (selectedArquivo == null ||
+                          _list.isEmpty ||
+                          (selectedArquivo != 'Documentos' &&
+                              selectedYear == null)) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Atenção!'),
+                              content: const Text(
+                                  'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ],
-          ),
-        ),
-        Positioned(
-          top: 20, // Adjust this value to move the button higher
-          right: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
           ),
         ),
       ],
