@@ -48,9 +48,9 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          onEmpresaChanged: (value) {
+                          onEmpresaChanged: (empresa) {
                             setState(() {
-                              selectedEmpresa = value;
+                              selectedEmpresa = empresa;
                             });
                           },
                         ),
