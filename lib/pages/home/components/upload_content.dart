@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +8,9 @@ import 'package:plannerfy_desktop/pages/home/components/document_tile.dart';
 import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cross_file/cross_file.dart';
-import 'package:intl/intl.dart';
 
 class UploadContent extends StatefulWidget {
   const UploadContent({Key? key}) : super(key: key);
@@ -19,38 +20,32 @@ class UploadContent extends StatefulWidget {
 }
 
 class _UploadContentState extends State<UploadContent> {
-  String? selectedEmpresa;
   String? selectedArquivo;
   String? selectedYear;
+  final List<File> _files = [];
 
   int numero = 0;
 
-  final List<XFile> _list = [];
-
   Offset? offset;
 
-  // Abre explorador de arquivos e permite escolher um arquivo
-  Future<void> _openFilePicker() async {
-    if (selectedArquivo != null) {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
-
+  Future<Iterable<File>> pickFiles(BuildContext context) {
+    return FilePicker.platform
+        .pickFiles(
+      allowMultiple: true,
+      type: FileType.any,
+    )
+        .then((result) {
       if (result != null) {
-        setState(() {
-          final formattedDate =
-              DateFormat('HH:mm - dd/MM/yyyy').format(DateTime.now());
-          _list.addAll(result.files.map((file) =>
-              XFile(file.path!, name: '${file.name}_$formattedDate')));
-        });
+        return result.paths.map((path) => File(path!)).toList();
+      } else {
+        return [];
       }
-    }
+    });
   }
 
-  // Abre arquivos de pdf no computador
-  void _previewFile(XFile file) async {
+  void _previewFile(File file) async {
     if (file.path.toLowerCase().endsWith('.pdf')) {
-      // Use Uri.file to create a URI from the file path
       final Uri filePath = Uri.file(file.path);
-
       if (await canLaunchUrl(filePath)) {
         await launchUrl(filePath);
       } else {
@@ -90,11 +85,9 @@ class _UploadContentState extends State<UploadContent> {
               DropTarget(
                 onDragDone: (detail) async {
                   if (selectedArquivo != null) {
-                    setState(() {
-                      _list.addAll(detail.files);
-                    });
+                    _files.addAll(await pickFiles(context));
+                    setState(() {});
                   } else {
-                    // Caso arquivo seja null
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -142,19 +135,19 @@ class _UploadContentState extends State<UploadContent> {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          if (_list.isEmpty)
+                          if (_files.isEmpty)
                             const SizedBox(
                               height: 20,
                             ),
-                          if (_list.isNotEmpty)
+                          if (_files.isNotEmpty)
                             SizedBox(
                               height: 250,
                               child: ListView.separated(
-                                itemCount: _list.length,
+                                itemCount: _files.length,
                                 separatorBuilder: (context, index) =>
                                     const Divider(color: Colors.grey),
                                 itemBuilder: (context, index) {
-                                  final file = _list[index];
+                                  final file = _files[index];
                                   return GestureDetector(
                                     onTap: () {
                                       _previewFile(file);
@@ -167,11 +160,13 @@ class _UploadContentState extends State<UploadContent> {
                                           if (snapshot.hasData) {
                                             final fileSize = snapshot.data ?? 0;
                                             return DocumentTile(
-                                              documentName: file.name,
+                                              documentName: file.path
+                                                  .split('/')
+                                                  .last, // Display file name
                                               fileSize: fileSize,
                                               onDelete: () {
                                                 setState(() {
-                                                  _list.removeAt(index);
+                                                  _files.removeAt(index);
                                                 });
                                               },
                                             );
@@ -203,7 +198,10 @@ class _UploadContentState extends State<UploadContent> {
                           SizedBox(
                             width: 200,
                             child: ElevatedButton(
-                              onPressed: _openFilePicker,
+                              onPressed: () async {
+                                _files.addAll(await pickFiles(context));
+                                setState(() {});
+                              },
                               style: ElevatedButton.styleFrom(
                                 elevation: 1,
                                 primary: Colors.white,
@@ -218,21 +216,19 @@ class _UploadContentState extends State<UploadContent> {
                                 minimumSize: const Size(double.infinity, 60),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Image(
-                                    image: AssetImage(
-                                        'lib/assets/images/up_log.png'),
-                                    height: 25,
-                                    width: 25,
-                                  ),
-                                  SizedBox(width: 10.0),
-                                  Text(
-                                    'Selecionar Arquivo',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
-                              ),
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'lib/assets/images/up_log.png',
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                    const SizedBox(width: 10.0),
+                                    const Text(
+                                      'Selecionar Arquivo',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ]),
                             ),
                           ),
                         ],
@@ -279,9 +275,9 @@ class _UploadContentState extends State<UploadContent> {
                   ),
                   SendButton(
                     texto: "Enviar",
-                    login: () {
+                    login: () async {
                       if (selectedArquivo == null ||
-                          _list.isEmpty ||
+                          _files.isEmpty ||
                           (selectedArquivo != 'Documentos' &&
                               selectedYear == null)) {
                         showDialog(
@@ -303,7 +299,21 @@ class _UploadContentState extends State<UploadContent> {
                           },
                         );
                       } else {
-                        Navigator.push(
+                        // Prepare JSON data
+                        Map<String, dynamic> jsonData = {
+                          // Add any required JSON data here
+                        };
+
+                        // Upload each file to the server
+                        for (var file in _files) {
+                          await WsDocuments.uploadFile(
+                            jsonData: jsonData,
+                            filePath: file.path,
+                          );
+                        }
+
+                        // Navigate to the home page
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const HomePage(),
@@ -311,7 +321,7 @@ class _UploadContentState extends State<UploadContent> {
                         );
                       }
                     },
-                  ),
+                  )
                 ],
               ),
             ],

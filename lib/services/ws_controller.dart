@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:plannerfy_desktop/services/queries/ws_company.dart';
+import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/services/queries/ws_users.dart';
 
 import '../utility/app_config.dart';
 import 'package:http/http.dart' as http;
 
-class WsController with WsUsers {
+class WsController with WsUsers, WsCompany, WsDocuments {
   static final WsController _singleton = WsController._internal();
 
   factory WsController() => _singleton;
