@@ -286,7 +286,8 @@ class _UploadContentState extends State<UploadContent> {
                             return AlertDialog(
                               title: const Text('Atenção!'),
                               content: const Text(
-                                  'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.'),
+                                'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.',
+                              ),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -299,20 +300,27 @@ class _UploadContentState extends State<UploadContent> {
                           },
                         );
                       } else {
-                        // Prepare JSON data
-                        Map<String, dynamic> jsonData = {
-                          // Add any required JSON data here
-                        };
+                        for (File file in _files) {
+                          String filePath = file.path.toString();
+                          String fileName = filePath.split('\\').last;
 
-                        // Upload each file to the server
-                        for (var file in _files) {
+                          Map<String, dynamic> jsonData = {
+                            "documento": {
+                              "doc_cnpj": "45391108000190",
+                              "doc_id": 13,
+                              "doc_nome": fileName,
+                              "doc_descricao": "Fixa no momento",
+                              "doc_path": fileName,
+                              "doc_usuario": "fredericohi18@gmail.com",
+                              "doc_data_cadastro": DateTime.now().toString(),
+                              "doc_status": "A"
+                            }
+                          };
+
                           await WsDocuments.uploadFile(
-                            jsonData: jsonData,
-                            filePath: file.path,
-                          );
+                              jsonData: jsonData, filePath: filePath);
                         }
 
-                        // Navigate to the home page
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
