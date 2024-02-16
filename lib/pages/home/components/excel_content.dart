@@ -2,44 +2,40 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/pages/home/components/document_dropdown.dart';
 import 'package:plannerfy_desktop/pages/home/components/document_tile.dart';
+import 'package:plannerfy_desktop/pages/home/components/excel_dropdown.dart';
 import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UploadContent extends StatefulWidget {
-  const UploadContent({Key? key}) : super(key: key);
+class ExcelContent extends StatefulWidget {
+  const ExcelContent({Key? key}) : super(key: key);
 
   @override
-  State<UploadContent> createState() => _UploadContentState();
+  State<ExcelContent> createState() => _ExcelContentState();
 }
 
-class _UploadContentState extends State<UploadContent> {
-  String? selectedArquivo;
-  String? selectedYear;
-  final List<File> _files = [];
+class _ExcelContentState extends State<ExcelContent> {
+  String? selectedArquivo1;
+  String? selectedArquivo2;
 
-  int numero = 0;
+  final List<File> _files = [];
 
   Offset? offset;
 
-  Future<Iterable<File>> pickFiles(BuildContext context) {
-    return FilePicker.platform
-        .pickFiles(
+  Future<Iterable<File>> pickFiles(BuildContext context) async {
+    final result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.any,
-    )
-        .then((result) {
-      if (result != null) {
-        return result.paths.map((path) => File(path!)).toList();
-      } else {
-        return [];
-      }
-    });
+    );
+    if (result != null) {
+      return result.paths.map((path) => File(path!)).toList();
+    } else {
+      return [];
+    }
   }
 
   void _previewFile(File file) async {
@@ -62,28 +58,30 @@ class _UploadContentState extends State<UploadContent> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              DocumentDropdown(
-                selectedArquivo: selectedArquivo,
-                onArquivoChanged: (value) {
-                  setState(() {
-                    selectedArquivo = value;
-                    if (value == 'Documentos') {
-                      selectedYear = null;
-                    }
-                  });
-                },
-                showDateInput:
-                    selectedArquivo != null && selectedArquivo != 'Documentos',
-                onYearSelected: (String year) {
-                  setState(() {
-                    selectedYear = year;
-                  });
-                },
+              Row(
+                children: [
+                  Expanded(
+                    child: ExcelDropdown(
+                      selectedArquivo1: selectedArquivo1,
+                      onArquivoChanged1: (value) {
+                        setState(() {
+                          selectedArquivo1 = value;
+                        });
+                      },
+                      selectedArquivo2: selectedArquivo2,
+                      onArquivoChanged2: (value) {
+                        setState(() {
+                          selectedArquivo2 = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               DropTarget(
                 onDragDone: (detail) async {
-                  if (selectedArquivo != null) {
+                  if (selectedArquivo1 != null || selectedArquivo2 != null) {
                     _files.addAll(await pickFiles(context));
                     setState(() {});
                   } else {
@@ -92,7 +90,7 @@ class _UploadContentState extends State<UploadContent> {
                       builder: (context) {
                         return AlertDialog(
                           content: const Text(
-                            'Por favor, selecione um tipo de arquivo',
+                            'Por favor, selecione um tipo de arquivo e Plataforma',
                           ),
                           actions: [
                             TextButton(
@@ -275,17 +273,16 @@ class _UploadContentState extends State<UploadContent> {
                   SendButton(
                     texto: "Enviar",
                     login: () async {
-                      if (selectedArquivo == null ||
-                          _files.isEmpty ||
-                          (selectedArquivo != 'Documentos' &&
-                              selectedYear == null)) {
+                      if (selectedArquivo1 == null &&
+                          selectedArquivo2 == null &&
+                          _files.isEmpty) {
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
                               title: const Text('Atenção!'),
                               content: const Text(
-                                'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.',
+                                'Por favor, selecione o tipo de arquivo, plataforma e adicione arquivos.',
                               ),
                               actions: [
                                 TextButton(

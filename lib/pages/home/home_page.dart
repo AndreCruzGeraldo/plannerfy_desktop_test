@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/pages/home/components/card_button.dart';
 import 'package:plannerfy_desktop/pages/home/components/company_dropdown.dart';
+import 'package:plannerfy_desktop/pages/home/components/excel_content.dart';
 import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/home/components/arquivo_content.dart';
 import 'package:plannerfy_desktop/pages/home/components/upload_content.dart';
@@ -97,29 +98,48 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           )
-                        : Row(
+                        : Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Visibility(
-                                visible: _selectedContent == null,
-                                child: CardButton(
-                                  titulo: "Arquivos de Solicitações",
-                                  icone: Icons.file_copy,
-                                  navegacao: () {
-                                    _navigateToPage(
-                                      ArquivoContent(),
-                                    );
-                                  },
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Visibility(
+                                    visible: _selectedContent == null,
+                                    child: CardButton(
+                                      titulo: "Arquivos de Solicitações",
+                                      icone: Icons.file_copy,
+                                      navegacao: () {
+                                        _navigateToPage(
+                                          ArquivoContent(),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: _selectedContent == null,
+                                    child: CardButton(
+                                      titulo: "Upload de Arquivos",
+                                      icone: Icons.file_upload,
+                                      navegacao: () {
+                                        _navigateToPage(
+                                          const UploadContent(),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
+                              const SizedBox(height: 20),
                               Visibility(
                                 visible: _selectedContent == null,
                                 child: CardButton(
-                                  titulo: "Upload de Arquivos",
-                                  icone: Icons.file_upload,
+                                  titulo: "Upload de Planilhas",
+                                  icone: Icons.insert_drive_file_outlined,
                                   navegacao: () {
                                     _navigateToPage(
-                                      const UploadContent(),
+                                      const ExcelContent(),
                                     );
                                   },
                                 ),

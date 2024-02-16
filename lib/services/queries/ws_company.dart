@@ -11,7 +11,7 @@ class WsCompany {
         query: "/empresa/getEmpresas",
       );
 
-      print('Raw Web Service Response: $response');
+      // print('Raw Web Service Response: $response');
 
       if (response.containsKey('error') ||
           response.containsKey('connection') ||
