@@ -307,8 +307,8 @@ class _ExcelContentState extends State<ExcelContent> {
                               "doc_cnpj": "45391108000190",
                               "doc_id": 13,
                               "doc_nome": fileName,
-                              "doc_descricao": "Fixa no momento",
-                              "doc_path": fileName,
+                              "doc_descricao": fileName,
+                              "doc_path": filePath,
                               "doc_usuario": "fredericohi18@gmail.com",
                               "doc_data_cadastro": DateTime.now().toString(),
                               "doc_status": "A"

@@ -4,6 +4,7 @@ import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:intl/intl.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArquivoContent extends StatefulWidget {
   const ArquivoContent({Key? key}) : super(key: key);
@@ -27,6 +28,17 @@ class _ArquivoContentState extends State<ArquivoContent> {
     return WsDocuments().getDocuments(cnpj);
   }
 
+  void _previewFile(DocumentModel documento) async {
+    if (documento.path.toLowerCase().endsWith('.pdf')) {
+      final Uri filePath = Uri.file(documento.path);
+      if (await canLaunchUrl(filePath)) {
+        await launchUrl(filePath);
+      } else {
+        throw 'Não foi possível iniciar $filePath';
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,7 +55,7 @@ class _ArquivoContentState extends State<ArquivoContent> {
               ),
               SizedBox(width: 10),
               Text(
-                'Lista de Documentos',
+                'Lista de Comentarios/Documentos',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
             ],
@@ -74,73 +86,78 @@ class _ArquivoContentState extends State<ArquivoContent> {
                                 .format(DateTime.parse(documento.dataCriacao));
 
                             return Card(
-                              child: ListTile(
-                                dense: true,
-                                title: ListTileTheme(
+                              child: InkWell(
+                                onTap: () {
+                                  _previewFile(documento);
+                                },
+                                child: ListTile(
                                   dense: true,
-                                  contentPadding: EdgeInsets.zero,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Image(
-                                                image: AssetImage(
-                                                    'lib/assets/images/doc.png'),
-                                                height: 40,
-                                                width: 40,
-                                              ),
-                                              const SizedBox(width: 12),
-                                              Text(
-                                                documento.texto,
-                                                style: const TextStyle(
-                                                    fontSize: 17),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              // Aqui listava o tamanho do JSON que tinha
-                                              // Text(
-                                              //   'Tamanho: ${documento.tamanho}',
-                                              //   style: const TextStyle(
-                                              //       fontSize: 14),
-                                              // ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 8),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            'Solicitação: ${documento.id}',
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          ),
-                                          Text(
-                                            'Usuário: ${documento.usuario}',
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          ),
-                                          // Exibindo a data e a hora formatadas
-                                          Text(
-                                            'Data: $formattedDate',
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          ),
-                                          Text(
-                                            'Hora: $formattedHour',
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                  title: ListTileTheme(
+                                    dense: true,
+                                    contentPadding: EdgeInsets.zero,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Image(
+                                                  image: AssetImage(
+                                                      'lib/assets/images/doc.png'),
+                                                  height: 40,
+                                                  width: 40,
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Text(
+                                                  documento.texto,
+                                                  style: const TextStyle(
+                                                      fontSize: 17),
+                                                ),
+                                                const SizedBox(height: 8),
+                                                // Aqui listava o tamanho do JSON que tinha
+                                                // Text(
+                                                //   'Tamanho: ${documento.tamanho}',
+                                                //   style: const TextStyle(
+                                                //       fontSize: 14),
+                                                // ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 8),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              'Solicitação: ${documento.id}',
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            ),
+                                            Text(
+                                              'Usuário: ${documento.usuario}',
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            ),
+                                            // Exibindo a data e a hora formatadas
+                                            Text(
+                                              'Data: $formattedDate',
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            ),
+                                            Text(
+                                              'Hora: $formattedHour',
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
