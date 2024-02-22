@@ -34,8 +34,8 @@ class _ArquivoContentState extends State<ArquivoContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Image(
                 image: AssetImage('lib/assets/images/doc_log.png'),
                 height: 50,
@@ -173,9 +173,9 @@ class _ArquivoContentState extends State<ArquivoContent> {
                   ),
                   minimumSize: const Size(250, 60),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       'Voltar',
                       style: TextStyle(

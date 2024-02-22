@@ -86,7 +86,24 @@ class _UploadContentState extends State<UploadContent> {
                   if (selectedArquivo != null) {
                     if (selectedArquivo != 'Documentos' &&
                         selectedYear == null) {
-                      print("Tche, escolheu o ano meu bruxo?");
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: const Text(
+                              'Por favor, selecione o ano.',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     } else {
                       setState(() {
                         _files.addAll(
@@ -94,7 +111,24 @@ class _UploadContentState extends State<UploadContent> {
                       });
                     }
                   } else {
-                    print("Escolhe um tipo de arquivo seu animal!");
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          content: const Text(
+                            'Por favor, selecione um tipo de arquivo.',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 },
                 onDragUpdated: (detail) {

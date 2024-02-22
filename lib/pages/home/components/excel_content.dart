@@ -81,9 +81,11 @@ class _ExcelContentState extends State<ExcelContent> {
               const SizedBox(height: 20),
               DropTarget(
                 onDragDone: (detail) async {
-                  if (selectedArquivo1 != null || selectedArquivo2 != null) {
-                    _files.addAll(await pickFiles(context));
-                    setState(() {});
+                  if (selectedArquivo1 != null && selectedArquivo2 != null) {
+                    setState(() {
+                      _files.addAll(
+                          detail.files.map((xFile) => File(xFile.path)));
+                    });
                   } else {
                     showDialog(
                       context: context,
