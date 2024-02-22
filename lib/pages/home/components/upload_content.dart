@@ -195,7 +195,7 @@ class _UploadContentState extends State<UploadContent> {
                             height: 10,
                           ),
                           SizedBox(
-                            width: 200,
+                            width: 250,
                             child: ElevatedButton(
                               onPressed: () async {
                                 _files.addAll(await pickFiles(context));
