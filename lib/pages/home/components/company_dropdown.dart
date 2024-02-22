@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+// import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/models/empresa_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_company.dart';
+// import 'package:provider/provider.dart';
 
 class CompanyDropdown extends StatefulWidget {
   final String? selectedEmpresa;
@@ -19,9 +21,11 @@ class CompanyDropdown extends StatefulWidget {
 class _CompanyDropdownState extends State<CompanyDropdown> {
   late List<Empresa> _empresas = [];
   bool _isLoading = true;
+  // late UserManager userManager;
 
   @override
   void initState() {
+    // userManager = Provider.of<UserManager>(context, listen: false);
     super.initState();
     fetchEmpresas();
   }

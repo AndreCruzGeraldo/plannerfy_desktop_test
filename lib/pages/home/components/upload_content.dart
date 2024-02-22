@@ -84,27 +84,48 @@ class _UploadContentState extends State<UploadContent> {
               DropTarget(
                 onDragDone: (detail) async {
                   if (selectedArquivo != null) {
-                    _files.addAll(await pickFiles(context));
-                    setState(() {});
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: const Text(
-                            'Por favor, selecione um tipo de arquivo',
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
+                    if (selectedArquivo != 'Documentos') {
+                      if (_files.isEmpty) {
+                        setState(() {
+                          _files.add(File(detail.files.first.path));
+                        });
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Substituir arquivo?'),
+                              content: const Text(
+                                  'Deseja substituir o arquivo existente?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancelar'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _files.clear();
+                                      _files.add(File(detail.files.first
+                                          .path));
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Substituir'),
+                                ),
+                              ],
+                            );
+                          },
                         );
-                      },
-                    );
+                      }
+                    } else {
+                      setState(() {
+                        _files.addAll(
+                            detail.files.map((xFile) => File(xFile.path)));
+                      });
+                    }
                   }
                 },
                 onDragUpdated: (detail) {
