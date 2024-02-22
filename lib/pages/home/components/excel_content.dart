@@ -275,8 +275,8 @@ class _ExcelContentState extends State<ExcelContent> {
                   SendButton(
                     texto: "Enviar",
                     login: () async {
-                      if (selectedArquivo1 == null &&
-                          selectedArquivo2 == null &&
+                      if (selectedArquivo1 == null ||
+                          selectedArquivo2 == null ||
                           _files.isEmpty) {
                         showDialog(
                           context: context,
