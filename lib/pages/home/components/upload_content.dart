@@ -257,9 +257,9 @@ class _UploadContentState extends State<UploadContent> {
                         ),
                         minimumSize: const Size(250, 60),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
                             'Voltar',
                             style: TextStyle(
