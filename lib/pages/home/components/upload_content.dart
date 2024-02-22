@@ -195,7 +195,7 @@ class _UploadContentState extends State<UploadContent> {
                             height: 10,
                           ),
                           SizedBox(
-                            width: 200,
+                            width: 250,
                             child: ElevatedButton(
                               onPressed: () async {
                                 _files.addAll(await pickFiles(context));
@@ -257,9 +257,9 @@ class _UploadContentState extends State<UploadContent> {
                         ),
                         minimumSize: const Size(250, 60),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
                             'Voltar',
                             style: TextStyle(

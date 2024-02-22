@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
 // import 'package:plannerfy_desktop/database/db_helper.dart';
 import 'package:plannerfy_desktop/models/empresa_model.dart';
 import 'package:plannerfy_desktop/models/user_model.dart';
@@ -80,7 +80,6 @@ class UserManager extends ChangeNotifier {
       String sha256Password = sha256.convert(utf8.encode(password)).toString();
       String uppersha256Password = sha256Password.toUpperCase();
 
-//
       MapSD response = await WsController.wsGet(
         query: '/user/login',
         body: jsonEncode({
@@ -93,12 +92,12 @@ class UserManager extends ChangeNotifier {
         MapSD userData = response["user"];
 
         UserModel userModel = UserModel.fromJson(userData);
-        //
 
         setUser(userModel);
 
         // await CRUDLogin().saveLogin(username, 1);
 
+        // Navigator.pop(context);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
@@ -147,7 +146,7 @@ class UserManager extends ChangeNotifier {
     }
   }
 
-// Esta função pode ser que eu tenha que passar para o CRUD
+//--------------------------------------------------------------------
   // Future<UserModel?> _fetchUser(String userEmail) async {
   //   try {
   //     final requestBody = jsonEncode({'user_email': userEmail});

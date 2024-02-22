@@ -193,7 +193,7 @@ class _ExcelContentState extends State<ExcelContent> {
                             height: 10,
                           ),
                           SizedBox(
-                            width: 200,
+                            width: 250,
                             child: ElevatedButton(
                               onPressed: () async {
                                 _files.addAll(await pickFiles(context));
