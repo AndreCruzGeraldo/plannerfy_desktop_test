@@ -84,48 +84,17 @@ class _UploadContentState extends State<UploadContent> {
               DropTarget(
                 onDragDone: (detail) async {
                   if (selectedArquivo != null) {
-                    if (selectedArquivo != 'Documentos') {
-                      if (_files.isEmpty) {
-                        setState(() {
-                          _files.add(File(detail.files.first.path));
-                        });
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Substituir arquivo?'),
-                              content: const Text(
-                                  'Deseja substituir o arquivo existente?'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Cancelar'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _files.clear();
-                                      _files.add(File(detail.files.first
-                                          .path));
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Substituir'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
+                    if (selectedArquivo != 'Documentos' &&
+                        selectedYear == null) {
+                      print("Tche, escolheu o ano meu bruxo?");
                     } else {
                       setState(() {
                         _files.addAll(
                             detail.files.map((xFile) => File(xFile.path)));
                       });
                     }
+                  } else {
+                    print("Escolhe um tipo de arquivo seu animal!");
                   }
                 },
                 onDragUpdated: (detail) {
