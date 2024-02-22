@@ -1,5 +1,3 @@
-import 'package:plannerfy_desktop/utility/app_config.dart';
-
 class DocumentModel {
   String status = "";
   String cnpj = "";

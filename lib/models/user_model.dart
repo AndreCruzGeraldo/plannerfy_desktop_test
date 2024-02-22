@@ -45,13 +45,13 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "user_data_cadastro": dataCadastro.toIso8601String(),
+      "user_data_cadastro": dataCadastro.toString(),
       "user_status": status,
       "user_cpf": cpf,
       "user_senha": senha,
       "user_telefone": fone,
       "user_email": email,
-      "user_data_bloqueio": dataBloqueio.toIso8601String(),
+      "user_data_bloqueio": dataBloqueio.toString(),
       "user_nome": nome,
       "user_tipo_usuario": tipo,
       'empresas':

@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   LogoutButton(
                     onPressed: () {
-                      Navigator.pop(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const LoginPage(),

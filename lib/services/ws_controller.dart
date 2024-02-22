@@ -33,8 +33,8 @@ class WsController with WsUsers, WsCompany, WsDocuments {
       {required String query,
       String body = '',
       Duration duration = const Duration(seconds: 15)}) async {
-    String returnValue;
-    String erro = '';
+    // String returnValue;
+    // String erro = '';
     var headers = {'Content-Type': 'application/json'};
     try {
       var request = http.Request(

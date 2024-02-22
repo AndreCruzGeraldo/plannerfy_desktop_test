@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/pages/home/home_page.dart';
+import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/pages/login/components/fhi_logo_login.dart';
 import 'package:plannerfy_desktop/pages/login/components/login_btn.dart';
 import 'package:plannerfy_desktop/pages/login/components/logo_title.dart';
@@ -27,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController = TextEditingController();
     _usernameFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
+    _usernameController.text = "fredericohi18@gmail.com";
+    _passwordController.text = "123456";
   }
 
   @override
@@ -103,15 +105,21 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 70),
                           child: LoginButton(
-                            texto: "Entrar",
-                            login: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
-                              );
-                            },
-                          ),
+                              texto: "Entrar",
+                              login: () {
+                                UserManager().userSignIn(
+                                    context,
+                                    _usernameController.text,
+                                    _passwordController.text);
+                              }
+                              // () {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => const HomePage()),
+                              //   );
+                              // },
+                              ),
                         ),
                         const SizedBox(height: 100),
                         Row(
