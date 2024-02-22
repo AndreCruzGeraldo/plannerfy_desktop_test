@@ -82,8 +82,8 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     selectedEmpresa == null
-                        ? Column(
-                            children: const [
+                        ? const Column(
+                            children: [
                               Image(
                                 image:
                                     AssetImage('lib/assets/images/alert.png'),
