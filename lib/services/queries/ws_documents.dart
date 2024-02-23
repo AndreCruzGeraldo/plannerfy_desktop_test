@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:plannerfy_desktop/models/document_model.dart';
 import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
+import 'package:plannerfy_desktop/models/commentary_model.dart';
 
 class WsDocuments {
-  Future<List<DocumentModel>> getDocuments(String cnpj) async {
+  Future<List<CommentaryModel>> getDocuments(String cnpj) async {
     String cnpj = '45391108000190';
-    List<DocumentModel> documentsList = [];
+    List<CommentaryModel> documentsList = [];
     try {
       MapSD response = await WsController.wsGet(
         query: "/solicitacao/getDocumentos",
@@ -24,9 +24,21 @@ class WsDocuments {
       List<dynamic> documentData = response["comentarios"] ?? [];
 
       documentsList =
-          documentData.map((data) => DocumentModel.fromJson(data)).toList();
+          documentData.map((data) => CommentaryModel.fromJson(data)).toList();
 
       return documentsList;
+    } catch (e) {
+      print(e.toString());
+      return [];
+    }
+  }
+
+  Future<Object> getFileComentario(MapSD json) async {
+    MapSD object = json;
+    try {
+      final response = await WsController.wsGetFile(
+          query: "/comentario/getFile", body: jsonEncode(object));
+      return response;
     } catch (e) {
       print(e.toString());
       return [];

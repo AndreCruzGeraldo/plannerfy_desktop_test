@@ -1,5 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/models/document_model.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:plannerfy_desktop/models/commentary_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +17,9 @@ class ArquivoContent extends StatefulWidget {
 }
 
 class _ArquivoContentState extends State<ArquivoContent> {
-  late Future<List<DocumentModel>> _futureDocuments;
+  late Future<List<CommentaryModel>> _futureDocuments;
+  Uint8List? _pdfBytes;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -22,20 +27,45 @@ class _ArquivoContentState extends State<ArquivoContent> {
     _futureDocuments = _getDocuments();
   }
 
-  Future<List<DocumentModel>> _getDocuments() async {
+  Future<List<CommentaryModel>> _getDocuments() async {
     // Aqui você pode passar o CNPJ adequado
-    String cnpj = '';
+    String cnpj = '45391108000190';
     return WsDocuments().getDocuments(cnpj);
   }
 
-  void _previewFile(DocumentModel documento) async {
-    if (documento.path.toLowerCase().endsWith('.pdf')) {
-      final Uri filePath = Uri.file(documento.path);
-      if (await canLaunchUrl(filePath)) {
-        await launchUrl(filePath);
-      } else {
-        throw 'Não foi possível iniciar $filePath';
-      }
+  Future<String> _savePdf(Uint8List pdfBytes) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = '${directory.path}/documento.pdf';
+    final file = File(path);
+    await file.writeAsBytes(pdfBytes);
+    return path;
+  }
+
+  void _previewFile(File file) {
+    if (file.path.toLowerCase().endsWith('.pdf')) {
+      launch(file.path);
+    } else {
+      print('O arquivo não é um PDF.');
+    }
+  }
+
+  void previewFile(CommentaryModel commentary) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    Uint8List? _pdfBytes = await WsDocuments()
+        .getFileComentario(commentary.toJson()) as Uint8List?;
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (_pdfBytes != null) {
+      // print('PDF carregado com sucesso!');
+      _previewFile(File(await _savePdf(_pdfBytes)));
+    } else {
+      print('Erro ao carregar o PDF.');
     }
   }
 
@@ -61,7 +91,7 @@ class _ArquivoContentState extends State<ArquivoContent> {
             ],
           ),
           const SizedBox(height: 10.0),
-          FutureBuilder<List<DocumentModel>>(
+          FutureBuilder<List<CommentaryModel>>(
             future: _futureDocuments,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -71,7 +101,7 @@ class _ArquivoContentState extends State<ArquivoContent> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                List<DocumentModel>? documents = snapshot.data;
+                List<CommentaryModel>? documents = snapshot.data;
                 return documents != null && documents.isNotEmpty
                     ? SizedBox(
                         height: 550.0,
@@ -88,7 +118,7 @@ class _ArquivoContentState extends State<ArquivoContent> {
                             return Card(
                               child: InkWell(
                                 onTap: () {
-                                  _previewFile(documento);
+                                  previewFile(documento);
                                 },
                                 child: ListTile(
                                   dense: true,

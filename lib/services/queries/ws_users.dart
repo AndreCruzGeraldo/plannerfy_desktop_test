@@ -56,7 +56,7 @@ class WsUsers {
     }
   }
 
-  Future<Object> getFile() async {
+  Future<Object> loginUser() async {
     MapSD object = {
       "user_email": "fredericohi18@gmail.com",
       "user_senha":

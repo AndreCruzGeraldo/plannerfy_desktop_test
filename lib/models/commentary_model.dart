@@ -1,4 +1,4 @@
-class DocumentModel {
+class CommentaryModel {
   String status = "";
   String cnpj = "";
   int solicitacaoId = 0;
@@ -9,7 +9,7 @@ class DocumentModel {
   int id = 0;
   String origem = "";
 
-  DocumentModel({
+  CommentaryModel({
     required this.status,
     required this.cnpj,
     required this.solicitacaoId,
@@ -21,7 +21,7 @@ class DocumentModel {
     required this.origem,
   });
 
-  DocumentModel.fromJson(Map<String, dynamic> json) {
+  CommentaryModel.fromJson(Map<String, dynamic> json) {
     status = json["com_status"];
     cnpj = json["com_cnpj"];
     solicitacaoId = json["com_solicitacao_id"];
