@@ -18,7 +18,9 @@ class ArquivoContent extends StatefulWidget {
 
 class _ArquivoContentState extends State<ArquivoContent> {
   late Future<List<CommentaryModel>> _futureDocuments;
+  // ignore: unused_field
   Uint8List? _pdfBytes;
+  // ignore: unused_field
   bool _isLoading = false;
 
   @override
