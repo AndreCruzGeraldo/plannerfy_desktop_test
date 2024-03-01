@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:plannerfy_desktop/models/commentary_model.dart';
+import 'package:provider/provider.dart';
 
 class WsDocuments {
-  Future<List<CommentaryModel>> getDocuments(String cnpj) async {
-    String cnpj = '45391108000190';
+  Future<List<CommentaryModel>> getDocuments(context, String cnpj) async {
+    UserManager userProvider = Provider.of<UserManager>(context, listen: false);
+    String cnpj = userProvider.chosenCompany!.empCnpj;
     List<CommentaryModel> documentsList = [];
     try {
       MapSD response = await WsController.wsGet(

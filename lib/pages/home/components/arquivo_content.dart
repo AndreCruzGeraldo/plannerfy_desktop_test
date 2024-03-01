@@ -2,11 +2,13 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/models/commentary_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:intl/intl.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArquivoContent extends StatefulWidget {
@@ -30,9 +32,9 @@ class _ArquivoContentState extends State<ArquivoContent> {
   }
 
   Future<List<CommentaryModel>> _getDocuments() async {
-    // Aqui você pode passar o CNPJ adequado
-    String cnpj = '45391108000190';
-    return WsDocuments().getDocuments(cnpj);
+    UserManager userProvider = Provider.of<UserManager>(context, listen: false);
+    String cnpj = userProvider.chosenCompany!.empCnpj;
+    return WsDocuments().getDocuments(context, cnpj);
   }
 
   Future<String> _savePdf(Uint8List pdfBytes) async {
