@@ -18,14 +18,14 @@ class UserManager extends ChangeNotifier {
 
   setCompany(Empresa empresa) {
     _chosenCompany = empresa;
-    print('Company set: ${empresa.empRazaoSocial}'); // Add this line
     notifyListeners();
+    print('Company set: ${empresa.empRazaoSocial}');
   }
 
   setUser(UserModel user) {
     _user = user;
-    print('User set: ${user.nome}'); // Add this line
     notifyListeners();
+    print('User set: ${user.nome}');
   }
 
   bool signIn = false;
@@ -51,7 +51,10 @@ class UserManager extends ChangeNotifier {
 
         UserModel userModel = UserModel.fromJson(userData);
         setUser(userModel);
-        print(userModel.empresasVinculadas?[0]);
+        setCompany(userModel.empresasVinculadas![0]);
+        print(
+            'Tche cade esse print ${userModel.empresasVinculadas?[0].empRazaoSocial}');
+        print('Tche cade esse print ${userModel.nome}');
 
         Navigator.pushReplacement(
           context,

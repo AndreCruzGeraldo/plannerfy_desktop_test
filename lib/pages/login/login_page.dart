@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController _passwordController;
   late FocusNode _usernameFocusNode;
   late FocusNode _passwordFocusNode;
+  late UserManager _userProvider;
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     _passwordFocusNode = FocusNode();
     _usernameController.text = "fredericohi18@gmail.com";
     _passwordController.text = "123456";
+    _userProvider = Provider.of<UserManager>(context, listen: false);
   }
 
   @override
@@ -106,13 +108,11 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 70),
                         child: LoginButton(
                           texto: "Entrar",
-                          login: () async {
-                            await UserManager().userSignIn(
-                              context,
-                              _usernameController.text,
-                              _passwordController.text,
-                            );
-                            // Check if user is not null after login
+                          login: () {
+                            _userProvider.userSignIn(
+                                context,
+                                _usernameController.text,
+                                _passwordController.text);
                             if (Provider.of<UserManager>(context, listen: false)
                                     .user !=
                                 null) {
