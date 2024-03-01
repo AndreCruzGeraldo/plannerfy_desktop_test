@@ -23,6 +23,9 @@ class _HomePageState extends State<HomePage> {
   String? selectedArquivo;
   String? selectedYear;
 
+  bool empresaSelecionada =
+      false; // Variável para rastrear se uma empresa foi selecionada
+
   // Conteúdo selecionado para ser exibido no lado direito
   Widget? _selectedContent;
 
@@ -31,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
 
-    print('User Data: ${userManager.user}');
+    // print('User Data: ${userManager.user}');
   }
 
   void _navigateToPage(Widget page) {
@@ -62,9 +65,12 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             CompanyDropdown(
                               selectedEmpresa: selectedEmpresa,
+                              // Desativar o DropdownButton se uma empresa foi selecionada
+                              enabled: !empresaSelecionada,
                               onEmpresaChanged: (empresa) {
                                 setState(() {
                                   selectedEmpresa = empresa;
+                                  empresaSelecionada = true;
                                   // userManager.chosenCompany!.empCnpj = empresa;
                                 });
                               },

@@ -6,11 +6,13 @@ import 'package:provider/provider.dart';
 class CompanyDropdown extends StatefulWidget {
   final String? selectedEmpresa;
   final ValueChanged<String?> onEmpresaChanged;
+  final bool enabled; // Adicionando o parâmetro enabled
 
   const CompanyDropdown({
     Key? key,
     required this.selectedEmpresa,
     required this.onEmpresaChanged,
+    required this.enabled, // Adicionando o parâmetro enabled
   }) : super(key: key);
 
   @override
@@ -20,6 +22,8 @@ class CompanyDropdown extends StatefulWidget {
 class _CompanyDropdownState extends State<CompanyDropdown> {
   late List<Empresa> _empresas = [];
   bool _isLoading = true;
+  bool _dropdownSelected =
+      false; // Adicionando estado para controlar se o dropdown foi selecionado
 
   @override
   void initState() {
@@ -81,16 +85,25 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                                   ),
                                 );
                               }).toList(),
-                              onChanged: (newValue) {
-                                widget.onEmpresaChanged(newValue);
-                                final userProvider = Provider.of<UserManager>(
-                                    context,
-                                    listen: false);
-                                final selectedCompany = _empresas.firstWhere(
-                                    (empresa) =>
-                                        empresa.empRazaoSocial == newValue);
-                                userProvider.setCompany(selectedCompany);
-                              },
+                              onChanged: !_dropdownSelected
+                                  ? widget.enabled
+                                      ? (newValue) {
+                                          setState(() {
+                                            _dropdownSelected = true;
+                                          });
+                                          widget.onEmpresaChanged(newValue);
+                                          final userProvider =
+                                              Provider.of<UserManager>(context,
+                                                  listen: false);
+                                          final selectedCompany =
+                                              _empresas.firstWhere((empresa) =>
+                                                  empresa.empRazaoSocial ==
+                                                  newValue);
+                                          userProvider
+                                              .setCompany(selectedCompany);
+                                        }
+                                      : null
+                                  : null, // Desabilita o onChanged se o dropdown já foi selecionado
                               hint: widget.selectedEmpresa != null
                                   ? null
                                   : const Center(
