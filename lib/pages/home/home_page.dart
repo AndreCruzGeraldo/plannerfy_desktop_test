@@ -22,12 +22,16 @@ class _HomePageState extends State<HomePage> {
   String? selectedEmpresa;
   String? selectedArquivo;
   String? selectedYear;
+
+  // Conteúdo selecionado para ser exibido no lado direito
   Widget? _selectedContent;
 
   @override
   void initState() {
-    userManager = UserManager();
     super.initState();
+    userManager = Provider.of<UserManager>(context, listen: false);
+
+    print('User Data: ${userManager.user}');
   }
 
   void _navigateToPage(Widget page) {
@@ -61,8 +65,6 @@ class _HomePageState extends State<HomePage> {
                               onEmpresaChanged: (empresa) {
                                 setState(() {
                                   selectedEmpresa = empresa;
-                                  print(
-                                      "Funciona Caralhoooooooooooooooo!!! ${userManager.user?.cpf}");
                                 });
                               },
                             ),

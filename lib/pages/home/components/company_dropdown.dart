@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:plannerfy_desktop/manager/user_manager.dart';
 // import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/models/empresa_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_company.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 class CompanyDropdown extends StatefulWidget {
@@ -31,9 +33,10 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
   }
 
   Future<void> fetchEmpresas() async {
-    List<Empresa> empresas = await WsCompany().getCompany();
+    final userProvider = Provider.of<UserManager>(context, listen: false);
+    List<Empresa>? empresas = userProvider.user!.empresasVinculadas;
     setState(() {
-      _empresas = empresas;
+      _empresas = empresas!;
       _isLoading = false;
     });
   }
