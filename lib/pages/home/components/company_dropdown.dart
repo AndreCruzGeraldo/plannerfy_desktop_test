@@ -81,7 +81,16 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                                   ),
                                 );
                               }).toList(),
-                              onChanged: widget.onEmpresaChanged,
+                              onChanged: (newValue) {
+                                widget.onEmpresaChanged(newValue);
+                                final userProvider = Provider.of<UserManager>(
+                                    context,
+                                    listen: false);
+                                final selectedCompany = _empresas.firstWhere(
+                                    (empresa) =>
+                                        empresa.empRazaoSocial == newValue);
+                                userProvider.setCompany(selectedCompany);
+                              },
                               hint: widget.selectedEmpresa != null
                                   ? null
                                   : const Center(

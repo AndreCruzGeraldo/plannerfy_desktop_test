@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
                               onEmpresaChanged: (empresa) {
                                 setState(() {
                                   selectedEmpresa = empresa;
+                                  // userManager.chosenCompany!.empCnpj = empresa;
                                 });
                               },
                             ),
