@@ -20,11 +20,9 @@ class CompanyDropdown extends StatefulWidget {
 class _CompanyDropdownState extends State<CompanyDropdown> {
   late List<Empresa> _empresas = [];
   bool _isLoading = true;
-  // late UserManager userManager;
 
   @override
   void initState() {
-    // userManager = Provider.of<UserManager>(context, listen: false);
     super.initState();
     fetchEmpresas();
   }
