@@ -1,4 +1,5 @@
-import 'empresa_model.dart';
+import 'package:plannerfy_desktop/utility/app_config.dart';
+import 'company_model.dart';
 
 class UserModel {
   DateTime dataCadastro = DateTime.now();
@@ -10,7 +11,7 @@ class UserModel {
   DateTime dataBloqueio = DateTime.now();
   String nome = "";
   String tipo = "";
-  List<Empresa>? empresasVinculadas = [];
+  List<Company>? empresasVinculadas = [];
 
   UserModel({
     required this.dataCadastro,
@@ -25,7 +26,7 @@ class UserModel {
     this.empresasVinculadas,
   });
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(MapSD json) {
     dataCadastro = DateTime.parse(json["user_data_cadastro"]);
     dataBloqueio = DateTime.parse(json["user_data_bloqueio"]);
     status = json["user_status"];
@@ -37,8 +38,8 @@ class UserModel {
     tipo = json["user_tipo_usuario"];
 
     if (json['empresas'] != null) {
-      empresasVinculadas = List<Empresa>.from(
-        json['empresas'].map((empresaJson) => Empresa.fromJson(empresaJson)),
+      empresasVinculadas = List<Company>.from(
+        json['empresas'].map((empresaJson) => Company.fromJson(empresaJson)),
       );
     }
   }

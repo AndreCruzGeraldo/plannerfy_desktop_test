@@ -2,30 +2,40 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:plannerfy_desktop/manager/user_manager.dart';
+import 'package:plannerfy_desktop/models/accounting_model.dart';
 import 'package:plannerfy_desktop/pages/home/components/document_dropdown.dart';
 import 'package:plannerfy_desktop/pages/home/components/document_tile.dart';
 import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
+import 'package:plannerfy_desktop/services/queries/ws_accounting.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class contabilidade_upload extends StatefulWidget {
-  const contabilidade_upload({Key? key}) : super(key: key);
+class AccountingUpload extends StatefulWidget {
+  const AccountingUpload({Key? key}) : super(key: key);
 
   @override
-  State<contabilidade_upload> createState() => _contabilidade_uploadState();
+  State<AccountingUpload> createState() => _AccountingUploadState();
 }
 
-class _contabilidade_uploadState extends State<contabilidade_upload> {
+class _AccountingUploadState extends State<AccountingUpload> {
   String? selectedArquivo;
   String? selectedYear;
   final List<File> _files = [];
+  late UserManager userManager;
 
   int numero = 0;
 
   Offset? offset;
+
+  @override
+  void initState() {
+    super.initState();
+    userManager = Provider.of<UserManager>(context, listen: false);
+  }
 
   Future<Iterable<File>> pickFiles(BuildContext context) {
     return FilePicker.platform
@@ -327,21 +337,22 @@ class _contabilidade_uploadState extends State<contabilidade_upload> {
                           String filePath = file.path.toString();
                           String fileName = filePath.split('\\').last;
 
-                          Map<String, dynamic> jsonData = {
-                            "documento": {
-                              "doc_cnpj": "45391108000190",
-                              "doc_id": 13,
-                              "doc_nome": fileName,
-                              "doc_descricao": fileName,
-                              "doc_path": fileName,
-                              "doc_usuario": "fredericohi18@gmail.com",
-                              "doc_data_cadastro": DateTime.now().toString(),
-                              "doc_status": "A"
-                            }
-                          };
+                          AccountingModel accounting = AccountingModel(
+                            cnpj: userManager.chosenCompany!.empCnpj,
+                            id: 0,
+                            ano: int.parse(selectedYear!),
+                            tipoArquivo: selectedArquivo!,
+                            nome: fileName,
+                            descricao: fileName,
+                            path: fileName,
+                            usuario: userManager.user!.email,
+                            dataCadastro: DateTime.now().toString(),
+                            status: "A",
+                          );
 
-                          await WsDocuments.uploadFile(
-                              jsonData: jsonData, filePath: filePath);
+                          await WsAccounting.uploadFile(
+                              jsonData: {"contabilidade": accounting.toJson()},
+                              filePath: filePath);
                         }
 
                         Navigator.pushReplacement(

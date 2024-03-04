@@ -1,3 +1,5 @@
+import 'package:plannerfy_desktop/utility/app_config.dart';
+
 class DocumentModel {
   late final String docCnpj;
   late final int docId;
@@ -19,7 +21,7 @@ class DocumentModel {
     required this.docStatus,
   });
 
-  DocumentModel.fromJson(Map<String, dynamic> json) {
+  DocumentModel.fromJson(MapSD json) {
     docCnpj = json['doc_cnpj'];
     docId = json['doc_id'];
     docNome = json['doc_nome'];

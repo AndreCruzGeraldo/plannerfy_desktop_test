@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/models/empresa_model.dart';
+import 'package:plannerfy_desktop/models/company_model.dart';
 import 'package:provider/provider.dart';
 
 class CompanyDropdown extends StatefulWidget {
@@ -20,7 +20,7 @@ class CompanyDropdown extends StatefulWidget {
 }
 
 class _CompanyDropdownState extends State<CompanyDropdown> {
-  late List<Empresa> _empresas = [];
+  late List<Company> _empresas = [];
   bool _isLoading = true;
   bool _dropdownSelected =
       false; // Adicionando estado para controlar se o dropdown foi selecionado
@@ -33,7 +33,7 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
 
   Future<void> fetchEmpresas() async {
     final userProvider = Provider.of<UserManager>(context, listen: false);
-    List<Empresa>? empresas = userProvider.user!.empresasVinculadas;
+    List<Company>? empresas = userProvider.user!.empresasVinculadas;
     setState(() {
       _empresas = empresas!;
       _isLoading = false;

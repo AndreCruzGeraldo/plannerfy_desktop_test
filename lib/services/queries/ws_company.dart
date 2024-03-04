@@ -1,10 +1,10 @@
-import 'package:plannerfy_desktop/models/empresa_model.dart';
+import 'package:plannerfy_desktop/models/company_model.dart';
 import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 
 class WsCompany {
-  Future<List<Empresa>> getCompany() async {
-    List<Empresa> empresas = [];
+  Future<List<Company>> getCompany() async {
+    List<Company> empresas = [];
 
     try {
       MapSD response = await WsController.wsGet(
@@ -20,7 +20,7 @@ class WsCompany {
       }
 
       response["empresas"].forEach((element) {
-        empresas.add(Empresa.fromJson(element));
+        empresas.add(Company.fromJson(element));
       });
 
       return empresas;

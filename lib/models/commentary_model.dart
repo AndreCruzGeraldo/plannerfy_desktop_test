@@ -1,3 +1,5 @@
+import 'package:plannerfy_desktop/utility/app_config.dart';
+
 class CommentaryModel {
   String status = "";
   String cnpj = "";
@@ -21,7 +23,7 @@ class CommentaryModel {
     required this.origem,
   });
 
-  CommentaryModel.fromJson(Map<String, dynamic> json) {
+  CommentaryModel.fromJson(MapSD json) {
     status = json["com_status"];
     cnpj = json["com_cnpj"];
     solicitacaoId = json["com_solicitacao_id"];

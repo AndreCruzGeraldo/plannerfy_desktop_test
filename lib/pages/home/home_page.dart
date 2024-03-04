@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
+import 'package:plannerfy_desktop/pages/home/components/accounting_upload.dart';
 import 'package:plannerfy_desktop/pages/home/components/card_button.dart';
 import 'package:plannerfy_desktop/pages/home/components/company_dropdown.dart';
-import 'package:plannerfy_desktop/pages/home/components/contabilidade_upload.dart';
 import 'package:plannerfy_desktop/pages/home/components/excel_content.dart';
 import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/home/components/arquivo_content.dart';
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                                           icone: Icons.account_balance,
                                           navegacao: () {
                                             _navigateToPage(
-                                              const contabilidade_upload(),
+                                              const AccountingUpload(),
                                             );
                                           },
                                         ),

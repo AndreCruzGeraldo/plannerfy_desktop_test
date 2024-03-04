@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
-import 'package:plannerfy_desktop/models/empresa_model.dart';
+import 'package:plannerfy_desktop/models/company_model.dart';
 import 'package:plannerfy_desktop/models/user_model.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
@@ -11,21 +11,19 @@ import '../services/ws_controller.dart';
 
 class UserManager extends ChangeNotifier {
   UserModel? _user;
-  Empresa? _chosenCompany;
+  Company? _chosenCompany;
 
   UserModel? get user => _user;
-  Empresa? get chosenCompany => _chosenCompany;
+  Company? get chosenCompany => _chosenCompany;
 
-  setCompany(Empresa empresa) {
+  setCompany(Company empresa) {
     _chosenCompany = empresa;
     notifyListeners();
-    print('Company set: ${empresa.empRazaoSocial}');
   }
 
   setUser(UserModel user) {
     _user = user;
     notifyListeners();
-    print('User set: ${user.nome}');
   }
 
   bool signIn = false;
@@ -52,9 +50,6 @@ class UserManager extends ChangeNotifier {
         UserModel userModel = UserModel.fromJson(userData);
         setUser(userModel);
         setCompany(userModel.empresasVinculadas![0]);
-        print(
-            'Tche cade esse print ${userModel.empresasVinculadas?[0].empRazaoSocial}');
-        print('Tche cade esse print ${userModel.nome}');
 
         Navigator.pushReplacement(
           context,

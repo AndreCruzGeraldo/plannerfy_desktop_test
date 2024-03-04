@@ -1,4 +1,6 @@
-class Empresa {
+import 'package:plannerfy_desktop/utility/app_config.dart';
+
+class Company {
   String empCnpj = "";
   String empDataCadastro = "";
   String empRazaoSocial = "";
@@ -9,7 +11,7 @@ class Empresa {
   String empDataBloqueio = "";
   String empEndereco = "";
 
-  Empresa({
+  Company({
     required this.empCnpj,
     required this.empDataCadastro,
     required this.empRazaoSocial,
@@ -21,7 +23,7 @@ class Empresa {
     required this.empEndereco,
   });
 
-  Empresa.fromJson(Map<String, dynamic> json) {
+  Company.fromJson(MapSD json) {
     empCnpj = json["emp_cnpj"];
     empDataCadastro = json["emp_data_cadastro"];
     empRazaoSocial = json["emp_razao_social"];
