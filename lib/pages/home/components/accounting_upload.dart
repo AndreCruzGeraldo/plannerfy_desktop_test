@@ -10,6 +10,7 @@ import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:plannerfy_desktop/services/queries/ws_accounting.dart';
+import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,10 +23,12 @@ class AccountingUpload extends StatefulWidget {
 }
 
 class _AccountingUploadState extends State<AccountingUpload> {
+  List<Map<String, dynamic>> tiposDocumentos = [];
   String? selectedArquivo;
   String? selectedYear;
   final List<File> _files = [];
   late UserManager userManager;
+  bool isLoading = true;
 
   int numero = 0;
 
@@ -35,6 +38,29 @@ class _AccountingUploadState extends State<AccountingUpload> {
   void initState() {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
+    getTiposDocumentos();
+  }
+
+  Future<void> getTiposDocumentos() async {
+    try {
+      final response =
+          await WsController.wsGet(query: '/contabilidade/getTiposDocumentos');
+
+      // Verificando se a resposta foi bem-sucedida
+      if (response.containsKey('error')) {
+        print('Error: ${response['error']}');
+      } else {
+        final tiposDocumentosResponse = response['tipos_documento'];
+        setState(() {
+          // Armazena os tipos de documentos na variável e define isLoading para false
+          tiposDocumentos =
+              List<Map<String, dynamic>>.from(tiposDocumentosResponse);
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<Iterable<File>> pickFiles(BuildContext context) {
@@ -72,24 +98,29 @@ class _AccountingUploadState extends State<AccountingUpload> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              DocumentDropdown(
-                selectedArquivo: selectedArquivo,
-                onArquivoChanged: (value) {
-                  setState(() {
-                    selectedArquivo = value;
-                    if (value == 'Documentos') {
-                      selectedYear = null;
-                    }
-                  });
-                },
-                showDateInput:
-                    selectedArquivo != null && selectedArquivo != 'Documentos',
-                onYearSelected: (String year) {
-                  setState(() {
-                    selectedYear = year;
-                  });
-                },
-              ),
+              if (isLoading)
+                const CircularProgressIndicator()
+              else
+                DocumentDropdown(
+                  selectedArquivo: selectedArquivo,
+                  onArquivoChanged: (value) {
+                    setState(() {
+                      selectedArquivo = value;
+                      if (value == 'Documentos') {
+                        selectedYear = null;
+                      }
+                    });
+                  },
+                  showDateInput: selectedArquivo != null &&
+                      selectedArquivo != 'Documentos',
+                  onYearSelected: (String year) {
+                    setState(() {
+                      selectedYear = year;
+                    });
+                  },
+                  tiposDocumentos:
+                      tiposDocumentos, // Passando a lista de tipos de documentos
+                ),
               const SizedBox(height: 20),
               DropTarget(
                 onDragDone: (detail) async {

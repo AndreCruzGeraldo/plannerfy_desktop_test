@@ -5,6 +5,8 @@ class DocumentDropdown extends StatelessWidget {
   final ValueChanged<String?> onArquivoChanged;
   final bool showDateInput;
   final Function(String) onYearSelected;
+  final List<Map<String, dynamic>>
+      tiposDocumentos; // Definindo o parâmetro tiposDocumentos
 
   static int currentYear = DateTime.now().year;
   static List<String> yearsList = [
@@ -19,6 +21,7 @@ class DocumentDropdown extends StatelessWidget {
     required this.onArquivoChanged,
     required this.showDateInput,
     required this.onYearSelected,
+    required this.tiposDocumentos, // Adicionando o parâmetro tiposDocumentos
   }) : super(key: key);
 
   @override
@@ -46,12 +49,9 @@ class DocumentDropdown extends StatelessWidget {
                       iconSize: 30.0,
                       alignment: Alignment.centerLeft,
                       value: selectedArquivo,
-                      items: const [
-                        'Documentos',
-                        'Contrato social',
-                        'DRE Contabil',
-                        'Balanço',
-                        'Balancete',
+                      items: [
+                        ...tiposDocumentos.map((tipoDocumento) =>
+                            tipoDocumento['tipo_doc_exibicao'] as String),
                       ].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
