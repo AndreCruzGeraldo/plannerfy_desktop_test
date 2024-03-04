@@ -32,7 +32,7 @@ class DocumentModel {
     docStatus = json['doc_status'];
   }
 
-  Map<String, dynamic> toJson() {
+  MapSD toJson() {
     return {
       'doc_cnpj': docCnpj,
       'doc_id': docId,

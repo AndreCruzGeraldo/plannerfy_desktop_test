@@ -44,7 +44,7 @@ class UserModel {
     }
   }
 
-  Map<String, dynamic> toJson() {
+  MapSD toJson() {
     return {
       "user_data_cadastro": dataCadastro.toString(),
       "user_status": status,

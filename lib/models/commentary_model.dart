@@ -35,7 +35,7 @@ class CommentaryModel {
     origem = json["com_origem"];
   }
 
-  Map<String, dynamic> toJson() {
+  MapSD toJson() {
     return {
       "com_status": status,
       "com_cnpj": cnpj,

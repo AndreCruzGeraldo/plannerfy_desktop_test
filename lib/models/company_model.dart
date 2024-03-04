@@ -35,7 +35,7 @@ class Company {
     empEndereco = json["emp_endereco"];
   }
 
-  Map<String, dynamic> toJson() {
+  MapSD toJson() {
     return {
       "emp_cnpj": empCnpj,
       "emp_data_cadastro": empDataCadastro,
