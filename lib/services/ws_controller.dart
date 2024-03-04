@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:plannerfy_desktop/services/queries/ws_company.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/services/queries/ws_users.dart';
@@ -93,6 +94,45 @@ class WsController with WsUsers, WsCompany, WsDocuments {
       request.body = body;
       request.headers.addAll(headers);
       var response = await http.Client().send(request);
+      var returnValue = await utf8.decodeStream(response.stream);
+      return jsonDecode(returnValue);
+    } on TimeoutException catch (e) {
+      print('connection: ${e.toString()}');
+      return {'connection': e.toString()};
+    } catch (e) {
+      print("error de conexão" + e.toString());
+      return {'error': e.toString()};
+    }
+  }
+
+  static Future<Map<String, dynamic>> wsPostFile({
+    required String query,
+    required Map<String, dynamic> formData,
+    required Uint8List
+        fileBytes, // Adicione este parâmetro para os bytes do arquivo
+    Duration duration = const Duration(seconds: 15),
+  }) async {
+    var headers = {
+      "Content-Type": "multipart/form-data",
+    };
+
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url + query));
+      request.headers.addAll(headers);
+
+      // Adicione os dados do formulário como partes do formulário
+      request.fields.addAll({
+        'json': jsonEncode(formData),
+      });
+
+      // Adicione os bytes do arquivo como um campo de arquivo
+      request.files.add(
+          http.MultipartFile.fromBytes('file', fileBytes, filename: 'file'));
+
+      // Envie a solicitação
+      var response = await request.send();
+
+      // Leia a resposta
       var returnValue = await utf8.decodeStream(response.stream);
       return jsonDecode(returnValue);
     } on TimeoutException catch (e) {

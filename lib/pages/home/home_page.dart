@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/pages/home/components/card_button.dart';
 import 'package:plannerfy_desktop/pages/home/components/company_dropdown.dart';
+import 'package:plannerfy_desktop/pages/home/components/contabilidade_upload.dart';
 import 'package:plannerfy_desktop/pages/home/components/excel_content.dart';
 import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
 import 'package:plannerfy_desktop/pages/home/components/arquivo_content.dart';
@@ -124,8 +125,7 @@ class _HomePageState extends State<HomePage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Visibility(
                                         visible: _selectedContent == null,
@@ -139,10 +139,11 @@ class _HomePageState extends State<HomePage> {
                                           },
                                         ),
                                       ),
+                                      const SizedBox(width: 30),
                                       Visibility(
                                         visible: _selectedContent == null,
                                         child: CardButton(
-                                          titulo: "Upload de Arquivos",
+                                          titulo: "Upload de Documentos",
                                           icone: Icons.file_upload,
                                           navegacao: () {
                                             _navigateToPage(
@@ -153,18 +154,37 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
-                                  Visibility(
-                                    visible: _selectedContent == null,
-                                    child: CardButton(
-                                      titulo: "Upload de Planilhas",
-                                      icone: Icons.insert_drive_file_outlined,
-                                      navegacao: () {
-                                        _navigateToPage(
-                                          const ExcelContent(),
-                                        );
-                                      },
-                                    ),
+                                  const SizedBox(height: 30),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Visibility(
+                                        visible: _selectedContent == null,
+                                        child: CardButton(
+                                          titulo: "Upload de Contabilidade",
+                                          icone: Icons.account_balance,
+                                          navegacao: () {
+                                            _navigateToPage(
+                                              const contabilidade_upload(),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(width: 30),
+                                      Visibility(
+                                        visible: _selectedContent == null,
+                                        child: CardButton(
+                                          titulo: "Upload de Planilhas",
+                                          icone:
+                                              Icons.insert_drive_file_outlined,
+                                          navegacao: () {
+                                            _navigateToPage(
+                                              const ExcelContent(),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

@@ -2,35 +2,30 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/models/document_model.dart';
+import 'package:plannerfy_desktop/pages/home/components/document_dropdown.dart';
 import 'package:plannerfy_desktop/pages/home/components/document_tile.dart';
 import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
 import 'package:plannerfy_desktop/pages/home/home_page.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UploadContent extends StatefulWidget {
-  const UploadContent({Key? key}) : super(key: key);
+class contabilidade_upload extends StatefulWidget {
+  const contabilidade_upload({Key? key}) : super(key: key);
 
   @override
-  State<UploadContent> createState() => _UploadContentState();
+  State<contabilidade_upload> createState() => _contabilidade_uploadState();
 }
 
-class _UploadContentState extends State<UploadContent> {
+class _contabilidade_uploadState extends State<contabilidade_upload> {
+  String? selectedArquivo;
+  String? selectedYear;
   final List<File> _files = [];
-  late UserManager userManager;
+
+  int numero = 0;
 
   Offset? offset;
-
-  @override
-  void initState() {
-    super.initState();
-    userManager = Provider.of<UserManager>(context, listen: false);
-  }
 
   Future<Iterable<File>> pickFiles(BuildContext context) {
     return FilePicker.platform
@@ -67,13 +62,74 @@ class _UploadContentState extends State<UploadContent> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              DocumentDropdown(
+                selectedArquivo: selectedArquivo,
+                onArquivoChanged: (value) {
+                  setState(() {
+                    selectedArquivo = value;
+                    if (value == 'Documentos') {
+                      selectedYear = null;
+                    }
+                  });
+                },
+                showDateInput:
+                    selectedArquivo != null && selectedArquivo != 'Documentos',
+                onYearSelected: (String year) {
+                  setState(() {
+                    selectedYear = year;
+                  });
+                },
+              ),
               const SizedBox(height: 20),
               DropTarget(
                 onDragDone: (detail) async {
-                  setState(() {
-                    _files
-                        .addAll(detail.files.map((xFile) => File(xFile.path)));
-                  });
+                  if (selectedArquivo != null) {
+                    if (selectedArquivo != 'Documentos' &&
+                        selectedYear == null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: const Text(
+                              'Por favor, selecione o ano.',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      setState(() {
+                        _files.addAll(
+                            detail.files.map((xFile) => File(xFile.path)));
+                      });
+                    }
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          content: const Text(
+                            'Por favor, selecione um tipo de arquivo.',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 onDragUpdated: (detail) {
                   setState(() {
@@ -243,14 +299,17 @@ class _UploadContentState extends State<UploadContent> {
                   SendButton(
                     texto: "Enviar",
                     login: () async {
-                      if (_files.isEmpty) {
+                      if (selectedArquivo == null ||
+                          _files.isEmpty ||
+                          (selectedArquivo != 'Documentos' &&
+                              selectedYear == null)) {
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
                               title: const Text('Atenção!'),
                               content: const Text(
-                                'Por favor, adicione arquivos para enviar.',
+                                'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.',
                               ),
                               actions: [
                                 TextButton(
@@ -268,20 +327,21 @@ class _UploadContentState extends State<UploadContent> {
                           String filePath = file.path.toString();
                           String fileName = filePath.split('\\').last;
 
-                          DocumentModel document = DocumentModel(
-                            docCnpj: userManager.chosenCompany!.empCnpj,
-                            docId: 0,
-                            docNome: fileName,
-                            docDescricao: fileName,
-                            docPath: fileName,
-                            docUsuario: userManager.user!.email,
-                            docDataCadastro: DateTime.now().toString(),
-                            docStatus: "A",
-                          );
+                          Map<String, dynamic> jsonData = {
+                            "documento": {
+                              "doc_cnpj": "45391108000190",
+                              "doc_id": 13,
+                              "doc_nome": fileName,
+                              "doc_descricao": fileName,
+                              "doc_path": fileName,
+                              "doc_usuario": "fredericohi18@gmail.com",
+                              "doc_data_cadastro": DateTime.now().toString(),
+                              "doc_status": "A"
+                            }
+                          };
 
                           await WsDocuments.uploadFile(
-                              jsonData: {"documento": document.toJson()},
-                              filePath: filePath);
+                              jsonData: jsonData, filePath: filePath);
                         }
 
                         Navigator.pushReplacement(
