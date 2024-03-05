@@ -1,27 +1,28 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:plannerfy_desktop/services/ws_controller.dart';
+import 'package:plannerfy_desktop/utility/app_config.dart';
 
 class WsAccounting {
-  Future<void> getTiposDocumentos() async {
+  static Future<MapSD> getTiposDocumentos() async {
     try {
       final response =
           await WsController.wsGet(query: '/contabilidade/getTiposDocumentos');
 
       if (response.containsKey('error')) {
         print('Error: ${response['error']}');
+        return response;
       } else {
-        final tiposDocumentos = response['tiposDocumentos'];
-        print('Tipos de Documentos: $tiposDocumentos');
+        return response;
       }
     } catch (e) {
       print('Error: $e');
+      return {'error': e.toString()};
     }
   }
 
   static Future<void> uploadFile({
-    required Map<String, dynamic> jsonData,
+    required MapSD jsonData,
     required String filePath,
   }) async {
     try {
