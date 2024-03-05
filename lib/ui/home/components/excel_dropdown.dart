@@ -6,6 +6,8 @@ class ExcelDropdown extends StatelessWidget {
   final void Function(String?) onPlataformaChanged;
   final void Function(String?) onTipoArquivoChanged;
   final bool showDateInput;
+  final List<Map<String, dynamic>> tiposDocumentos;
+  final List<Map<String, dynamic>> tiposPlataformas;
 
   static int currentYear = DateTime.now().year;
 
@@ -16,6 +18,8 @@ class ExcelDropdown extends StatelessWidget {
     required this.onPlataformaChanged,
     required this.onTipoArquivoChanged,
     this.showDateInput = true,
+    required this.tiposDocumentos,
+    required this.tiposPlataformas,
   }) : super(key: key);
 
   @override
@@ -39,15 +43,14 @@ class ExcelDropdown extends StatelessWidget {
                   iconSize: 30.0,
                   alignment: Alignment.centerLeft,
                   value: plataforma,
-                  items: const [
-                    // 'Conta Azul',
-                    'Nibo',
-                  ].map((String value) {
+                  items: tiposPlataformas.map((tipoPlataforma) {
+                    final String? platformDisplay =
+                        tipoPlataforma['plat_exibicao'] as String?;
                     return DropdownMenuItem<String>(
-                      value: value,
+                      value: platformDisplay ?? '',
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                        child: Center(child: Text(value)),
+                        child: Center(child: Text(platformDisplay ?? '')),
                       ),
                     );
                   }).toList(),
@@ -82,16 +85,14 @@ class ExcelDropdown extends StatelessWidget {
                   iconSize: 30.0,
                   alignment: Alignment.centerLeft,
                   value: tipoArquivo,
-                  items: const [
-                    'Cadastro',
-                    'Contas a Pagar',
-                    'Extrato',
-                  ].map((String value) {
+                  items: tiposDocumentos.map((tipoDocumento) {
+                    final String? docDisplay =
+                        tipoDocumento['tipo_doc_exibicao'] as String?;
                     return DropdownMenuItem<String>(
-                      value: value,
+                      value: docDisplay ?? '',
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                        child: Center(child: Text(value)),
+                        child: Center(child: Text(docDisplay ?? '')),
                       ),
                     );
                   }).toList(),
