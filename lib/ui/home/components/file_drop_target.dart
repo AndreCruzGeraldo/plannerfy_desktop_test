@@ -6,21 +6,25 @@ import 'package:plannerfy_desktop/ui/home/components/document_tile.dart';
 
 class FileDropTarget extends StatefulWidget {
   final Function(List<File>) onFilesDropped;
+  final Function(bool) onFilesAdded;
   final Future<Iterable<File>> Function(BuildContext) pickFiles;
   final void Function(File) previewFile;
 
-  FileDropTarget({
+  const FileDropTarget({
+    Key? key,
     required this.onFilesDropped,
+    required this.onFilesAdded,
     required this.pickFiles,
     required this.previewFile,
-  });
-
+  }) : super(key: key);
   @override
   _FileDropTargetState createState() => _FileDropTargetState();
 }
 
 class _FileDropTargetState extends State<FileDropTarget> {
   final List<File> _files = [];
+
+  bool _filesAdded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +33,11 @@ class _FileDropTargetState extends State<FileDropTarget> {
         setState(() {
           _files.addAll(detail.files.map((xFile) => File(xFile.path)));
           widget.onFilesDropped(_files);
+          _filesAdded = true;
+          widget.onFilesAdded(_filesAdded);
         });
       },
-      onDragUpdated: (detail) {
-        setState(() {
-          RenderBox renderBox = context.findRenderObject() as RenderBox;
-          Offset localOffset = renderBox.globalToLocal(detail.globalPosition);
-        
-        });
-      },
-      onDragEntered: (detail) {
-        setState(() {
-          RenderBox renderBox = context.findRenderObject() as RenderBox;
-          Offset localOffset = renderBox.globalToLocal(detail.globalPosition);
-          
-        });
-      },
-      onDragExited: (detail) {
-        setState(() {
-          // Handle drag exit if needed
-        });
-      },
+      // Other drag callbacks
       child: Padding(
         padding: const EdgeInsets.all(40.0),
         child: DottedBorder(
@@ -92,6 +80,10 @@ class _FileDropTargetState extends State<FileDropTarget> {
                                     onDelete: () {
                                       setState(() {
                                         _files.removeAt(index);
+                                        if (_files.isEmpty) {
+                                          _filesAdded = false;
+                                          widget.onFilesAdded(_filesAdded);
+                                        }
                                       });
                                     },
                                   );
@@ -124,12 +116,15 @@ class _FileDropTargetState extends State<FileDropTarget> {
                   child: ElevatedButton(
                     onPressed: () async {
                       _files.addAll(await widget.pickFiles(context));
-                      setState(() {});
+                      setState(() {
+                        _filesAdded = true;
+                        widget.onFilesAdded(_filesAdded);
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 1,
-                      primary: Colors.white,
-                      onPrimary: Colors.grey,
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.grey,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         side: const BorderSide(
