@@ -19,8 +19,6 @@ class _UploadContentState extends State<UploadContent> {
   final List<File> _files = [];
   bool _filesAdded = false;
 
-  // Offset? offset;
-
   @override
   void initState() {
     super.initState();
