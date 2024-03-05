@@ -10,7 +10,6 @@ import 'package:plannerfy_desktop/ui/home/components/send_button.dart';
 import 'package:plannerfy_desktop/ui/home/home_page.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:plannerfy_desktop/services/queries/ws_accounting.dart';
-import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,29 +37,39 @@ class _AccountingUploadState extends State<AccountingUpload> {
   void initState() {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
-    getTiposDocumentos();
+    _loadTiposDocumentos();
   }
 
-  Future<void> getTiposDocumentos() async {
+  Future<void> _loadTiposDocumentos() async {
     try {
-      final response =
-          await WsController.wsGet(query: '/contabilidade/getTiposDocumentos');
-
-      // Verificando se a resposta foi bem-sucedida
+      MapSD response = await WsAccounting.getTiposDocumentos();
       if (response.containsKey('error')) {
         print('Error: ${response['error']}');
       } else {
-        final tiposDocumentosResponse = response['tipos_documento'];
-        setState(() {
-          // Armazena os tipos de documentos na variável e define isLoading para false
-          tiposDocumentos =
-              List<Map<String, dynamic>>.from(tiposDocumentosResponse);
-          isLoading = false;
-        });
+        final tiposDocumentoList = response['tipos_documento'];
+        if (tiposDocumentoList != null && tiposDocumentoList is List) {
+          setState(() {
+            tiposDocumentos = tiposDocumentoList.cast<MapSD>();
+            isLoading = false;
+          });
+        } else {
+          print('Error: tipos_documento is null or not a List');
+        }
       }
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  String mapTipoDocumentoExibicaoToDescricao(String? tipoDocumentoExibicao) {
+    if (tipoDocumentoExibicao != null) {
+      final tipoDocumento = tiposDocumentos.firstWhere(
+        (element) => element['tipo_doc_exibicao'] == tipoDocumentoExibicao,
+        orElse: () => {'tipo_doc_descricao': ''}, // Retorna um valor padrão
+      );
+      return tipoDocumento['tipo_doc_descricao'];
+    }
+    return ''; // Retorna um valor padrão se tipoDocumentoExibicao for null
   }
 
   Future<Iterable<File>> pickFiles(BuildContext context) {
@@ -340,7 +349,10 @@ class _AccountingUploadState extends State<AccountingUpload> {
                   SendButton(
                     texto: "Enviar",
                     function: () async {
-                      if (selectedArquivo == null ||
+                      final tipoDocumentoDescricao =
+                          mapTipoDocumentoExibicaoToDescricao(selectedArquivo);
+                      // ignore: unnecessary_null_comparison
+                      if (tipoDocumentoDescricao == null ||
                           _files.isEmpty ||
                           (selectedArquivo != 'Documentos' &&
                               selectedYear == null)) {
@@ -372,7 +384,7 @@ class _AccountingUploadState extends State<AccountingUpload> {
                             cnpj: userManager.chosenCompany!.empCnpj,
                             id: 0,
                             ano: int.parse(selectedYear!),
-                            tipoArquivo: selectedArquivo!,
+                            tipoArquivo: tipoDocumentoDescricao,
                             nome: fileName,
                             descricao: fileName,
                             path: fileName,

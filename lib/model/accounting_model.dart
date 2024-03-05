@@ -29,7 +29,7 @@ class AccountingModel {
     cnpj = json['con_cnpj'] ?? "";
     id = json['con_id'] ?? 0;
     ano = json['con_ano'] ?? 0;
-    tipoArquivo = json['con_tipo_arquivo'] ?? "";
+    tipoArquivo = json['con_tipo_documento'] ?? "";
     nome = json['con_nome'] ?? "";
     descricao = json['con_descricao'] ?? "";
     path = json['con_path'] ?? "";
@@ -43,7 +43,7 @@ class AccountingModel {
       'con_cnpj': cnpj,
       'con_id': id,
       'con_ano': ano,
-      'con_tipo_arquivo': tipoArquivo,
+      'con_tipo_documento': tipoArquivo,
       'con_nome': nome,
       'con_descricao': descricao,
       'con_path': path,
