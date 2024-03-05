@@ -2,14 +2,12 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/pages/home/components/document_tile.dart';
-import 'package:plannerfy_desktop/pages/home/components/excel_dropdown.dart';
-import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
-import 'package:plannerfy_desktop/pages/home/home_page.dart';
-import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:plannerfy_desktop/manager/spreadsheet_manager.dart';
+import 'package:plannerfy_desktop/ui/home/components/document_tile.dart';
+import 'package:plannerfy_desktop/ui/home/components/excel_dropdown.dart';
+import 'package:plannerfy_desktop/ui/home/components/send_button.dart';
+import 'package:plannerfy_desktop/ui/home/home_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ExcelContent extends StatefulWidget {
   const ExcelContent({Key? key}) : super(key: key);
@@ -19,35 +17,12 @@ class ExcelContent extends StatefulWidget {
 }
 
 class _ExcelContentState extends State<ExcelContent> {
-  String? selectedArquivo1;
-  String? selectedArquivo2;
+  String? plataforma;
+  String? tipoArquivo;
 
   final List<File> _files = [];
 
   Offset? offset;
-
-  Future<Iterable<File>> pickFiles(BuildContext context) async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
-      type: FileType.any,
-    );
-    if (result != null) {
-      return result.paths.map((path) => File(path!)).toList();
-    } else {
-      return [];
-    }
-  }
-
-  void _previewFile(File file) async {
-    if (file.path.toLowerCase().endsWith('.pdf')) {
-      final Uri filePath = Uri.file(file.path);
-      if (await canLaunchUrl(filePath)) {
-        await launchUrl(filePath);
-      } else {
-        throw 'Não foi possível iniciar $filePath';
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,16 +37,16 @@ class _ExcelContentState extends State<ExcelContent> {
                 children: [
                   Expanded(
                     child: ExcelDropdown(
-                      selectedArquivo1: selectedArquivo1,
-                      onArquivoChanged1: (value) {
+                      plataforma: plataforma,
+                      onPlataformaChanged: (value) {
                         setState(() {
-                          selectedArquivo1 = value;
+                          plataforma = value;
                         });
                       },
-                      selectedArquivo2: selectedArquivo2,
-                      onArquivoChanged2: (value) {
+                      tipoArquivo: tipoArquivo,
+                      onTipoArquivoChanged: (value) {
                         setState(() {
-                          selectedArquivo2 = value;
+                          tipoArquivo = value;
                         });
                       },
                     ),
@@ -81,7 +56,7 @@ class _ExcelContentState extends State<ExcelContent> {
               const SizedBox(height: 20),
               DropTarget(
                 onDragDone: (detail) async {
-                  if (selectedArquivo1 != null && selectedArquivo2 != null) {
+                  if (plataforma != null && tipoArquivo != null) {
                     setState(() {
                       _files.addAll(
                           detail.files.map((xFile) => File(xFile.path)));
@@ -149,7 +124,8 @@ class _ExcelContentState extends State<ExcelContent> {
                                   final file = _files[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      _previewFile(file);
+                                      // _previewFile(file);
+                                      SpreadsheetManager.previewFile(file);
                                     },
                                     child: MouseRegion(
                                       cursor: SystemMouseCursors.click,
@@ -198,13 +174,16 @@ class _ExcelContentState extends State<ExcelContent> {
                             width: 250,
                             child: ElevatedButton(
                               onPressed: () async {
-                                _files.addAll(await pickFiles(context));
+                                _files.addAll(
+                                    await SpreadsheetManager.pickFiles(
+                                        context) //pickFiles(context)
+                                    );
                                 setState(() {});
                               },
                               style: ElevatedButton.styleFrom(
                                 elevation: 1,
-                                primary: Colors.white,
-                                onPrimary: Colors.grey,
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.grey,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25.0),
                                   side: const BorderSide(
@@ -251,7 +230,7 @@ class _ExcelContentState extends State<ExcelContent> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
+                        backgroundColor: Colors.red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0),
                         ),
@@ -274,9 +253,9 @@ class _ExcelContentState extends State<ExcelContent> {
                   ),
                   SendButton(
                     texto: "Enviar",
-                    login: () async {
-                      if (selectedArquivo1 == null ||
-                          selectedArquivo2 == null ||
+                    function: () async {
+                      if (plataforma == null ||
+                          tipoArquivo == null ||
                           _files.isEmpty) {
                         showDialog(
                           context: context,
@@ -299,24 +278,8 @@ class _ExcelContentState extends State<ExcelContent> {
                         );
                       } else {
                         for (File file in _files) {
-                          String filePath = file.path.toString();
-                          String fileName = filePath.split('\\').last;
-
-                          Map<String, dynamic> jsonData = {
-                            "documento": {
-                              "doc_cnpj": "45391108000190",
-                              "doc_id": 13,
-                              "doc_nome": fileName,
-                              "doc_descricao": fileName,
-                              "doc_path": filePath,
-                              "doc_usuario": "fredericohi18@gmail.com",
-                              "doc_data_cadastro": DateTime.now().toString(),
-                              "doc_status": "A"
-                            }
-                          };
-
-                          await WsDocuments.uploadFile(
-                              jsonData: jsonData, filePath: filePath);
+                          SpreadsheetManager.uploadSpreadsheet(
+                              context: context, filePath: file.path.toString());
                         }
 
                         Navigator.pushReplacement(

@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
-import 'package:plannerfy_desktop/models/commentary_model.dart';
+import 'package:plannerfy_desktop/model/commentary_model.dart';
 import 'package:provider/provider.dart';
 
 class WsDocuments {

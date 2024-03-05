@@ -3,11 +3,11 @@ import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/models/accounting_model.dart';
-import 'package:plannerfy_desktop/pages/home/components/document_dropdown.dart';
-import 'package:plannerfy_desktop/pages/home/components/document_tile.dart';
-import 'package:plannerfy_desktop/pages/home/components/send_button.dart';
-import 'package:plannerfy_desktop/pages/home/home_page.dart';
+import 'package:plannerfy_desktop/model/accounting_model.dart';
+import 'package:plannerfy_desktop/ui/home/components/document_dropdown.dart';
+import 'package:plannerfy_desktop/ui/home/components/document_tile.dart';
+import 'package:plannerfy_desktop/ui/home/components/send_button.dart';
+import 'package:plannerfy_desktop/ui/home/home_page.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:plannerfy_desktop/services/queries/ws_accounting.dart';
 import 'package:plannerfy_desktop/services/ws_controller.dart';
@@ -339,7 +339,7 @@ class _AccountingUploadState extends State<AccountingUpload> {
                   ),
                   SendButton(
                     texto: "Enviar",
-                    login: () async {
+                    function: () async {
                       if (selectedArquivo == null ||
                           _files.isEmpty ||
                           (selectedArquivo != 'Documentos' &&

@@ -1,4 +1,4 @@
-import 'package:plannerfy_desktop/models/company_model.dart';
+import 'package:plannerfy_desktop/model/company_model.dart';
 import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 

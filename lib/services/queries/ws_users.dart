@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:plannerfy_desktop/models/user_model.dart';
+import 'package:plannerfy_desktop/model/user_model.dart';
 import 'package:plannerfy_desktop/services/ws_controller.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 

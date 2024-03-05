@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/models/company_model.dart';
+import 'package:plannerfy_desktop/model/company_model.dart';
 import 'package:provider/provider.dart';
 
 class CompanyDropdown extends StatefulWidget {

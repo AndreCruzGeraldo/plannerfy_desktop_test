@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/pages/home/components/accounting_upload.dart';
-import 'package:plannerfy_desktop/pages/home/components/card_button.dart';
-import 'package:plannerfy_desktop/pages/home/components/company_dropdown.dart';
-import 'package:plannerfy_desktop/pages/home/components/excel_content.dart';
-import 'package:plannerfy_desktop/pages/home/components/logout_button.dart';
-import 'package:plannerfy_desktop/pages/home/components/arquivo_content.dart';
-import 'package:plannerfy_desktop/pages/home/components/upload_content.dart';
-import 'package:plannerfy_desktop/pages/login/login_page.dart';
+import 'package:plannerfy_desktop/ui/home/components/accounting_upload.dart';
+import 'package:plannerfy_desktop/ui/home/components/card_button.dart';
+import 'package:plannerfy_desktop/ui/home/components/company_dropdown.dart';
+import 'package:plannerfy_desktop/ui/home/components/excel_content.dart';
+import 'package:plannerfy_desktop/ui/home/components/logout_button.dart';
+import 'package:plannerfy_desktop/ui/home/components/arquivo_content.dart';
+import 'package:plannerfy_desktop/ui/home/components/upload_content.dart';
+import 'package:plannerfy_desktop/ui/login/login_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 
@@ -24,10 +24,7 @@ class _HomePageState extends State<HomePage> {
   String? selectedArquivo;
   String? selectedYear;
 
-  bool empresaSelecionada =
-      false; // Variável para rastrear se uma empresa foi selecionada
-
-  // Conteúdo selecionado para ser exibido no lado direito
+  bool empresaSelecionada = false;
   Widget? _selectedContent;
 
   @override

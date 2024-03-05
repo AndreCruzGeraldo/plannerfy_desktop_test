@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/pages/login/components/fhi_logo_login.dart';
-import 'package:plannerfy_desktop/pages/login/components/login_btn.dart';
-import 'package:plannerfy_desktop/pages/login/components/logo_title.dart';
-import 'package:plannerfy_desktop/pages/login/components/password_field.dart';
-import 'package:plannerfy_desktop/pages/login/components/user_field.dart';
+import 'package:plannerfy_desktop/ui/login/components/fhi_logo_login.dart';
+import 'package:plannerfy_desktop/ui/login/components/login_btn.dart';
+import 'package:plannerfy_desktop/ui/login/components/logo_title.dart';
+import 'package:plannerfy_desktop/ui/login/components/password_field.dart';
+import 'package:plannerfy_desktop/ui/login/components/user_field.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 

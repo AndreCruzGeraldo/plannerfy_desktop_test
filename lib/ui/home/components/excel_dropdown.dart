@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class ExcelDropdown extends StatelessWidget {
-  final String? selectedArquivo1;
-  final String? selectedArquivo2;
-  final void Function(String?) onArquivoChanged1;
-  final void Function(String?) onArquivoChanged2;
+  final String? plataforma;
+  final String? tipoArquivo;
+  final void Function(String?) onPlataformaChanged;
+  final void Function(String?) onTipoArquivoChanged;
   final bool showDateInput;
 
   static int currentYear = DateTime.now().year;
 
   const ExcelDropdown({
     Key? key,
-    required this.selectedArquivo1,
-    required this.selectedArquivo2,
-    required this.onArquivoChanged1,
-    required this.onArquivoChanged2,
+    required this.plataforma,
+    required this.tipoArquivo,
+    required this.onPlataformaChanged,
+    required this.onTipoArquivoChanged,
     this.showDateInput = true,
   }) : super(key: key);
 
@@ -38,7 +38,7 @@ class ExcelDropdown extends StatelessWidget {
                   isExpanded: true,
                   iconSize: 30.0,
                   alignment: Alignment.centerLeft,
-                  value: selectedArquivo1,
+                  value: plataforma,
                   items: const [
                     // 'Conta Azul',
                     'Nibo',
@@ -51,8 +51,8 @@ class ExcelDropdown extends StatelessWidget {
                       ),
                     );
                   }).toList(),
-                  onChanged: onArquivoChanged1,
-                  hint: selectedArquivo1 != null
+                  onChanged: onPlataformaChanged,
+                  hint: plataforma != null
                       ? null
                       : const Center(
                           child: Text(
@@ -81,7 +81,7 @@ class ExcelDropdown extends StatelessWidget {
                   isExpanded: true,
                   iconSize: 30.0,
                   alignment: Alignment.centerLeft,
-                  value: selectedArquivo2,
+                  value: tipoArquivo,
                   items: const [
                     'Cadastro',
                     'Contas a Pagar',
@@ -95,8 +95,8 @@ class ExcelDropdown extends StatelessWidget {
                       ),
                     );
                   }).toList(),
-                  onChanged: onArquivoChanged2,
-                  hint: selectedArquivo2 != null
+                  onChanged: onTipoArquivoChanged,
+                  hint: tipoArquivo != null
                       ? null
                       : const Center(
                           child: Text(
