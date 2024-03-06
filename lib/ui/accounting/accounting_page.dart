@@ -82,7 +82,6 @@ class _AccountingPageState extends State<AccountingPage> {
 
   void myFunction(String? parameter) {}
 
-//-------------- REFATORAR ESSA PARTE --- FIM --------------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,9 +131,9 @@ class _AccountingPageState extends State<AccountingPage> {
           ),
           // Lado direito do app
           Expanded(
-              flex: 6,
-              child: Center(
-                  child: Stack(
+            flex: 6,
+            child: Center(
+              child: Stack(
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -250,7 +249,9 @@ class _AccountingPageState extends State<AccountingPage> {
                     ],
                   ),
                 ],
-              ))),
+              ),
+            ),
+          ),
         ],
       ),
     );

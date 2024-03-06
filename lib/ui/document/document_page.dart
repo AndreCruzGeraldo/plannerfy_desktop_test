@@ -33,18 +33,19 @@ class _DocumentPageState extends State<DocumentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: const Text('Home > Documentos'),
-          backgroundColor: markPrimaryColor,
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: Row(children: [
+        title: const Text('Home > Documentos'),
+        backgroundColor: markPrimaryColor,
+      ),
+      body: Row(
+        children: [
           // Lado esquerdo do app
           Expanded(
             flex: 4,
@@ -78,9 +79,9 @@ class _DocumentPageState extends State<DocumentPage> {
           ),
           // Lado direito do app
           Expanded(
-              flex: 6,
-              child: Center(
-                  child: Stack(
+            flex: 6,
+            child: Center(
+              child: Stack(
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -116,8 +117,12 @@ class _DocumentPageState extends State<DocumentPage> {
                     ],
                   ),
                 ],
-              )))
-        ]));
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   _uploadDocuments(BuildContext context) async {

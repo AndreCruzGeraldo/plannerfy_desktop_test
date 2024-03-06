@@ -6,13 +6,13 @@ import 'package:provider/provider.dart';
 class CompanyDropdown extends StatefulWidget {
   final String? selectedEmpresa;
   final ValueChanged<String?> onEmpresaChanged;
-  final bool enabled; 
+  final bool enabled;
 
   const CompanyDropdown({
     Key? key,
     required this.selectedEmpresa,
     required this.onEmpresaChanged,
-    required this.enabled, 
+    required this.enabled,
   }) : super(key: key);
 
   @override
@@ -22,8 +22,7 @@ class CompanyDropdown extends StatefulWidget {
 class _CompanyDropdownState extends State<CompanyDropdown> {
   late List<Company> _empresas = [];
   bool _isLoading = true;
-  bool _dropdownSelected =
-      false; 
+  bool _dropdownSelected = false;
 
   @override
   void initState() {
@@ -103,7 +102,7 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                                               .setCompany(selectedCompany);
                                         }
                                       : null
-                                  : null, 
+                                  : null,
                               hint: widget.selectedEmpresa != null
                                   ? null
                                   : const Center(
