@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/document_manager.dart';
-import 'package:plannerfy_desktop/ui/home/components/right/file_drop_target.dart';
-import 'package:plannerfy_desktop/ui/home/components/right/send_button.dart';
-import 'package:plannerfy_desktop/ui/home/home_page.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/components/right/file_drop_target.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/components/right/send_button.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/home_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 
 class DocumentUpload extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/ui/login/login_page.dart';
-import 'package:plannerfy_desktop/ui/home/home_page.dart';
+import 'package:plannerfy_desktop/ui_antiga/login/login_page.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/home_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {

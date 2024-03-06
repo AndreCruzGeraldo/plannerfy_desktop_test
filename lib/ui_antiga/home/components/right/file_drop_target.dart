@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/ui/home/components/right/document_tile.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/components/right/document_tile.dart';
 
 class FileDropTarget extends StatefulWidget {
   final Function(List<File>) onFilesDropped;

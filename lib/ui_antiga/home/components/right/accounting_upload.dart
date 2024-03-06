@@ -1,34 +1,34 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:plannerfy_desktop/manager/spreadsheet_manager.dart';
+import 'package:plannerfy_desktop/manager/accounting_manager.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/model/spreadsheet_model.dart';
-import 'package:plannerfy_desktop/services/queries/ws_spreadsheet.dart';
-import 'package:plannerfy_desktop/ui/home/components/right/file_drop_target.dart';
-import 'package:plannerfy_desktop/ui/home/components/right/spreadsheet_dropdown.dart';
-import 'package:plannerfy_desktop/ui/home/components/right/send_button.dart';
-import 'package:plannerfy_desktop/ui/home/home_page.dart';
+import 'package:plannerfy_desktop/model/accounting_model.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/components/right/document_dropdown.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/components/right/file_drop_target.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/components/right/send_button.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/home_page.dart';
+import 'package:plannerfy_desktop/services/queries/ws_accounting.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 
-class SpreadsheetUpload extends StatefulWidget {
-  const SpreadsheetUpload({Key? key}) : super(key: key);
+class AccountingUpload extends StatefulWidget {
+  const AccountingUpload({Key? key}) : super(key: key);
 
   @override
-  State<SpreadsheetUpload> createState() => _SpreadsheetUploadState();
+  State<AccountingUpload> createState() => _AccountingUploadState();
 }
 
-class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
+class _AccountingUploadState extends State<AccountingUpload> {
   List<Map<String, dynamic>> tiposDocumentos = [];
-  List<Map<String, dynamic>> tiposPlataformas = [];
-  String? plataforma;
-  String? tipoArquivo;
+  String? selectedArquivo;
+  String? selectedYear;
+  final List<File> _files = [];
   late UserManager userManager;
   bool isLoading = true;
   // ignore: unused_field
   bool _filesAdded = false;
 
-  final List<File> _files = [];
+  int numero = 0;
 
   Offset? offset;
 
@@ -36,13 +36,13 @@ class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
   void initState() {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
-    _loadTiposDocumentosPlanilha();
-    _loadTiposPlataformasPlanilha();
+    _loadTiposDocumentos();
   }
 
-  Future<void> _loadTiposDocumentosPlanilha() async {
+//-------------- REFATORAR ESSA PARTE --- INICIO --------------------------------------
+  Future<void> _loadTiposDocumentos() async {
     try {
-      MapSD response = await WsSpreadsheet.getTiposDocumentosPlanilha();
+      MapSD response = await WsAccounting.getTiposDocumentos();
       if (response.containsKey('error')) {
         print('Error: ${response['error']}');
       } else {
@@ -72,38 +72,7 @@ class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
     return '';
   }
 
-  Future<void> _loadTiposPlataformasPlanilha() async {
-    try {
-      MapSD response = await WsSpreadsheet.getTiposPlataformasPlanilha();
-      if (response.containsKey('error')) {
-        print('Error: ${response['error']}');
-      } else {
-        final tiposPlataformaList = response['plataformas'];
-        if (tiposPlataformaList != null && tiposPlataformaList is List) {
-          setState(() {
-            tiposPlataformas = tiposPlataformaList.cast<MapSD>();
-            isLoading = false;
-          });
-        } else {
-          print('Error: tipos_plataformas is null or not a List');
-        }
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
-  String mapTipoPlataformaExibicaoToDescricao(String? tipoPlataformaExibicao) {
-    if (tipoPlataformaExibicao != null) {
-      final tipoPlataforma = tiposPlataformas.firstWhere(
-        (element) => element['plat_exibicao'] == tipoPlataformaExibicao,
-        orElse: () => {'plat_descricao': ''}, // Retorna um valor padrão
-      );
-      return tipoPlataforma['plat_descricao'];
-    }
-    return ''; // Retorna um valor padrão se tipoPlataformaExibicao for null
-  }
-
+//-------------- REFATORAR ESSA PARTE --- FIM --------------------------------------
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -112,28 +81,28 @@ class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: SpreadsheetDropdown(
-                    plataforma: plataforma,
-                    onPlataformaChanged: (value) {
-                      setState(() {
-                        plataforma = value;
-                      });
-                    },
-                    tipoArquivo: tipoArquivo,
-                    onTipoArquivoChanged: (value) {
-                      setState(() {
-                        tipoArquivo = value;
-                      });
-                    },
-                    tiposDocumentos: tiposDocumentos,
-                    tiposPlataformas: tiposPlataformas,
-                  ),
-                ),
-              ],
-            ),
+            if (isLoading)
+              const CircularProgressIndicator()
+            else
+              DocumentDropdown(
+                selectedArquivo: selectedArquivo,
+                onArquivoChanged: (value) {
+                  setState(() {
+                    selectedArquivo = value;
+                    if (value == 'Documentos') {
+                      selectedYear = null;
+                    }
+                  });
+                },
+                showDateInput:
+                    selectedArquivo != null && selectedArquivo != 'Documentos',
+                onYearSelected: (String year) {
+                  setState(() {
+                    selectedYear = year;
+                  });
+                },
+                tiposDocumentos: tiposDocumentos,
+              ),
             const SizedBox(height: 20),
             FileDropTarget(
               onFilesDropped: (files) {
@@ -147,8 +116,8 @@ class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
                   _filesAdded = added;
                 });
               },
-              pickFiles: (context) => SpreadsheetManager.pickFiles(context),
-              previewFile: (file) {},
+              pickFiles: (context) => AccountingManager.pickFiles(context),
+              previewFile: (file) => AccountingManager.previewFile(file),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -165,7 +134,7 @@ class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      primary: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
@@ -190,22 +159,19 @@ class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
                   texto: "Enviar",
                   function: () async {
                     final tipoDocumentoDescricao =
-                        mapTipoDocumentoExibicaoToDescricao(tipoArquivo);
-                    final tipoPlataformaDescricao =
-                        mapTipoPlataformaExibicaoToDescricao(plataforma);
+                        mapTipoDocumentoExibicaoToDescricao(selectedArquivo);
                     // ignore: unnecessary_null_comparison
                     if (tipoDocumentoDescricao == null ||
                         _files.isEmpty ||
-                        (tipoArquivo != 'Documentos' &&
-                            // ignore: unnecessary_null_comparison
-                            _files.isEmpty == null)) {
+                        (selectedArquivo != 'Documentos' &&
+                            selectedYear == null)) {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
                             title: const Text('Atenção!'),
                             content: const Text(
-                              'Por favor, selecione o tipo de arquivo, plataforma e adicione arquivos.',
+                              'Por favor, selecione o tipo de arquivo, ano e adicione arquivos.',
                             ),
                             actions: [
                               TextButton(
@@ -223,19 +189,21 @@ class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
                         String filePath = file.path.toString();
                         String fileName = filePath.split('\\').last;
 
-                        SpreadsheetModel spreadsheet = SpreadsheetModel(
-                          syncCnpj: userManager.chosenCompany!.empCnpj,
-                          syncId: 0,
-                          syncPlataforma: tipoPlataformaDescricao,
-                          syncTipoArquivo: tipoDocumentoDescricao,
-                          syncPath: fileName,
-                          syncUsuario: userManager.user!.email,
-                          syncDataCadastro: DateTime.now().toString(),
-                          syncStatus: "A",
+                        AccountingModel accounting = AccountingModel(
+                          cnpj: userManager.chosenCompany!.empCnpj,
+                          id: 0,
+                          ano: int.parse(selectedYear!),
+                          tipoArquivo: tipoDocumentoDescricao,
+                          nome: fileName,
+                          descricao: fileName,
+                          path: fileName,
+                          usuario: userManager.user!.email,
+                          dataCadastro: DateTime.now().toString(),
+                          status: "A",
                         );
 
-                        await WsSpreadsheet.uploadFile(
-                            jsonData: {"arquivo": spreadsheet.toJson()},
+                        await WsAccounting.uploadFile(
+                            jsonData: {"contabilidade": accounting.toJson()},
                             filePath: filePath);
                       }
 

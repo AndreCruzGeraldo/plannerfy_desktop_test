@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'package:plannerfy_desktop/model/company_model.dart';
 import 'package:plannerfy_desktop/model/user_model.dart';
-import 'package:plannerfy_desktop/ui/home/home_page.dart';
+import 'package:plannerfy_desktop/ui_antiga/home/home_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:plannerfy_desktop/utility/progress_dialog.dart';
 
