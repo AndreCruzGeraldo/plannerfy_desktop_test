@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ExcelDropdown extends StatelessWidget {
+class SpreadsheetDropdown extends StatelessWidget {
   final String? plataforma;
   final String? tipoArquivo;
   final void Function(String?) onPlataformaChanged;
@@ -11,7 +11,7 @@ class ExcelDropdown extends StatelessWidget {
 
   static int currentYear = DateTime.now().year;
 
-  const ExcelDropdown({
+  const SpreadsheetDropdown({
     Key? key,
     required this.plataforma,
     required this.tipoArquivo,

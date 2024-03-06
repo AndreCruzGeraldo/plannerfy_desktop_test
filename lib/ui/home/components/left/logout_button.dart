@@ -36,7 +36,7 @@ class CustomButton extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: Colors.transparent, // Set background color to transparent
+            color: Colors.transparent,
           ),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
           child: Row(
@@ -47,11 +47,11 @@ class CustomButton extends StatelessWidget {
                 color: Colors.white,
               ),
               const SizedBox(
-                  width: 8), // Add some spacing between icon and text
+                  width: 8), 
               Text(
                 text,
                 style: const TextStyle(
-                  color: Colors.white, // Set text color
+                  color: Colors.white, 
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

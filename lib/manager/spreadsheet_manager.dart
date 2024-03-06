@@ -7,7 +7,6 @@ import 'package:plannerfy_desktop/model/document_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SpreadsheetManager {
   static Future<void> uploadSpreadsheet({
@@ -41,17 +40,6 @@ class SpreadsheetManager {
       return result.paths.map((path) => File(path!)).toList();
     } else {
       return [];
-    }
-  }
-
-  static Future<void> previewFile(File file) async {
-    if (file.path.toLowerCase().endsWith('.pdf')) {
-      final Uri filePath = Uri.file(file.path);
-      if (await canLaunchUrl(filePath)) {
-        await launchUrl(filePath);
-      } else {
-        throw 'Cannot launch $filePath';
-      }
     }
   }
 }

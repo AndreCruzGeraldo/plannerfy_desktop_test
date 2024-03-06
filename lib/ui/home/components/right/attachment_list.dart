@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -20,9 +22,7 @@ class ArquivoContent extends StatefulWidget {
 
 class _ArquivoContentState extends State<ArquivoContent> {
   late Future<List<CommentaryModel>> _futureDocuments;
-  // ignore: unused_field
   Uint8List? _pdfBytes;
-  // ignore: unused_field
   bool _isLoading = false;
 
   @override
@@ -66,7 +66,6 @@ class _ArquivoContentState extends State<ArquivoContent> {
     });
 
     if (_pdfBytes != null) {
-      // print('PDF carregado com sucesso!');
       _previewFile(File(await _savePdf(_pdfBytes)));
     } else {
       print('Erro ao carregar o PDF.');
@@ -218,7 +217,7 @@ class _ArquivoContentState extends State<ArquivoContent> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
+                  backgroundColor: Colors.red,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0),
                   ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
-import 'package:plannerfy_desktop/ui/home/components/accounting_upload.dart';
-import 'package:plannerfy_desktop/ui/home/components/card_button.dart';
-import 'package:plannerfy_desktop/ui/home/components/company_dropdown.dart';
-import 'package:plannerfy_desktop/ui/home/components/excel_content.dart';
-import 'package:plannerfy_desktop/ui/home/components/logout_button.dart';
-import 'package:plannerfy_desktop/ui/home/components/arquivo_content.dart';
-import 'package:plannerfy_desktop/ui/home/components/upload_content.dart';
+import 'package:plannerfy_desktop/ui/home/components/right/accounting_upload.dart';
+import 'package:plannerfy_desktop/ui/home/components/right/card_button.dart';
+import 'package:plannerfy_desktop/ui/home/components/left/company_dropdown.dart';
+import 'package:plannerfy_desktop/ui/home/components/right/spreadsheet_upload.dart';
+import 'package:plannerfy_desktop/ui/home/components/left/logout_button.dart';
+import 'package:plannerfy_desktop/ui/home/components/right/attachment_list.dart';
+import 'package:plannerfy_desktop/ui/home/components/right/document_upload.dart';
 import 'package:plannerfy_desktop/ui/login/login_page.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
 
-    // print('User Data: ${userManager.user}');
   }
 
   void _navigateToPage(Widget page) {
@@ -144,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                                           icone: Icons.file_upload,
                                           navegacao: () {
                                             _navigateToPage(
-                                              const UploadContent(),
+                                              const DocumentUpload(),
                                             );
                                           },
                                         ),
@@ -176,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                                               Icons.insert_drive_file_outlined,
                                           navegacao: () {
                                             _navigateToPage(
-                                              const ExcelContent(),
+                                              const SpreadsheetUpload(),
                                             );
                                           },
                                         ),
