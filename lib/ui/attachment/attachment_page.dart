@@ -6,18 +6,15 @@ import 'package:path_provider/path_provider.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/model/commentary_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
-import 'package:plannerfy_desktop/ui/home/home_page.dart';
 import 'package:intl/intl.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../home/components/company_dropdown.dart';
-import '../home/components/logout_button.dart';
-import '../login/login_page.dart';
 
 class AttachmentPage extends StatefulWidget {
-  const AttachmentPage({Key? key}) : super(key: key);
+  final String? selectedEmpresa;
+  const AttachmentPage({Key? key, this.selectedEmpresa}) : super(key: key);
 
   @override
   _AttachmentPageState createState() => _AttachmentPageState();
@@ -32,8 +29,12 @@ class _AttachmentPageState extends State<AttachmentPage> {
 
   @override
   void initState() {
-    super.initState();
     _futureDocuments = _getDocuments();
+    super.initState();
+    selectedEmpresa = widget
+        .selectedEmpresa; // Inicializa a empresa selecionada com o valor passado por parâmetro
+    empresaSelecionada =
+        selectedEmpresa != null; // Atualiza a flag empresaSelecionada
   }
 
   Future<List<CommentaryModel>> _getDocuments() async {
@@ -80,6 +81,17 @@ class _AttachmentPageState extends State<AttachmentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text('Home > Solicitações'),
+        backgroundColor: markPrimaryColor,
+      ),
       body: Row(
         children: [
           // Lado esquerdo do app
@@ -97,30 +109,18 @@ class _AttachmentPageState extends State<AttachmentPage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          // Desativar o DropdownButton se uma empresa foi selecionada
                           enabled: !empresaSelecionada,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
                               empresaSelecionada = true;
-                              // userManager.chosenCompany!.empCnpj = empresa;
                             });
                           },
                         ),
                       ],
                     ),
                   ),
-                  LogoutButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 125),
                 ],
               ),
             ),
@@ -220,12 +220,6 @@ class _AttachmentPageState extends State<AttachmentPage> {
                                                             ),
                                                             const SizedBox(
                                                                 height: 8),
-                                                            // Aqui listava o tamanho do JSON que tinha
-                                                            // Text(
-                                                            //   'Tamanho: ${documento.tamanho}',
-                                                            //   style: const TextStyle(
-                                                            //       fontSize: 14),
-                                                            // ),
                                                           ],
                                                         ),
                                                         const SizedBox(
@@ -276,43 +270,6 @@ class _AttachmentPageState extends State<AttachmentPage> {
                                 : const Text('Nenhum documento encontrado.');
                           }
                         },
-                      ),
-                      // const SizedBox(height: 30.0),
-                      Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          width: 200,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              minimumSize: const Size(250, 60),
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Voltar',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    color: Colors.white,
-                                    fontFamily: primaryFont,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                       ),
                     ],
                   ),

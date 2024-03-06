@@ -10,9 +10,7 @@ import 'package:provider/provider.dart';
 import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
 import '../home/components/company_dropdown.dart';
-import '../home/components/logout_button.dart';
 import '../home/home_page.dart';
-import '../login/login_page.dart';
 
 class AccountingPage extends StatefulWidget {
   const AccountingPage({Key? key}) : super(key: key);
@@ -83,6 +81,17 @@ class _AccountingPageState extends State<AccountingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text('Home > Contabilidade'),
+        backgroundColor: markPrimaryColor,
+      ),
       body: Row(
         children: [
           // Lado esquerdo do app
@@ -113,17 +122,7 @@ class _AccountingPageState extends State<AccountingPage> {
                       ],
                     ),
                   ),
-                  LogoutButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 125),
                 ],
               ),
             ),
@@ -181,39 +180,6 @@ class _AccountingPageState extends State<AccountingPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SizedBox(
-                            width: 200,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                minimumSize: const Size(250, 60),
-                              ),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Voltar',
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.white,
-                                      fontFamily: primaryFont,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                           SendButton(
                             texto: "Enviar",
                             function: () async {

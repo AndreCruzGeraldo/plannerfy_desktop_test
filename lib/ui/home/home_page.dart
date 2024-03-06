@@ -100,13 +100,33 @@ class _HomePageState extends State<HomePage> {
                                   titulo: "Arquivos de Solicitações",
                                   icone: Icons.file_copy,
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AttachmentPage(),
-                                      ),
-                                    );
+                                    if (empresaSelecionada) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AttachmentPage(
+                                            selectedEmpresa: selectedEmpresa,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text(
+                                              'Selecione uma empresa'),
+                                          content: const Text(
+                                              'Por favor, selecione uma empresa antes de continuar.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                                 const SizedBox(width: 30),
@@ -114,13 +134,32 @@ class _HomePageState extends State<HomePage> {
                                   titulo: "Upload de Documentos",
                                   icone: Icons.file_upload,
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const DocumentPage(),
-                                      ),
-                                    );
+                                    if (empresaSelecionada) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const DocumentPage(),
+                                        ),
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text(
+                                              'Selecione uma empresa'),
+                                          content: const Text(
+                                              'Por favor, selecione uma empresa antes de continuar.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                               ],
@@ -133,13 +172,32 @@ class _HomePageState extends State<HomePage> {
                                   titulo: "Upload de Contabilidade",
                                   icone: Icons.account_balance,
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AccountingPage(),
-                                      ),
-                                    );
+                                    if (empresaSelecionada) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AccountingPage(),
+                                        ),
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text(
+                                              'Selecione uma empresa'),
+                                          content: const Text(
+                                              'Por favor, selecione uma empresa antes de continuar.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                                 const SizedBox(width: 30),
@@ -147,13 +205,32 @@ class _HomePageState extends State<HomePage> {
                                   titulo: "Upload de Planilhas",
                                   icone: Icons.insert_drive_file_outlined,
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SpreadsheetPage(),
-                                      ),
-                                    );
+                                    if (empresaSelecionada) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SpreadsheetPage(),
+                                        ),
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text(
+                                              'Selecione uma empresa'),
+                                          content: const Text(
+                                              'Por favor, selecione uma empresa antes de continuar.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                               ],
