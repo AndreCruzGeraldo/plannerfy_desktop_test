@@ -90,95 +90,76 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        selectedEmpresa == null
-                            ? const Column(
-                                children: [
-                                  Image(
-                                    image: AssetImage(
-                                        'lib/assets/images/alert.png'),
-                                    height: 120,
-                                    width: 120,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    'Favor selecionar Empresa',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              )
-                            : Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CardButton(
-                                        titulo: "Arquivos de Solicitações",
-                                        icone: Icons.file_copy,
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const AttachmentPage(),
-                                            ),
-                                          );
-                                        },
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CardButton(
+                                  titulo: "Arquivos de Solicitações",
+                                  icone: Icons.file_copy,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AttachmentPage(),
                                       ),
-                                      const SizedBox(width: 30),
-                                      CardButton(
-                                        titulo: "Upload de Documentos",
-                                        icone: Icons.file_upload,
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const DocumentPage(),
-                                            ),
-                                          );
-                                        },
+                                    );
+                                  },
+                                ),
+                                const SizedBox(width: 30),
+                                CardButton(
+                                  titulo: "Upload de Documentos",
+                                  icone: Icons.file_upload,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const DocumentPage(),
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 30),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CardButton(
-                                        titulo: "Upload de Contabilidade",
-                                        icone: Icons.account_balance,
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const AccountingPage(),
-                                            ),
-                                          );
-                                        },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CardButton(
+                                  titulo: "Upload de Contabilidade",
+                                  icone: Icons.account_balance,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AccountingPage(),
                                       ),
-                                      const SizedBox(width: 30),
-                                      CardButton(
-                                        titulo: "Upload de Planilhas",
-                                        icone: Icons.insert_drive_file_outlined,
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SpreadsheetPage(),
-                                            ),
-                                          );
-                                        },
+                                    );
+                                  },
+                                ),
+                                const SizedBox(width: 30),
+                                CardButton(
+                                  titulo: "Upload de Planilhas",
+                                  icone: Icons.insert_drive_file_outlined,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SpreadsheetPage(),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
