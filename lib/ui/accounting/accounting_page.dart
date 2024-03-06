@@ -13,7 +13,8 @@ import '../home/components/company_dropdown.dart';
 import '../home/home_page.dart';
 
 class AccountingPage extends StatefulWidget {
-  const AccountingPage({Key? key}) : super(key: key);
+  final String? selectedEmpresa;
+  const AccountingPage({Key? key, this.selectedEmpresa}) : super(key: key);
 
   @override
   State<AccountingPage> createState() => _AccountingPageState();
@@ -40,6 +41,10 @@ class _AccountingPageState extends State<AccountingPage> {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
     _loadTiposDocumentos();
+    selectedEmpresa = widget
+        .selectedEmpresa; // Inicializa a empresa selecionada com o valor passado por parâmetro
+    empresaSelecionada =
+        selectedEmpresa != null; // Atualiza a flag empresaSelecionada
   }
 
 //-------------- REFATORAR ESSA PARTE --- INICIO --------------------------------------
@@ -109,13 +114,11 @@ class _AccountingPageState extends State<AccountingPage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          // Desativar o DropdownButton se uma empresa foi selecionada
                           enabled: !empresaSelecionada,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
                               empresaSelecionada = true;
-                              // userManager.chosenCompany!.empCnpj = empresa;
                             });
                           },
                         ),

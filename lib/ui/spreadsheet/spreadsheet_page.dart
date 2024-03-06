@@ -14,7 +14,8 @@ import '../home/components/company_dropdown.dart';
 import '../home/home_page.dart';
 
 class SpreadsheetPage extends StatefulWidget {
-  const SpreadsheetPage({Key? key}) : super(key: key);
+  final String? selectedEmpresa;
+  const SpreadsheetPage({Key? key, this.selectedEmpresa}) : super(key: key);
 
   @override
   State<SpreadsheetPage> createState() => _SpreadsheetPageState();
@@ -42,6 +43,10 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
     userManager = Provider.of<UserManager>(context, listen: false);
     _loadTiposDocumentosPlanilha();
     _loadTiposPlataformasPlanilha();
+    selectedEmpresa = widget
+        .selectedEmpresa; // Inicializa a empresa selecionada com o valor passado por parâmetro
+    empresaSelecionada =
+        selectedEmpresa != null; // Atualiza a flag empresaSelecionada
   }
 
   Future<void> _loadTiposDocumentosPlanilha() async {
@@ -138,13 +143,11 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          // Desativar o DropdownButton se uma empresa foi selecionada
                           enabled: !empresaSelecionada,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
                               empresaSelecionada = true;
-                              // userManager.chosenCompany!.empCnpj = empresa;
                             });
                           },
                         ),

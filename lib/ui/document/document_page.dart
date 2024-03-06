@@ -8,7 +8,8 @@ import '../home/components/company_dropdown.dart';
 import '../home/home_page.dart';
 
 class DocumentPage extends StatefulWidget {
-  const DocumentPage({Key? key}) : super(key: key);
+  final String? selectedEmpresa;
+  const DocumentPage({Key? key, this.selectedEmpresa}) : super(key: key);
 
   @override
   State<DocumentPage> createState() => _DocumentPageState();
@@ -23,6 +24,10 @@ class _DocumentPageState extends State<DocumentPage> {
   @override
   void initState() {
     super.initState();
+    selectedEmpresa = widget
+        .selectedEmpresa; // Inicializa a empresa selecionada com o valor passado por parâmetro
+    empresaSelecionada =
+        selectedEmpresa != null; // Atualiza a flag empresaSelecionada
   }
 
   @override
@@ -55,13 +60,11 @@ class _DocumentPageState extends State<DocumentPage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          // Desativar o DropdownButton se uma empresa foi selecionada
                           enabled: !empresaSelecionada,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
                               empresaSelecionada = true;
-                              // userManager.chosenCompany!.empCnpj = empresa;
                             });
                           },
                         ),

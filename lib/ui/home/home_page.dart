@@ -108,7 +108,13 @@ class _HomePageState extends State<HomePage> {
                                             selectedEmpresa: selectedEmpresa,
                                           ),
                                         ),
-                                      );
+                                      ).then((_) {
+                                        setState(() {
+                                          selectedEmpresa =
+                                              null; // Limpa a empresa selecionada
+                                          empresaSelecionada = false;
+                                        });
+                                      });
                                     } else {
                                       showDialog(
                                         context: context,
@@ -138,8 +144,8 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const DocumentPage(),
+                                          builder: (context) => DocumentPage(
+                                              selectedEmpresa: selectedEmpresa),
                                         ),
                                       );
                                     } else {
@@ -176,8 +182,8 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AccountingPage(),
+                                          builder: (context) => AccountingPage(
+                                              selectedEmpresa: selectedEmpresa),
                                         ),
                                       );
                                     } else {
@@ -209,8 +215,8 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SpreadsheetPage(),
+                                          builder: (context) => SpreadsheetPage(
+                                              selectedEmpresa: selectedEmpresa),
                                         ),
                                       );
                                     } else {

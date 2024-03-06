@@ -87,6 +87,10 @@ class _AttachmentPageState extends State<AttachmentPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
+            setState(() {
+              selectedEmpresa = null;
+              empresaSelecionada = false;
+            });
           },
         ),
         title: const Text('Home > Solicitações'),
