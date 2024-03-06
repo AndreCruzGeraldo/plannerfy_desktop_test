@@ -4,13 +4,13 @@ import 'package:plannerfy_desktop/utility/app_config.dart';
 class CardButton extends StatelessWidget {
   final String titulo;
   final IconData icone;
-  final VoidCallback navegacao;
+  final VoidCallback onPressed;
 
   const CardButton({
     Key? key,
     required this.titulo,
     required this.icone,
-    required this.navegacao,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class CardButton extends StatelessWidget {
       ),
       elevation: 6,
       child: InkWell(
-        onTap: navegacao,
+        onTap: onPressed, // Definindo o onPressed do InkWell
         child: Container(
           width: 230,
           padding: const EdgeInsets.symmetric(vertical: 40),

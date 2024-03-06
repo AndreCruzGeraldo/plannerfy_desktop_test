@@ -25,18 +25,11 @@ class _HomePageState extends State<HomePage> {
   String? selectedYear;
 
   bool empresaSelecionada = false;
-  Widget? _selectedContent;
 
   @override
   void initState() {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
-  }
-
-  void _navigateToPage(Widget page) {
-    setState(() {
-      _selectedContent = page;
-    });
   }
 
   @override
@@ -122,30 +115,32 @@ class _HomePageState extends State<HomePage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Visibility(
-                                        visible: _selectedContent == null,
-                                        child: CardButton(
-                                          titulo: "Arquivos de Solicitações",
-                                          icone: Icons.file_copy,
-                                          navegacao: () {
-                                            _navigateToPage(
-                                              const AttachmentPage(),
-                                            );
-                                          },
-                                        ),
+                                      CardButton(
+                                        titulo: "Arquivos de Solicitações",
+                                        icone: Icons.file_copy,
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const AttachmentPage(),
+                                            ),
+                                          );
+                                        },
                                       ),
                                       const SizedBox(width: 30),
-                                      Visibility(
-                                        visible: _selectedContent == null,
-                                        child: CardButton(
-                                          titulo: "Upload de Documentos",
-                                          icone: Icons.file_upload,
-                                          navegacao: () {
-                                            _navigateToPage(
-                                              const DocumentPage(),
-                                            );
-                                          },
-                                        ),
+                                      CardButton(
+                                        titulo: "Upload de Documentos",
+                                        icone: Icons.file_upload,
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DocumentPage(),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),
@@ -153,38 +148,37 @@ class _HomePageState extends State<HomePage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Visibility(
-                                        visible: _selectedContent == null,
-                                        child: CardButton(
-                                          titulo: "Upload de Contabilidade",
-                                          icone: Icons.account_balance,
-                                          navegacao: () {
-                                            _navigateToPage(
-                                              const AccountingPage(),
-                                            );
-                                          },
-                                        ),
+                                      CardButton(
+                                        titulo: "Upload de Contabilidade",
+                                        icone: Icons.account_balance,
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const AccountingPage(),
+                                            ),
+                                          );
+                                        },
                                       ),
                                       const SizedBox(width: 30),
-                                      Visibility(
-                                        visible: _selectedContent == null,
-                                        child: CardButton(
-                                          titulo: "Upload de Planilhas",
-                                          icone:
-                                              Icons.insert_drive_file_outlined,
-                                          navegacao: () {
-                                            _navigateToPage(
-                                              const SpreadsheetPage(),
-                                            );
-                                          },
-                                        ),
+                                      CardButton(
+                                        titulo: "Upload de Planilhas",
+                                        icone: Icons.insert_drive_file_outlined,
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SpreadsheetPage(),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                        // Exibir o conteúdo selecionado
-                        _selectedContent ?? Container(),
                       ],
                     ),
                   ),
