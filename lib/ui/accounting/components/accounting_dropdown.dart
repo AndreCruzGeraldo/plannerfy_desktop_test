@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DocumentDropdown extends StatelessWidget {
+class AccountingDropdown extends StatelessWidget {
   final String? selectedArquivo;
   final ValueChanged<String?> onArquivoChanged;
   final bool showDateInput;
@@ -16,7 +16,7 @@ class DocumentDropdown extends StatelessWidget {
     '${currentYear - 3}',
   ];
 
-  const DocumentDropdown({
+  const AccountingDropdown({
     Key? key,
     required this.selectedArquivo,
     required this.onArquivoChanged,

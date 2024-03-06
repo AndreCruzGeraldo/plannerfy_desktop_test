@@ -4,21 +4,21 @@ import 'package:plannerfy_desktop/manager/spreadsheet_manager.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/model/spreadsheet_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_spreadsheet.dart';
-import 'package:plannerfy_desktop/ui_antiga/home/components/right/file_drop_target.dart';
-import 'package:plannerfy_desktop/ui_antiga/home/components/right/spreadsheet_dropdown.dart';
-import 'package:plannerfy_desktop/ui_antiga/home/components/right/send_button.dart';
-import 'package:plannerfy_desktop/ui_antiga/home/home_page.dart';
+import 'package:plannerfy_desktop/ui/spreadsheet/components/spreadsheet_dropdown.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
+import '../common/file_drop_target.dart';
+import '../common/send_button.dart';
+import '../home/home_page.dart';
 
-class SpreadsheetUpload extends StatefulWidget {
-  const SpreadsheetUpload({Key? key}) : super(key: key);
+class SpreadsheetPage extends StatefulWidget {
+  const SpreadsheetPage({Key? key}) : super(key: key);
 
   @override
-  State<SpreadsheetUpload> createState() => _SpreadsheetUploadState();
+  State<SpreadsheetPage> createState() => _SpreadsheetPageState();
 }
 
-class _SpreadsheetUploadState extends State<SpreadsheetUpload> {
+class _SpreadsheetPageState extends State<SpreadsheetPage> {
   List<Map<String, dynamic>> tiposDocumentos = [];
   List<Map<String, dynamic>> tiposPlataformas = [];
   String? plataforma;
