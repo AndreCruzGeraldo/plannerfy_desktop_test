@@ -7,9 +7,13 @@ import 'package:plannerfy_desktop/services/queries/ws_spreadsheet.dart';
 import 'package:plannerfy_desktop/ui/spreadsheet/components/spreadsheet_dropdown.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
+import '../../manager/document_manager.dart';
 import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
+import '../home/components/company_dropdown.dart';
+import '../home/components/logout_button.dart';
 import '../home/home_page.dart';
+import '../login/login_page.dart';
 
 class SpreadsheetPage extends StatefulWidget {
   const SpreadsheetPage({Key? key}) : super(key: key);
@@ -27,6 +31,8 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
   bool isLoading = true;
   // ignore: unused_field
   bool _filesAdded = false;
+  String? selectedEmpresa;
+  bool empresaSelecionada = false;
 
   final List<File> _files = [];
 
@@ -106,153 +112,242 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: SpreadsheetDropdown(
-                    plataforma: plataforma,
-                    onPlataformaChanged: (value) {
-                      setState(() {
-                        plataforma = value;
-                      });
-                    },
-                    tipoArquivo: tipoArquivo,
-                    onTipoArquivoChanged: (value) {
-                      setState(() {
-                        tipoArquivo = value;
-                      });
-                    },
-                    tiposDocumentos: tiposDocumentos,
-                    tiposPlataformas: tiposPlataformas,
-                  ),
+    return Scaffold(
+        body: Row(children: [
+      // Lado esquerdo do app
+      Expanded(
+        flex: 4,
+        child: Container(
+          color: markPrimaryColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CompanyDropdown(
+                      selectedEmpresa: selectedEmpresa,
+                      // Desativar o DropdownButton se uma empresa foi selecionada
+                      enabled: !empresaSelecionada,
+                      onEmpresaChanged: (empresa) {
+                        setState(() {
+                          selectedEmpresa = empresa;
+                          empresaSelecionada = true;
+                          // userManager.chosenCompany!.empCnpj = empresa;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            FileDropTarget(
-              onFilesDropped: (files) {
-                setState(() {
-                  _files.addAll(files);
-                  _filesAdded = _files.isNotEmpty;
-                });
-              },
-              onFilesAdded: (added) {
-                setState(() {
-                  _filesAdded = added;
-                });
-              },
-              pickFiles: (context) => SpreadsheetManager.pickFiles(context),
-              previewFile: (file) {},
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
+              ),
+              LogoutButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+      // Lado direito do app
+      Expanded(
+          flex: 6,
+          child: Center(
+              child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SpreadsheetDropdown(
+                          plataforma: plataforma,
+                          onPlataformaChanged: (value) {
+                            setState(() {
+                              plataforma = value;
+                            });
+                          },
+                          tipoArquivo: tipoArquivo,
+                          onTipoArquivoChanged: (value) {
+                            setState(() {
+                              tipoArquivo = value;
+                            });
+                          },
+                          tiposDocumentos: tiposDocumentos,
+                          tiposPlataformas: tiposPlataformas,
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
                       ),
-                      minimumSize: const Size(250, 60),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Voltar',
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontFamily: primaryFont,
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
-                ),
-                SendButton(
-                  texto: "Enviar",
-                  function: () async {
-                    final tipoDocumentoDescricao =
-                        mapTipoDocumentoExibicaoToDescricao(tipoArquivo);
-                    final tipoPlataformaDescricao =
-                        mapTipoPlataformaExibicaoToDescricao(plataforma);
-                    // ignore: unnecessary_null_comparison
-                    if (tipoDocumentoDescricao == null ||
-                        _files.isEmpty ||
-                        (tipoArquivo != 'Documentos' &&
-                            // ignore: unnecessary_null_comparison
-                            _files.isEmpty == null)) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Atenção!'),
-                            content: const Text(
-                              'Por favor, selecione o tipo de arquivo, plataforma e adicione arquivos.',
+                  const SizedBox(height: 20),
+                  FileDropTarget(
+                    onFilesDropped: (files) {
+                      setState(() {
+                        _files.addAll(files);
+                        _filesAdded = _files.isNotEmpty;
+                      });
+                    },
+                    onFilesAdded: (added) {
+                      setState(() {
+                        _filesAdded = added;
+                      });
+                    },
+                    pickFiles: (context) =>
+                        SpreadsheetManager.pickFiles(context),
+                    previewFile: (file) {},
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
+                            minimumSize: const Size(250, 60),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Voltar',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontFamily: primaryFont,
+                                ),
                               ),
                             ],
-                          );
-                        },
-                      );
-                    } else {
-                      for (File file in _files) {
-                        String filePath = file.path.toString();
-                        String fileName = filePath.split('\\').last;
-
-                        SpreadsheetModel spreadsheet = SpreadsheetModel(
-                          syncCnpj: userManager.chosenCompany!.empCnpj,
-                          syncId: 0,
-                          syncPlataforma: tipoPlataformaDescricao,
-                          syncTipoArquivo: tipoDocumentoDescricao,
-                          syncPath: fileName,
-                          syncUsuario: userManager.user!.email,
-                          syncDataCadastro: DateTime.now().toString(),
-                          syncStatus: "A",
-                        );
-
-                        await WsSpreadsheet.uploadFile(
-                            jsonData: {"arquivo": spreadsheet.toJson()},
-                            filePath: filePath);
-                      }
-
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
+                          ),
                         ),
-                      );
-                    }
-                  },
-                )
-              ],
-            ),
-          ],
+                      ),
+                      SendButton(
+                        texto: "Enviar",
+                        function: () async {
+                          final tipoDocumentoDescricao =
+                              mapTipoDocumentoExibicaoToDescricao(tipoArquivo);
+                          final tipoPlataformaDescricao =
+                              mapTipoPlataformaExibicaoToDescricao(plataforma);
+                          // ignore: unnecessary_null_comparison
+                          if (tipoDocumentoDescricao == null ||
+                              _files.isEmpty ||
+                              (tipoArquivo != 'Documentos' &&
+                                  // ignore: unnecessary_null_comparison
+                                  _files.isEmpty == null)) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Atenção!'),
+                                  content: const Text(
+                                    'Por favor, selecione o tipo de arquivo, plataforma e adicione arquivos.',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            for (File file in _files) {
+                              String filePath = file.path.toString();
+                              String fileName = filePath.split('\\').last;
+
+                              SpreadsheetModel spreadsheet = SpreadsheetModel(
+                                syncCnpj: userManager.chosenCompany!.empCnpj,
+                                syncId: 0,
+                                syncPlataforma: tipoPlataformaDescricao,
+                                syncTipoArquivo: tipoDocumentoDescricao,
+                                syncPath: fileName,
+                                syncUsuario: userManager.user!.email,
+                                syncDataCadastro: DateTime.now().toString(),
+                                syncStatus: "A",
+                              );
+
+                              await WsSpreadsheet.uploadFile(
+                                  jsonData: {"arquivo": spreadsheet.toJson()},
+                                  filePath: filePath);
+                            }
+
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ),
+                            );
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          )))
+    ]));
+  }
+
+  _uploadDocuments(BuildContext context) async {
+    if (_filesAdded) {
+      for (File file in _files) {
+        DocumentManager.uploadDocument(
+          context: context,
+          filePath: file.path.toString(),
+        );
+      }
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
         ),
-      ],
-    );
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Atenção!'),
+            content: const Text(
+              'Por favor, adicione arquivos para enviar.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }

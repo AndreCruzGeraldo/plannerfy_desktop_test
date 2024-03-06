@@ -176,9 +176,10 @@ class _AttachmentPageState extends State<AttachmentPage> {
                                             DateFormat('dd/MM/yyyy').format(
                                                 DateTime.parse(
                                                     documento.dataCriacao));
-                                        String formattedHour = DateFormat('HH:mm')
-                                            .format(DateTime.parse(
-                                                documento.dataCriacao));
+                                        String formattedHour =
+                                            DateFormat('HH:mm').format(
+                                                DateTime.parse(
+                                                    documento.dataCriacao));
 
                                         return Card(
                                           child: InkWell(
@@ -227,33 +228,39 @@ class _AttachmentPageState extends State<AttachmentPage> {
                                                             // ),
                                                           ],
                                                         ),
-                                                        const SizedBox(height: 8),
+                                                        const SizedBox(
+                                                            height: 8),
                                                       ],
                                                     ),
                                                     Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment.end,
+                                                          CrossAxisAlignment
+                                                              .end,
                                                       children: [
                                                         Text(
                                                           'Solicitação: ${documento.id}',
-                                                          style: const TextStyle(
-                                                              fontSize: 14),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14),
                                                         ),
                                                         Text(
                                                           'Usuário: ${documento.usuario}',
-                                                          style: const TextStyle(
-                                                              fontSize: 14),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14),
                                                         ),
                                                         // Exibindo a data e a hora formatadas
                                                         Text(
                                                           'Data: $formattedDate',
-                                                          style: const TextStyle(
-                                                              fontSize: 14),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14),
                                                         ),
                                                         Text(
                                                           'Hora: $formattedHour',
-                                                          style: const TextStyle(
-                                                              fontSize: 14),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14),
                                                         ),
                                                       ],
                                                     ),
@@ -270,7 +277,7 @@ class _AttachmentPageState extends State<AttachmentPage> {
                           }
                         },
                       ),
-                      const SizedBox(height: 30.0),
+                      // const SizedBox(height: 30.0),
                       Align(
                         alignment: Alignment.center,
                         child: SizedBox(
