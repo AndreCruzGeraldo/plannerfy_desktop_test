@@ -84,7 +84,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                 ),
                 SendButton(
                   texto: "Enviar",
-                  function: _uploadDocuments(context),
+                  function: () => _uploadDocuments(context),
                 )
               ],
             ),

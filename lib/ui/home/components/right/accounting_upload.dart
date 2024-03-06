@@ -39,7 +39,7 @@ class _AccountingUploadState extends State<AccountingUpload> {
     _loadTiposDocumentos();
   }
 
-//-------------- REFATORAR ESSA PARTE ---- INICIO --------------------------------------
+//-------------- REFATORAR ESSA PARTE --- INICIO --------------------------------------
   Future<void> _loadTiposDocumentos() async {
     try {
       MapSD response = await WsAccounting.getTiposDocumentos();
@@ -65,13 +65,14 @@ class _AccountingUploadState extends State<AccountingUpload> {
     if (tipoDocumentoExibicao != null) {
       final tipoDocumento = tiposDocumentos.firstWhere(
         (element) => element['tipo_doc_exibicao'] == tipoDocumentoExibicao,
-        orElse: () => {'tipo_doc_descricao': ''}, 
+        orElse: () => {'tipo_doc_descricao': ''},
       );
       return tipoDocumento['tipo_doc_descricao'];
     }
     return '';
   }
-//-------------- REFATORAR ESSA PARTE---- FIM --------------------------------------
+
+//-------------- REFATORAR ESSA PARTE --- FIM --------------------------------------
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -93,15 +94,14 @@ class _AccountingUploadState extends State<AccountingUpload> {
                     }
                   });
                 },
-                showDateInput: selectedArquivo != null &&
-                    selectedArquivo != 'Documentos',
+                showDateInput:
+                    selectedArquivo != null && selectedArquivo != 'Documentos',
                 onYearSelected: (String year) {
                   setState(() {
                     selectedYear = year;
                   });
                 },
-                tiposDocumentos:
-                    tiposDocumentos, 
+                tiposDocumentos: tiposDocumentos,
               ),
             const SizedBox(height: 20),
             FileDropTarget(
