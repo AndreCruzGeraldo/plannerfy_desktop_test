@@ -87,10 +87,6 @@ class _AttachmentPageState extends State<AttachmentPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
-            setState(() {
-              selectedEmpresa = null;
-              empresaSelecionada = false;
-            });
           },
         ),
         title: const Text('Home > Solicitações'),
@@ -113,7 +109,7 @@ class _AttachmentPageState extends State<AttachmentPage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          enabled: !empresaSelecionada,
+                          enabled: false,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
@@ -247,7 +243,6 @@ class _AttachmentPageState extends State<AttachmentPage> {
                                                               const TextStyle(
                                                                   fontSize: 14),
                                                         ),
-                                                        // Exibindo a data e a hora formatadas
                                                         Text(
                                                           'Data: $formattedDate',
                                                           style:

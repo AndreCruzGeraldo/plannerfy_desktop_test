@@ -53,14 +53,12 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CompanyDropdown(
+                              enabled: true,
                               selectedEmpresa: selectedEmpresa,
-                              // Desativar o DropdownButton se uma empresa foi selecionada
-                              enabled: !empresaSelecionada,
                               onEmpresaChanged: (empresa) {
                                 setState(() {
                                   selectedEmpresa = empresa;
                                   empresaSelecionada = true;
-                                  // userManager.chosenCompany!.empCnpj = empresa;
                                 });
                               },
                             ),
@@ -108,13 +106,7 @@ class _HomePageState extends State<HomePage> {
                                             selectedEmpresa: selectedEmpresa,
                                           ),
                                         ),
-                                      ).then((_) {
-                                        setState(() {
-                                          selectedEmpresa =
-                                              null; // Limpa a empresa selecionada
-                                          empresaSelecionada = false;
-                                        });
-                                      });
+                                      );
                                     } else {
                                       showDialog(
                                         context: context,

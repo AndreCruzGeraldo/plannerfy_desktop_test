@@ -32,6 +32,7 @@ class DocumentManager {
       jsonData: {"documento": document.toJson()},
       filePath: filePath,
     );
+    print({"documento": document.toJson()});
   }
 
   static Future<Iterable<File>> pickFiles(BuildContext context) async {

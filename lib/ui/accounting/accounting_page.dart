@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
 import '../home/components/company_dropdown.dart';
-import '../home/home_page.dart';
+
 
 class AccountingPage extends StatefulWidget {
   final String? selectedEmpresa;
@@ -113,7 +113,7 @@ class _AccountingPageState extends State<AccountingPage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          enabled: !empresaSelecionada,
+                          enabled: false,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
@@ -234,13 +234,13 @@ class _AccountingPageState extends State<AccountingPage> {
                                     "contabilidade": accounting.toJson()
                                   }, filePath: filePath);
                                 }
-
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
+                                Navigator.pop(context);
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const HomePage(),
+                                //   ),
+                                // );
                               }
                             },
                           )

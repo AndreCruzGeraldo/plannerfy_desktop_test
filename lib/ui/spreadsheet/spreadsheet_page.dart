@@ -11,7 +11,6 @@ import '../../manager/document_manager.dart';
 import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
 import '../home/components/company_dropdown.dart';
-import '../home/home_page.dart';
 
 class SpreadsheetPage extends StatefulWidget {
   final String? selectedEmpresa;
@@ -143,8 +142,9 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CompanyDropdown(
+                          enabled: false,
                           selectedEmpresa: selectedEmpresa,
-                          enabled: !empresaSelecionada,
+                          // enabled: !empresaSelecionada,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
@@ -269,12 +269,12 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                                   }, filePath: filePath);
                                 }
 
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const HomePage(),
+                                //   ),
+                                // );
                               }
                             },
                           )
@@ -299,13 +299,13 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
           filePath: file.path.toString(),
         );
       }
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
+      Navigator.pop(context);
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => const HomePage(),
+      //   ),
+      // );
     } else {
       showDialog(
         context: context,

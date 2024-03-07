@@ -5,7 +5,7 @@ import 'package:plannerfy_desktop/utility/app_config.dart';
 import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
 import '../home/components/company_dropdown.dart';
-import '../home/home_page.dart';
+
 
 class DocumentPage extends StatefulWidget {
   final String? selectedEmpresa;
@@ -61,7 +61,7 @@ class _DocumentPageState extends State<DocumentPage> {
                       children: [
                         CompanyDropdown(
                           selectedEmpresa: selectedEmpresa,
-                          enabled: !empresaSelecionada,
+                          enabled: false,
                           onEmpresaChanged: (empresa) {
                             setState(() {
                               selectedEmpresa = empresa;
@@ -127,19 +127,20 @@ class _DocumentPageState extends State<DocumentPage> {
 
   _uploadDocuments(BuildContext context) async {
     if (_filesAdded) {
+      print("Chegou na função");
       for (File file in _files) {
         DocumentManager.uploadDocument(
           context: context,
           filePath: file.path.toString(),
         );
       }
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
+      Navigator.pop(context);
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => const HomePage(),
+      //   ),
+      // );
     } else {
       showDialog(
         context: context,

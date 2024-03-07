@@ -59,20 +59,16 @@ class WsDocuments {
         return;
       }
 
-      // Obtenha os bytes do arquivo
       Uint8List fileBytes = await file.readAsBytes();
 
-      // Chame o método wsPostFile do WsController
       var response = await WsController.wsPostFile(
         query: '/documento/uploadFile',
         formData: jsonData,
         fileBytes: fileBytes,
       );
 
-      // Log da resposta completa
       print('Response: $response');
 
-      // Verifique o status da resposta
       if (response.containsKey('statusCode') && response['statusCode'] == 200) {
         print('Upload successful');
       } else if (response.containsKey('status') && response['status'] == 'ok') {

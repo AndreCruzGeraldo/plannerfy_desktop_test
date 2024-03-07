@@ -84,24 +84,27 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                                   ),
                                 );
                               }).toList(),
-                              onChanged: !_dropdownSelected
-                                  ? widget.enabled
-                                      ? (newValue) {
-                                          setState(() {
-                                            _dropdownSelected = true;
-                                          });
-                                          widget.onEmpresaChanged(newValue);
-                                          final userProvider =
-                                              Provider.of<UserManager>(context,
-                                                  listen: false);
-                                          final selectedCompany =
-                                              _empresas.firstWhere((empresa) =>
-                                                  empresa.empRazaoSocial ==
-                                                  newValue);
-                                          userProvider
-                                              .setCompany(selectedCompany);
-                                        }
-                                      : null
+                              onChanged: widget.enabled && !_dropdownSelected
+                                  ? (newValue) {
+                                      setState(() {
+                                        _dropdownSelected = true;
+                                      });
+                                      widget.onEmpresaChanged(newValue);
+                                      final userProvider =
+                                          Provider.of<UserManager>(context,
+                                              listen: false);
+                                      final selectedCompany =
+                                          _empresas.firstWhere((empresa) =>
+                                              empresa.empRazaoSocial ==
+                                              newValue);
+                                      userProvider.setCompany(selectedCompany);
+                                      // Reset _dropdownSelected to allow future selections
+                                      Future.delayed(Duration.zero, () {
+                                        setState(() {
+                                          _dropdownSelected = false;
+                                        });
+                                      });
+                                    }
                                   : null,
                               hint: widget.selectedEmpresa != null
                                   ? null
@@ -111,6 +114,12 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
+                              disabledHint: const Center(
+                                child: Text(
+                                  'Dropdown desativado',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                             ),
                           ),
                         ),
