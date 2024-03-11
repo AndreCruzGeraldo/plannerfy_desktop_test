@@ -93,7 +93,6 @@ class AccountingDropdown extends StatelessWidget {
                     hintText: 'Ano',
                     hintStyle: TextStyle(
                       color: Colors.black,
-                      fontStyle: FontStyle.normal,
                       fontSize: 16.0,
                     ),
                     contentPadding: EdgeInsets.symmetric(
