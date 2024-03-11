@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class AccountingDropdown extends StatelessWidget {
   final String? selectedArquivo;
   final ValueChanged<String?> onArquivoChanged;
-  // final bool showDateInput;
   final Function(String) onYearSelected;
   final List<Map<String, dynamic>>
       tiposDocumentos; // Definindo o parâmetro tiposDocumentos
@@ -20,7 +19,6 @@ class AccountingDropdown extends StatelessWidget {
     Key? key,
     required this.selectedArquivo,
     required this.onArquivoChanged,
-    // required this.showDateInput,
     required this.onYearSelected,
     required this.tiposDocumentos, // Adicionando o parâmetro tiposDocumentos
   }) : super(key: key);
