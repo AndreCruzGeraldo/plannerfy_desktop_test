@@ -90,11 +90,6 @@ class AccountingDropdown extends StatelessWidget {
                     size: 30,
                   ),
                   decoration: const InputDecoration(
-                    hintText: 'Ano',
-                    hintStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 25,
                       vertical: 10,
@@ -104,6 +99,11 @@ class AccountingDropdown extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
+                  ),
+                  hint: const Center(
+                    child: Text('Ano',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black)),
                   ),
                   value: selectedYear,
                   onChanged: (newValue) {
