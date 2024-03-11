@@ -160,7 +160,7 @@ class _AccountingPageState extends State<AccountingPage> {
                           },
                           tiposDocumentos: tiposDocumentos,
                         ),
-                      const SizedBox(height: 20),
+                      // const SizedBox(height: 20),
                       FileDropTarget(
                         onFilesDropped: (files) {
                           setState(() {

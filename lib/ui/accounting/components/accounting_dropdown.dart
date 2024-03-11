@@ -78,7 +78,7 @@ class AccountingDropdown extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         if (showDateInput)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
