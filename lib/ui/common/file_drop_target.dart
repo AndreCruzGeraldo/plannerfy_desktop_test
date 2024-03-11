@@ -57,7 +57,7 @@ class _FileDropTargetState extends State<FileDropTarget> {
                   ),
                 if (_files.isNotEmpty)
                   SizedBox(
-                    height: 250,
+                    height: 200,
                     child: ListView.separated(
                       itemCount: _files.length,
                       separatorBuilder: (context, index) =>
