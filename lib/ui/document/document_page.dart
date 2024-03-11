@@ -6,7 +6,6 @@ import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
 import '../home/components/company_dropdown.dart';
 
-
 class DocumentPage extends StatefulWidget {
   final String? selectedEmpresa;
   const DocumentPage({Key? key, this.selectedEmpresa}) : super(key: key);
@@ -135,12 +134,6 @@ class _DocumentPageState extends State<DocumentPage> {
         );
       }
       Navigator.pop(context);
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => const HomePage(),
-      //   ),
-      // );
     } else {
       showDialog(
         context: context,

@@ -11,7 +11,6 @@ import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
 import '../home/components/company_dropdown.dart';
 
-
 class AccountingPage extends StatefulWidget {
   final String? selectedEmpresa;
   const AccountingPage({Key? key, this.selectedEmpresa}) : super(key: key);
@@ -235,12 +234,6 @@ class _AccountingPageState extends State<AccountingPage> {
                                   }, filePath: filePath);
                                 }
                                 Navigator.pop(context);
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => const HomePage(),
-                                //   ),
-                                // );
                               }
                             },
                           )

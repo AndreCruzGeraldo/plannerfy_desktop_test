@@ -19,7 +19,7 @@ class UserField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 60,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(

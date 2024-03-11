@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 
+// ignore: use_key_in_widget_constructors
 class FhiLogoHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

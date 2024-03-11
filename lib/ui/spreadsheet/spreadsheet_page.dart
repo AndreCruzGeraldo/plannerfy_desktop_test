@@ -268,13 +268,6 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                                     "arquivo": spreadsheet.toJson()
                                   }, filePath: filePath);
                                 }
-
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => const HomePage(),
-                                //   ),
-                                // );
                               }
                             },
                           )
@@ -300,12 +293,6 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
         );
       }
       Navigator.pop(context);
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => const HomePage(),
-      //   ),
-      // );
     } else {
       showDialog(
         context: context,
