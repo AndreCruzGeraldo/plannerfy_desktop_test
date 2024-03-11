@@ -84,6 +84,7 @@ class AccountingDropdown extends StatelessWidget {
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButtonFormField<String>(
+                  isExpanded: true,
                   icon: const Icon(
                     Icons.arrow_drop_down,
                     size: 30,
