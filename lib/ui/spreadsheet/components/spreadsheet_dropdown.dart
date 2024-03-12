@@ -61,6 +61,7 @@ class SpreadsheetDropdown extends StatelessWidget {
                           child: Text(
                             'Plataformas',
                             textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black),
                           ),
                         ),
                 ),
@@ -103,6 +104,7 @@ class SpreadsheetDropdown extends StatelessWidget {
                           child: Text(
                             'Tipo de Arquivo',
                             textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black),
                           ),
                         ),
                 ),

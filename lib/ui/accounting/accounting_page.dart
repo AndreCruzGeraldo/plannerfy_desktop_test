@@ -151,8 +151,8 @@ class _AccountingPageState extends State<AccountingPage> {
                               }
                             });
                           },
-                          showDateInput: selectedArquivo != null &&
-                              selectedArquivo != 'Documentos',
+                          // showDateInput: selectedArquivo != null &&
+                          //     selectedArquivo != 'Documentos',
                           onYearSelected: (String year) {
                             setState(() {
                               selectedYear = year;

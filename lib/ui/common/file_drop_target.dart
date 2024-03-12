@@ -80,20 +80,29 @@ class _FileDropTargetState extends State<FileDropTarget> {
                       },
                     ),
                   ),
-                const Center(
-                  child: Text(
-                    "Arraste e solte os arquivos aqui",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, color: Colors.grey),
+                if (_files.isEmpty &&
+                    !_isDraggingOver) // Esta condição esconde o texto enquanto o usuário estiver arrastando um arquivo
+                  const Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          "Arraste e solte os arquivos aqui",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
+                      ),
+                      Text(
+                        "ou",
+                        style: TextStyle(fontSize: 20, color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
-                ),
-                const Text(
-                  "ou",
-                  style: TextStyle(fontSize: 20, color: Colors.grey),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 SizedBox(
                   width: 250,
                   child: ElevatedButton(
