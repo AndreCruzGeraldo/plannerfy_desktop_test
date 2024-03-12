@@ -2,28 +2,33 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:plannerfy_desktop/manager/accounting_manager.dart';
 import 'package:plannerfy_desktop/manager/document_manager.dart';
+import 'package:plannerfy_desktop/manager/spreadsheet_manager.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 
 import 'document_tile.dart';
 
 class FileDropTarget extends StatefulWidget {
-  TipoArquivo tipo;
-  const FileDropTarget({
-    Key? key,
-  }) : super(key: key);
+  final TipoArquivo tipo;
+  const FileDropTarget({Key? key, required this.tipo}) : super(key: key);
   @override
   _FileDropTargetState createState() => _FileDropTargetState();
 }
 
 class _FileDropTargetState extends State<FileDropTarget> {
   late DocumentManager documentProvider;
+  late AccountingManager accountingProvider;
+  late SpreadsheetManager spreadsheatProvider;
   final List<File> _files = [];
 
   @override
   void initState() {
     documentProvider = Provider.of<DocumentManager>(context, listen: false);
+    accountingProvider = Provider.of<AccountingManager>(context, listen: false);
+    spreadsheatProvider =
+        Provider.of<SpreadsheetManager>(context, listen: false);
     super.initState();
   }
 
@@ -80,29 +85,29 @@ class _FileDropTargetState extends State<FileDropTarget> {
                       },
                     ),
                   ),
-                if (_files.isEmpty &&
-                    !_isDraggingOver) // Esta condição esconde o texto enquanto o usuário estiver arrastando um arquivo
-                  const Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Text(
-                          "Arraste e solte os arquivos aqui",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20, color: Colors.grey),
-                        ),
-                      ),
-                      Text(
-                        "ou",
+                // if (_files.isEmpty &&
+                //     !_isDraggingOver)
+                const Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Text(
+                        "Arraste e solte os arquivos aqui",
+                        textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 20, color: Colors.grey),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
+                    ),
+                    Text(
+                      "ou",
+                      style: TextStyle(fontSize: 20, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
                 SizedBox(
                   width: 250,
                   child: ElevatedButton(
@@ -110,17 +115,31 @@ class _FileDropTargetState extends State<FileDropTarget> {
                     onPressed: () async {
                       List<File> pickedFiles =
                           await DocumentManager.pickFiles(context);
-                      if (widget.tipo == TipoArquivo.CONTABILIDADE)
-                        switch (widget.tipo) {
-                          case TipoArquivo.CONTABILIDADE:
-                          case TipoArquivo.DOCUMENTO:
-                          case TipoArquivo.PLANILHA:
-                        }
-                      if (pickedFiles.isNotEmpty) {
-                        documentProvider.files.addAll(pickedFiles);
-                        setState(() {
-                          _files.addAll(pickedFiles);
-                        });
+                      switch (widget.tipo) {
+                        case TipoArquivo.CONTABILIDADE:
+                          if (pickedFiles.isNotEmpty) {
+                            accountingProvider.files.addAll(pickedFiles);
+                            setState(() {
+                              _files.addAll(pickedFiles);
+                            });
+                          }
+                          break;
+                        case TipoArquivo.DOCUMENTO:
+                          if (pickedFiles.isNotEmpty) {
+                            documentProvider.files.addAll(pickedFiles);
+                            setState(() {
+                              _files.addAll(pickedFiles);
+                            });
+                          }
+                          break;
+                        case TipoArquivo.PLANILHA:
+                          if (pickedFiles.isNotEmpty) {
+                            spreadsheatProvider.files.addAll(pickedFiles);
+                            setState(() {
+                              _files.addAll(pickedFiles);
+                            });
+                          }
+                          break;
                       }
                     },
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

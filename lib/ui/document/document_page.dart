@@ -87,7 +87,9 @@ class _DocumentPageState extends State<DocumentPage> {
                     children: [
                       const SizedBox(height: 20),
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                      const FileDropTarget(),
+                      const FileDropTarget(
+                        tipo: TipoArquivo.DOCUMENTO,
+                      ),
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

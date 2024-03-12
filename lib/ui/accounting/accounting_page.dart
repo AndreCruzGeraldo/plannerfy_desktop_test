@@ -23,27 +23,21 @@ class _AccountingPageState extends State<AccountingPage> {
   List<Map<String, dynamic>> tiposDocumentos = [];
   String? selectedArquivo;
   String? selectedYear;
-  final List<File> _files = [];
   late UserManager userManager;
+  late AccountingManager accountingManager;
   bool isLoading = true;
-  // ignore: unused_field
-  bool _filesAdded = false;
   String? selectedEmpresa;
 
   bool empresaSelecionada = false;
-  int numero = 0;
-
-  Offset? offset;
 
   @override
   void initState() {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
+    accountingManager = Provider.of<AccountingManager>(context, listen: false);
     _loadTiposDocumentos();
-    selectedEmpresa = widget
-        .selectedEmpresa; // Inicializa a empresa selecionada com o valor passado por parâmetro
-    empresaSelecionada =
-        selectedEmpresa != null; // Atualiza a flag empresaSelecionada
+    selectedEmpresa = widget.selectedEmpresa;
+    empresaSelecionada = selectedEmpresa != null;
   }
 
 //-------------- REFATORAR ESSA PARTE --- INICIO --------------------------------------
@@ -160,24 +154,10 @@ class _AccountingPageState extends State<AccountingPage> {
                           },
                           tiposDocumentos: tiposDocumentos,
                         ),
-                      // const SizedBox(height: 20),
-                      // FileDropTarget(
-                      //   onFilesDropped: (files) {
-                      //     setState(() {
-                      //       _files.addAll(files);
-                      //       _filesAdded = _files.isNotEmpty;
-                      //     });
-                      //   },
-                      //   onFilesAdded: (added) {
-                      //     setState(() {
-                      //       _filesAdded = added;
-                      //     });
-                      //   },
-                      //   pickFiles: (context) =>
-                      //       AccountingManager.pickFiles(context),
-                      //   previewFile: (file) =>
-                      //       AccountingManager.previewFile(file),
-                      // ),
+                      const SizedBox(height: 20),
+                      const FileDropTarget(
+                        tipo: TipoArquivo.CONTABILIDADE,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -189,7 +169,7 @@ class _AccountingPageState extends State<AccountingPage> {
                                       selectedArquivo);
                               // ignore: unnecessary_null_comparison
                               if (tipoDocumentoDescricao == null ||
-                                  _files.isEmpty ||
+                                  accountingManager.files.isEmpty ||
                                   (selectedArquivo != 'Documentos' &&
                                       selectedYear == null)) {
                                 showDialog(
@@ -212,7 +192,7 @@ class _AccountingPageState extends State<AccountingPage> {
                                   },
                                 );
                               } else {
-                                for (File file in _files) {
+                                for (File file in accountingManager.files) {
                                   String filePath = file.path.toString();
                                   String fileName = filePath.split('\\').last;
 

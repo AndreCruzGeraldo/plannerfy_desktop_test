@@ -7,7 +7,6 @@ import 'package:plannerfy_desktop/services/queries/ws_spreadsheet.dart';
 import 'package:plannerfy_desktop/ui/spreadsheet/components/spreadsheet_dropdown.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
-import '../../manager/document_manager.dart';
 import '../common/file_drop_target.dart';
 import '../common/send_button.dart';
 import '../home/components/company_dropdown.dart';
@@ -26,26 +25,21 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
   String? plataforma;
   String? tipoArquivo;
   late UserManager userManager;
+  late SpreadsheetManager spreadsheetManager;
   bool isLoading = true;
-  // ignore: unused_field
-  bool _filesAdded = false;
   String? selectedEmpresa;
   bool empresaSelecionada = false;
-
-  final List<File> _files = [];
-
-  Offset? offset;
 
   @override
   void initState() {
     super.initState();
     userManager = Provider.of<UserManager>(context, listen: false);
+    spreadsheetManager =
+        Provider.of<SpreadsheetManager>(context, listen: false);
     _loadTiposDocumentosPlanilha();
     _loadTiposPlataformasPlanilha();
-    selectedEmpresa = widget
-        .selectedEmpresa; // Inicializa a empresa selecionada com o valor passado por parâmetro
-    empresaSelecionada =
-        selectedEmpresa != null; // Atualiza a flag empresaSelecionada
+    selectedEmpresa = widget.selectedEmpresa;
+    empresaSelecionada = selectedEmpresa != null;
   }
 
   Future<void> _loadTiposDocumentosPlanilha() async {
@@ -105,11 +99,11 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
     if (tipoPlataformaExibicao != null) {
       final tipoPlataforma = tiposPlataformas.firstWhere(
         (element) => element['plat_exibicao'] == tipoPlataformaExibicao,
-        orElse: () => {'plat_descricao': ''}, // Retorna um valor padrão
+        orElse: () => {'plat_descricao': ''},
       );
       return tipoPlataforma['plat_descricao'];
     }
-    return ''; // Retorna um valor padrão se tipoPlataformaExibicao for null
+    return '';
   }
 
   @override
@@ -193,22 +187,9 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      // FileDropTarget(
-                      //   onFilesDropped: (files) {
-                      //     setState(() {
-                      //       _files.addAll(files);
-                      //       _filesAdded = _files.isNotEmpty;
-                      //     });
-                      //   },
-                      //   onFilesAdded: (added) {
-                      //     setState(() {
-                      //       _filesAdded = added;
-                      //     });
-                      //   },
-                      //   pickFiles: (context) =>
-                      //       SpreadsheetManager.pickFiles(context),
-                      //   previewFile: (file) {},
-                      // ),
+                      const FileDropTarget(
+                        tipo: TipoArquivo.PLANILHA,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -223,10 +204,11 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                                       plataforma);
                               // ignore: unnecessary_null_comparison
                               if (tipoDocumentoDescricao == null ||
-                                  _files.isEmpty ||
+                                  spreadsheetManager.files.isEmpty ||
                                   (tipoArquivo != 'Documentos' &&
                                       // ignore: unnecessary_null_comparison
-                                      _files.isEmpty == null)) {
+                                      spreadsheetManager.files.isEmpty ==
+                                          null)) {
                                 showDialog(
                                   context: context,
                                   builder: (context) {
@@ -247,7 +229,7 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                                   },
                                 );
                               } else {
-                                for (File file in _files) {
+                                for (File file in spreadsheetManager.files) {
                                   String filePath = file.path.toString();
                                   String fileName = filePath.split('\\').last;
 
@@ -267,6 +249,7 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                                   await WsSpreadsheet.uploadFile(jsonData: {
                                     "arquivo": spreadsheet.toJson()
                                   }, filePath: filePath);
+                                  Navigator.pop(context);
                                 }
                               }
                             },
@@ -284,35 +267,35 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
     );
   }
 
-  _uploadDocuments(BuildContext context) async {
-    if (_filesAdded) {
-      for (File file in _files) {
-        DocumentManager.uploadDocument(
-          context: context,
-          filePath: file.path.toString(),
-        );
-      }
-      Navigator.pop(context);
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Atenção!'),
-            content: const Text(
-              'Por favor, adicione arquivos para enviar.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+  // _uploadDocuments(BuildContext context) async {
+  //   if (spreadsheetManager.files.isNotEmpty) {
+  //     for (File file in spreadsheetManager.files) {
+  //       DocumentManager.uploadDocument(
+  //         context: context,
+  //         filePath: file.path.toString(),
+  //       );
+  //     }
+  //     Navigator.pop(context);
+  //   } else {
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           title: const Text('Atenção!'),
+  //           content: const Text(
+  //             'Por favor, adicione arquivos para enviar.',
+  //           ),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //               child: const Text('OK'),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 }
