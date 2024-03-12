@@ -28,25 +28,28 @@ class UserField extends StatelessWidget {
         ),
         elevation: 6,
         child: Center(
-          child: TextFormField(
-            controller: controller,
-            focusNode: focusNode,
-            style: const TextStyle(fontSize: 20, color: Colors.black),
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 5),
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              prefixIcon: Icon(
-                prefixIcon,
-                color: markPrimaryColor,
+          child: Container(
+            padding: const EdgeInsets.only(right: 16),
+            child: TextFormField(
+              controller: controller,
+              focusNode: focusNode,
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                prefixIcon: Icon(
+                  prefixIcon,
+                  color: markPrimaryColor,
+                ),
+                labelText: labelText,
+                labelStyle:
+                    const TextStyle(fontSize: 18, color: markPrimaryColor),
+                alignLabelWithHint: false,
               ),
-              labelText: labelText,
-              labelStyle:
-                  const TextStyle(fontSize: 18, color: markPrimaryColor),
-              alignLabelWithHint: false,
             ),
           ),
         ),
