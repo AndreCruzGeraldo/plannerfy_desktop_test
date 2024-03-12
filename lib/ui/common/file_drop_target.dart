@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-
 import 'document_tile.dart';
 
 class FileDropTarget extends StatefulWidget {
