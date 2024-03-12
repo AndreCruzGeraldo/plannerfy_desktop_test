@@ -29,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController = TextEditingController();
     _usernameFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
-    _usernameController.text = "fredericohi18@gmail.com";
-    _passwordController.text = "123456";
+    // _usernameController.text = "fredericohi18@gmail.com";
+    // _passwordController.text = "123456";
     _userProvider = Provider.of<UserManager>(context, listen: false);
   }
 
