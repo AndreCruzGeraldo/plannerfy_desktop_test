@@ -2,43 +2,45 @@ import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:plannerfy_desktop/manager/document_manager.dart';
+import 'package:plannerfy_desktop/utility/app_config.dart';
+import 'package:provider/provider.dart';
 
 import 'document_tile.dart';
 
 class FileDropTarget extends StatefulWidget {
-  final Function(List<File>) onFilesDropped;
-  final Function(bool) onFilesAdded;
-  final Future<Iterable<File>> Function(BuildContext) pickFiles;
-  final void Function(File) previewFile;
-
+  TipoArquivo tipo;
   const FileDropTarget({
     Key? key,
-    required this.onFilesDropped,
-    required this.onFilesAdded,
-    required this.pickFiles,
-    required this.previewFile,
   }) : super(key: key);
   @override
   _FileDropTargetState createState() => _FileDropTargetState();
 }
 
 class _FileDropTargetState extends State<FileDropTarget> {
+  late DocumentManager documentProvider;
   final List<File> _files = [];
 
-  bool _filesAdded = false;
+  @override
+  void initState() {
+    documentProvider = Provider.of<DocumentManager>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DropTarget(
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       onDragDone: (detail) async {
-        setState(() {
-          _files.addAll(detail.files.map((xFile) => File(xFile.path)));
-          widget.onFilesDropped(_files);
-          _filesAdded = true;
-          widget.onFilesAdded(_filesAdded);
-        });
+        if (detail.files.isNotEmpty) {
+          final newFiles = detail.files.map((file) => File(file.path)).toList();
+          documentProvider.files.addAll(newFiles);
+          setState(() {
+            _files.addAll(newFiles);
+          });
+        }
       },
-      // Other drag callbacks
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       child: Padding(
         padding: const EdgeInsets.all(40.0),
         child: DottedBorder(
@@ -64,36 +66,16 @@ class _FileDropTargetState extends State<FileDropTarget> {
                           const Divider(color: Colors.grey),
                       itemBuilder: (context, index) {
                         final file = _files[index];
-                        return GestureDetector(
-                          onTap: () {
-                            widget.previewFile(file);
+                        final fileSize = file.lengthSync();
+                        return DocumentTile(
+                          documentName: file.path.split('/').last,
+                          fileSize: fileSize,
+                          onDelete: () {
+                            _onDelete(index);
                           },
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: FutureBuilder<int>(
-                              future: file.length(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  final fileSize = snapshot.data ?? 0;
-                                  return DocumentTile(
-                                    documentName: file.path.split('/').last,
-                                    fileSize: fileSize,
-                                    onDelete: () {
-                                      setState(() {
-                                        _files.removeAt(index);
-                                        if (_files.isEmpty) {
-                                          _filesAdded = false;
-                                          widget.onFilesAdded(_filesAdded);
-                                        }
-                                      });
-                                    },
-                                  );
-                                } else {
-                                  return const CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                          ),
+                          onTap: () {
+                            DocumentManager.previewFile(file);
+                          },
                         );
                       },
                     ),
@@ -115,13 +97,24 @@ class _FileDropTargetState extends State<FileDropTarget> {
                 SizedBox(
                   width: 250,
                   child: ElevatedButton(
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     onPressed: () async {
-                      _files.addAll(await widget.pickFiles(context));
-                      setState(() {
-                        _filesAdded = true;
-                        widget.onFilesAdded(_filesAdded);
-                      });
+                      List<File> pickedFiles =
+                          await DocumentManager.pickFiles(context);
+                      if (widget.tipo == TipoArquivo.CONTABILIDADE)
+                        switch (widget.tipo) {
+                          case TipoArquivo.CONTABILIDADE:
+                          case TipoArquivo.DOCUMENTO:
+                          case TipoArquivo.PLANILHA:
+                        }
+                      if (pickedFiles.isNotEmpty) {
+                        documentProvider.files.addAll(pickedFiles);
+                        setState(() {
+                          _files.addAll(pickedFiles);
+                        });
+                      }
                     },
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     style: ElevatedButton.styleFrom(
                       elevation: 1,
                       backgroundColor: Colors.white,
@@ -158,5 +151,12 @@ class _FileDropTargetState extends State<FileDropTarget> {
         ),
       ),
     );
+  }
+
+  void _onDelete(int index) {
+    setState(() {
+      _files.removeAt(index);
+      documentProvider.files.removeAt(index);
+    });
   }
 }

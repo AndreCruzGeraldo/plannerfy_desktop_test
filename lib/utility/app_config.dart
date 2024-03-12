@@ -4,6 +4,8 @@ String version = "1.0.0";
 
 typedef MapSD = Map<String, dynamic>;
 
+enum TipoArquivo { CONTABILIDADE, DOCUMENTO, PLANILHA }
+
 MaterialColor? materialMarkPrimaryColor =
     const Color(0xFF479A47) as MaterialColor?;
 const Color markPrimaryColor = Color(0xFF0E353C);

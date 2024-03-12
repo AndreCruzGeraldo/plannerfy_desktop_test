@@ -5,9 +5,10 @@ import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/model/document_model.dart';
 import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class DocumentManager {
+class DocumentManager extends ChangeNotifier {
+  List<File> files = [];
+
   static Future<void> uploadDocument({
     required BuildContext context,
     required String filePath,
@@ -34,23 +35,24 @@ class DocumentManager {
     print({"documento": document.toJson()});
   }
 
-  static Future<Iterable<File>> pickFiles(BuildContext context) async {
+  static Future<List<File>> pickFiles(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
+      allowMultiple: false,
       type: FileType.any,
     );
-    final files = result?.files.map((file) => File(file.path ?? ''));
+    print(result?.files.length);
+    final files = result?.files.map((file) => File(file.path ?? '')).toList();
     return files ?? [];
   }
 
   static Future<void> previewFile(File file) async {
-    if (file.path.toLowerCase().endsWith('.pdf')) {
-      final Uri filePath = Uri.file(file.path);
-      if (await canLaunchUrl(filePath)) {
-        await launchUrl(filePath);
-      } else {
-        throw 'Não foi possível iniciar $filePath';
-      }
+    try {
+      final filePath = file.path;
+      final process = await Process.start(filePath, [], runInShell: true);
+      await process.exitCode;
+    } catch (e) {
+      print('Failed to open file: $e');
+      throw e;
     }
   }
 }

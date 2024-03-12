@@ -161,23 +161,23 @@ class _AccountingPageState extends State<AccountingPage> {
                           tiposDocumentos: tiposDocumentos,
                         ),
                       // const SizedBox(height: 20),
-                      FileDropTarget(
-                        onFilesDropped: (files) {
-                          setState(() {
-                            _files.addAll(files);
-                            _filesAdded = _files.isNotEmpty;
-                          });
-                        },
-                        onFilesAdded: (added) {
-                          setState(() {
-                            _filesAdded = added;
-                          });
-                        },
-                        pickFiles: (context) =>
-                            AccountingManager.pickFiles(context),
-                        previewFile: (file) =>
-                            AccountingManager.previewFile(file),
-                      ),
+                      // FileDropTarget(
+                      //   onFilesDropped: (files) {
+                      //     setState(() {
+                      //       _files.addAll(files);
+                      //       _filesAdded = _files.isNotEmpty;
+                      //     });
+                      //   },
+                      //   onFilesAdded: (added) {
+                      //     setState(() {
+                      //       _filesAdded = added;
+                      //     });
+                      //   },
+                      //   pickFiles: (context) =>
+                      //       AccountingManager.pickFiles(context),
+                      //   previewFile: (file) =>
+                      //       AccountingManager.previewFile(file),
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

@@ -193,22 +193,22 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      FileDropTarget(
-                        onFilesDropped: (files) {
-                          setState(() {
-                            _files.addAll(files);
-                            _filesAdded = _files.isNotEmpty;
-                          });
-                        },
-                        onFilesAdded: (added) {
-                          setState(() {
-                            _filesAdded = added;
-                          });
-                        },
-                        pickFiles: (context) =>
-                            SpreadsheetManager.pickFiles(context),
-                        previewFile: (file) {},
-                      ),
+                      // FileDropTarget(
+                      //   onFilesDropped: (files) {
+                      //     setState(() {
+                      //       _files.addAll(files);
+                      //       _filesAdded = _files.isNotEmpty;
+                      //     });
+                      //   },
+                      //   onFilesAdded: (added) {
+                      //     setState(() {
+                      //       _filesAdded = added;
+                      //     });
+                      //   },
+                      //   pickFiles: (context) =>
+                      //       SpreadsheetManager.pickFiles(context),
+                      //   previewFile: (file) {},
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

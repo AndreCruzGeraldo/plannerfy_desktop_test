@@ -8,7 +8,9 @@ import 'package:plannerfy_desktop/services/queries/ws_documents.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
 
-class SpreadsheetManager {
+class SpreadsheetManager extends ChangeNotifier {
+  List<File> files = [];
+  
   static Future<void> uploadSpreadsheet({
     required BuildContext context,
     required String filePath,

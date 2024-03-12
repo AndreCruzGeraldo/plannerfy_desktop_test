@@ -3,7 +3,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AccountingManager {
+class AccountingManager extends ChangeNotifier{
+    List<File> files = [];
+
+
   static Future<Iterable<File>> pickFiles(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: true,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:desktop_window/desktop_window.dart';
+import 'package:plannerfy_desktop/manager/accounting_manager.dart';
+import 'package:plannerfy_desktop/manager/document_manager.dart';
+import 'package:plannerfy_desktop/manager/spreadsheet_manager.dart';
 import 'package:plannerfy_desktop/manager/user_manager.dart';
 import 'package:plannerfy_desktop/ui/home/home_page.dart';
 import 'package:plannerfy_desktop/ui/login/login_page.dart';
@@ -23,6 +26,18 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => UserManager(),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DocumentManager(),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SpreadsheetManager(),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AccountingManager(),
           lazy: true,
         ),
       ],

@@ -5,18 +5,21 @@ class DocumentTile extends StatelessWidget {
   final String documentName;
   final int fileSize;
   final VoidCallback onDelete;
+  final VoidCallback onTap;
 
   const DocumentTile({
     Key? key,
     required this.documentName,
     required this.fileSize,
     required this.onDelete,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       dense: true,
+      onTap: onTap, // Call onTap callback when tile is tapped
       trailing: IconButton(
         onPressed: onDelete,
         icon: const Icon(
