@@ -7,7 +7,6 @@ import 'package:plannerfy_desktop/manager/document_manager.dart';
 import 'package:plannerfy_desktop/manager/spreadsheet_manager.dart';
 import 'package:plannerfy_desktop/utility/app_config.dart';
 import 'package:provider/provider.dart';
-
 import 'document_tile.dart';
 
 class FileDropTarget extends StatefulWidget {
