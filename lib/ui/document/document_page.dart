@@ -36,6 +36,7 @@ class _DocumentPageState extends State<DocumentPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
+            documentProvider.files.clear();
             Navigator.pop(context);
           },
         ),

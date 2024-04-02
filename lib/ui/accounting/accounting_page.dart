@@ -83,6 +83,7 @@ class _AccountingPageState extends State<AccountingPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
+            accountingManager.files.clear();
             Navigator.pop(context);
           },
         ),
@@ -213,6 +214,7 @@ class _AccountingPageState extends State<AccountingPage> {
                                     "contabilidade": accounting.toJson()
                                   }, filePath: filePath);
                                 }
+                                accountingManager.files.clear();
                                 Navigator.pop(context);
                               }
                             },
