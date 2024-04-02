@@ -83,6 +83,7 @@ class _AccountingPageState extends State<AccountingPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
+            accountingManager.files.clear();
             Navigator.pop(context);
           },
         ),
@@ -224,6 +225,7 @@ class _AccountingPageState extends State<AccountingPage> {
                                         success: false);
                                   });
                                 }
+                                accountingManager.files.clear();
                                 Navigator.pop(context);
                               }
                             },

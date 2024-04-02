@@ -114,6 +114,7 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
+            spreadsheetManager.files.clear();
             Navigator.pop(context);
           },
         ),
@@ -246,16 +247,7 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
 
                                   await WsSpreadsheet.uploadFile(jsonData: {
                                     "arquivo": spreadsheet.toJson()
-                                  }, filePath: filePath)
-                                      .then((_) {
-                                    _showSnackbar(
-                                        context, 'Arquivo enviado com sucesso',
-                                        success: true);
-                                  }).catchError((error) {
-                                    _showSnackbar(context,
-                                        'Falha ao enviar arquivo $fileName: $error',
-                                        success: false);
-                                  });
+                                  }, filePath: filePath);
                                   Navigator.pop(context);
                                 }
                               }
