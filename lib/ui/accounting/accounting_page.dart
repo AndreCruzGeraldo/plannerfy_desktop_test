@@ -216,7 +216,7 @@ class _AccountingPageState extends State<AccountingPage> {
                                       .then((_) {
                                     // Se chegou aqui, o envio foi bem-sucedido
                                     _showSnackbar(
-                                        context, 'Arquivo enviado com sucesso',
+                                        context, 'Arquivo enviado com sucesso.',
                                         success: true);
                                   }).catchError((error) {
                                     // Se chegou aqui, ocorreu um erro durante o envio

@@ -126,7 +126,7 @@ class _DocumentPageState extends State<DocumentPage> {
       // Exiba o SnackBar com base no sucesso de todos os uploads
       _showSnackbar(
         context,
-        'Documentos enviados com sucesso',
+        'Documentos enviados com sucesso.',
         success: allSuccess,
       );
       documentProvider.files = [];
