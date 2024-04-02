@@ -212,7 +212,18 @@ class _AccountingPageState extends State<AccountingPage> {
 
                                   await WsAccounting.uploadFile(jsonData: {
                                     "contabilidade": accounting.toJson()
-                                  }, filePath: filePath);
+                                  }, filePath: filePath)
+                                      .then((_) {
+                                    // Se chegou aqui, o envio foi bem-sucedido
+                                    _showSnackbar(
+                                        context, 'Arquivo enviado com sucesso',
+                                        success: true);
+                                  }).catchError((error) {
+                                    // Se chegou aqui, ocorreu um erro durante o envio
+                                    _showSnackbar(context,
+                                        'Falha ao enviar arquivo $fileName: $error',
+                                        success: false);
+                                  });
                                 }
                                 accountingManager.files.clear();
                                 Navigator.pop(context);
@@ -228,6 +239,19 @@ class _AccountingPageState extends State<AccountingPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showSnackbar(BuildContext context, String message,
+      {bool success = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: success ? Colors.green : Colors.red,
       ),
     );
   }

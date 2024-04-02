@@ -114,13 +114,21 @@ class _DocumentPageState extends State<DocumentPage> {
 
   _uploadDocuments(BuildContext context) async {
     if (documentProvider.files.isNotEmpty) {
-      print("Chegou na função");
+      bool allSuccess =
+          true; // Variável para controlar o sucesso de todos os uploads
       for (File file in documentProvider.files) {
+        // Envie o documento e trate o sucesso ou falha dentro do loop
         DocumentManager.uploadDocument(
           context: context,
           filePath: file.path.toString(),
         );
       }
+      // Exiba o SnackBar com base no sucesso de todos os uploads
+      _showSnackbar(
+        context,
+        'Documentos enviados com sucesso',
+        success: allSuccess,
+      );
       documentProvider.files = [];
       Navigator.pop(context);
     } else {
@@ -144,5 +152,52 @@ class _DocumentPageState extends State<DocumentPage> {
         },
       );
     }
+  }
+
+  // _uploadDocuments(BuildContext context) async {
+  //   if (documentProvider.files.isNotEmpty) {
+  //     print("Chegou na função");
+  //     for (File file in documentProvider.files) {
+  //       DocumentManager.uploadDocument(
+  //         context: context,
+  //         filePath: file.path.toString(),
+  //       );
+  //     }
+  //     documentProvider.files = [];
+  //     Navigator.pop(context);
+  //   } else {
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           title: const Text('Atenção!'),
+  //           content: const Text(
+  //             'Por favor, adicione arquivos para enviar.',
+  //           ),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //               child: const Text('OK'),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
+
+  void _showSnackbar(BuildContext context, String message,
+      {bool success = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: success ? Colors.green : Colors.red,
+      ),
+    );
   }
 }
