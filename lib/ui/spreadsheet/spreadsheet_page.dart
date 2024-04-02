@@ -256,8 +256,9 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                                         'Falha ao enviar arquivo $fileName: $error',
                                         success: false);
                                   });
-                                  Navigator.pop(context);
                                 }
+                                spreadsheetManager.files.clear();
+                                Navigator.pop(context);
                               }
                             },
                           )
