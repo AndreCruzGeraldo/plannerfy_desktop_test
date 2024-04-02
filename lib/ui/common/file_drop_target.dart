@@ -35,15 +35,37 @@ class _FileDropTargetState extends State<FileDropTarget> {
   Widget build(BuildContext context) {
     return DropTarget(
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // onDragDone: (detail) async {
+      //   if (detail.files.isNotEmpty) {
+      //     final newFiles = detail.files.map((file) => File(file.path)).toList();
+      //     documentProvider.files.addAll(newFiles);
+      //     setState(() {
+      //       _files.addAll(newFiles);
+      //     });
+      //   }
+      // },
       onDragDone: (detail) async {
         if (detail.files.isNotEmpty) {
           final newFiles = detail.files.map((file) => File(file.path)).toList();
-          documentProvider.files.addAll(newFiles);
+
+          switch (widget.tipo) {
+            case TipoArquivo.CONTABILIDADE:
+              accountingProvider.files.addAll(newFiles);
+              break;
+            case TipoArquivo.DOCUMENTO:
+              documentProvider.files.addAll(newFiles);
+              break;
+            case TipoArquivo.PLANILHA:
+              spreadsheatProvider.files.addAll(newFiles);
+              break;
+          }
+
           setState(() {
             _files.addAll(newFiles);
           });
         }
       },
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       child: Padding(
         padding: const EdgeInsets.all(40.0),
