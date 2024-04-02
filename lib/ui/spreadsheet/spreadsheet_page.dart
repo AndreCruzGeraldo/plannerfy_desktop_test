@@ -206,9 +206,7 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
                               if (tipoDocumentoDescricao == null ||
                                   spreadsheetManager.files.isEmpty ||
                                   (tipoArquivo != 'Documentos' &&
-                                      // ignore: unnecessary_null_comparison
-                                      spreadsheetManager.files.isEmpty ==
-                                          null)) {
+                                      spreadsheetManager.files.isEmpty)) {
                                 showDialog(
                                   context: context,
                                   builder: (context) {
@@ -248,7 +246,16 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
 
                                   await WsSpreadsheet.uploadFile(jsonData: {
                                     "arquivo": spreadsheet.toJson()
-                                  }, filePath: filePath);
+                                  }, filePath: filePath)
+                                      .then((_) {
+                                    _showSnackbar(
+                                        context, 'Arquivo enviado com sucesso',
+                                        success: true);
+                                  }).catchError((error) {
+                                    _showSnackbar(context,
+                                        'Falha ao enviar arquivo $fileName: $error',
+                                        success: false);
+                                  });
                                   Navigator.pop(context);
                                 }
                               }
@@ -267,35 +274,16 @@ class _SpreadsheetPageState extends State<SpreadsheetPage> {
     );
   }
 
-  // _uploadDocuments(BuildContext context) async {
-  //   if (spreadsheetManager.files.isNotEmpty) {
-  //     for (File file in spreadsheetManager.files) {
-  //       DocumentManager.uploadDocument(
-  //         context: context,
-  //         filePath: file.path.toString(),
-  //       );
-  //     }
-  //     Navigator.pop(context);
-  //   } else {
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: const Text('Atenção!'),
-  //           content: const Text(
-  //             'Por favor, adicione arquivos para enviar.',
-  //           ),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.pop(context);
-  //               },
-  //               child: const Text('OK'),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
+  void _showSnackbar(BuildContext context, String message,
+      {bool success = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: success ? Colors.green : Colors.red,
+      ),
+    );
+  }
 }
