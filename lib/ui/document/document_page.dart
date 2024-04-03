@@ -154,40 +154,6 @@ class _DocumentPageState extends State<DocumentPage> {
     }
   }
 
-  // _uploadDocuments(BuildContext context) async {
-  //   if (documentProvider.files.isNotEmpty) {
-  //     print("Chegou na função");
-  //     for (File file in documentProvider.files) {
-  //       DocumentManager.uploadDocument(
-  //         context: context,
-  //         filePath: file.path.toString(),
-  //       );
-  //     }
-  //     documentProvider.files = [];
-  //     Navigator.pop(context);
-  //   } else {
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: const Text('Atenção!'),
-  //           content: const Text(
-  //             'Por favor, adicione arquivos para enviar.',
-  //           ),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.pop(context);
-  //               },
-  //               child: const Text('OK'),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
   void _showSnackbar(BuildContext context, String message,
       {bool success = false}) {
     ScaffoldMessenger.of(context).showSnackBar(

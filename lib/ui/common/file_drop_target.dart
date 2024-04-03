@@ -34,16 +34,6 @@ class _FileDropTargetState extends State<FileDropTarget> {
   @override
   Widget build(BuildContext context) {
     return DropTarget(
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      // onDragDone: (detail) async {
-      //   if (detail.files.isNotEmpty) {
-      //     final newFiles = detail.files.map((file) => File(file.path)).toList();
-      //     documentProvider.files.addAll(newFiles);
-      //     setState(() {
-      //       _files.addAll(newFiles);
-      //     });
-      //   }
-      // },
       onDragDone: (detail) async {
         if (detail.files.isNotEmpty) {
           final newFiles = detail.files.map((file) => File(file.path)).toList();
@@ -204,7 +194,17 @@ class _FileDropTargetState extends State<FileDropTarget> {
   void _onDelete(int index) {
     setState(() {
       _files.removeAt(index);
-      documentProvider.files.removeAt(index);
+      switch (widget.tipo) {
+        case TipoArquivo.CONTABILIDADE:
+          accountingProvider.files.removeAt(index);
+          break;
+        case TipoArquivo.DOCUMENTO:
+          documentProvider.files.removeAt(index);
+          break;
+        case TipoArquivo.PLANILHA:
+          spreadsheatProvider.files.removeAt(index);
+          break;
+      }
     });
   }
 }

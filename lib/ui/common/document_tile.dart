@@ -19,7 +19,7 @@ class DocumentTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       dense: true,
-      onTap: onTap, // Call onTap callback when tile is tapped
+      onTap: onTap, 
       trailing: IconButton(
         onPressed: onDelete,
         icon: const Icon(
