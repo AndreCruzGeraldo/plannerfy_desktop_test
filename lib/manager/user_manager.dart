@@ -43,8 +43,10 @@ class UserManager extends ChangeNotifier {
         }),
       );
 
-      if (response["status"] == "ok") {
+      if (response["status"] == "ok" &&
+          response["user"]["user_tipo_usuario"] != "C") {
         MapSD userData = response["user"];
+        print(uppersha256Password);
 
         UserModel userModel = UserModel.fromJson(userData);
         setUser(userModel);
