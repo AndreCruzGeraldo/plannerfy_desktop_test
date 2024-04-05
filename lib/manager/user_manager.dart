@@ -30,18 +30,27 @@ class UserManager extends ChangeNotifier {
 //--------------------------------------------------------------------
   Future<void> userSignIn(context, String username, String password) async {
     try {
+      WsController.testConnection();
+
       progressDialog(context);
 
       String sha256Password = sha256.convert(utf8.encode(password)).toString();
       String uppersha256Password = sha256Password.toUpperCase();
 
       MapSD response = await WsController.wsGet(
-        query: '/user/login',
-        body: jsonEncode({
-          "user_email": username,
-          "user_senha": uppersha256Password,
-        }),
-      );
+          query: '/user/login1?user=$username&password=$uppersha256Password');
+
+      // print('"user_email": $username, "user_senha": $uppersha256Password,');
+
+      // WsController.testConnection();
+
+      // MapSD response = await WsController.wsGet(
+      //   query: '/user/login',
+      //   body: jsonEncode({
+      //     "user_email": username,
+      //     "user_senha": uppersha256Password,
+      //   }),
+      // );
 
       if (response["status"] == "ok" &&
           response["user"]["user_tipo_usuario"] != "C") {

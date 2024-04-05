@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:desktop_window/desktop_window.dart';
 import 'package:plannerfy_desktop/manager/accounting_manager.dart';
 import 'package:plannerfy_desktop/manager/document_manager.dart';
 import 'package:plannerfy_desktop/manager/spreadsheet_manager.dart';
@@ -18,9 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Definir o tamanho da tela ao abrir
-    DesktopWindow.setWindowSize(const Size(1080, 720));
-    // Definir o tamanho mínimo da tela
-    DesktopWindow.setMinWindowSize(const Size(1080, 720));
+    // DesktopWindow.setWindowSize(const Size(1080, 720));
+    // // Definir o tamanho mínimo da tela
+    // DesktopWindow.setMinWindowSize(const Size(1080, 720));
 
     return MultiProvider(
       providers: [

@@ -14,7 +14,7 @@ class WsController with WsUsers, WsCompany, WsDocuments {
 
   WsController._internal();
 
-  static String url = 'http://54.94.0.212:4321';
+  static String url = 'http://192.168.25.34:4321';
 
   static Uri toUri(String query) => Uri().resolve(url + query);
   static String toUriS(String query) => url + query;
@@ -35,6 +35,13 @@ class WsController with WsUsers, WsCompany, WsDocuments {
       Duration duration = const Duration(seconds: 15)}) async {
     // String returnValue;
     // String erro = '';
+    // final Map<String, String> headers = {
+    //   // "Content-Type": "application/x-www-form-urlencoded",
+    //   'Content-Type': 'application/json; charset=UTF-8',
+    //   'Access-Control-Allow-Methods': '*',
+    //   'Access-Control-Allow-Origin': '*',
+    //   'Access-Control-Allow-Headers': '*'
+    // };
     var headers = {'Content-Type': 'application/json'};
     try {
       var request = http.Request(
@@ -42,6 +49,7 @@ class WsController with WsUsers, WsCompany, WsDocuments {
         Uri.parse(url + query),
       );
       request.body = body;
+      // request.headers.addAll(mapHeaders);
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       String jsonValue = await response.stream.bytesToString();
